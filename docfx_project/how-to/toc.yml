@@ -1,0 +1,18 @@
+- name: "Convert a File to PDF"
+  href: convert-to-pdf.md
+- name: "Convert a File to TIFF"
+  href: convert-to-tiff.md
+- name: "Convert Pages to PNGs"
+  href: convert-pages-to-pngs.md
+- name: "Convert Pages to JPEGs"
+  href: convert-pages-to-jpegs.md
+- name: "OCR to PDF"
+  href: ocr-to-pdf.md
+- name: "Apply Headers and Footers"
+  href: headers-and-footers-pdf.md
+- name: "Combine to PDF"
+  href: combine-to-pdf.md
+- name: "Remove First Page"
+  href: remove-first-page.md
+- name: "Thumbnail First Page"
+  href: thumbnail-first-page.md

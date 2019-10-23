@@ -1,0 +1,8 @@
+- name: Getting Started
+  href: index.md
+- name: How To
+  href: how-to/
+  homepage: how-to/index.md
+- name: API Reference
+  href: api/
+  uid: Accusoft.PrizmDocServer

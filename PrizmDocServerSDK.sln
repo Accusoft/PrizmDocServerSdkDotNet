@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrizmDocServerSDK", "PrizmDocServerSDK\PrizmDocServerSDK.csproj", "{74BE671A-FA0F-4B19-8253-15E01DBDBDE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{278319A9-4FF7-46B2-8531-9112099459D4}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrizmDocServerSDK.Tests", "PrizmDocServerSDK.Tests\PrizmDocServerSDK.Tests.csproj", "{3CFC4596-3531-4BA5-AF14-9F7457359E20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentAssemblyDemo", "Demos\DocumentAssemblyDemo\DocumentAssemblyDemo.csproj", "{6C5B11B2-4333-41C7-9E65-1E983399156D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{34C94E1A-41DC-4B9B-A741-345629C9025E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConvertToPdfDemo", "Demos\ConvertToPdfDemo\ConvertToPdfDemo.csproj", "{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateFirstPageThumbnailDemo", "Demos\CreateFirstPageThumbnailDemo\CreateFirstPageThumbnailDemo.csproj", "{9DAE05C2-1CEE-4D4E-B435-89C21D532346}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplyHeadersAndFootersDemo", "Demos\ApplyHeadersAndFootersDemo\ApplyHeadersAndFootersDemo.csproj", "{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcrDemo", "Demos\OcrDemo\OcrDemo.csproj", "{B5AE62D5-652E-4ACD-8930-16934E00768F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConvertPagesToPngsDemo", "Demos\ConvertPagesToPngsDemo\ConvertPagesToPngsDemo.csproj", "{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74BE671A-FA0F-4B19-8253-15E01DBDBDE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74BE671A-FA0F-4B19-8253-15E01DBDBDE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74BE671A-FA0F-4B19-8253-15E01DBDBDE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74BE671A-FA0F-4B19-8253-15E01DBDBDE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CFC4596-3531-4BA5-AF14-9F7457359E20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CFC4596-3531-4BA5-AF14-9F7457359E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CFC4596-3531-4BA5-AF14-9F7457359E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CFC4596-3531-4BA5-AF14-9F7457359E20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C5B11B2-4333-41C7-9E65-1E983399156D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C5B11B2-4333-41C7-9E65-1E983399156D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C5B11B2-4333-41C7-9E65-1E983399156D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C5B11B2-4333-41C7-9E65-1E983399156D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DAE05C2-1CEE-4D4E-B435-89C21D532346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DAE05C2-1CEE-4D4E-B435-89C21D532346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DAE05C2-1CEE-4D4E-B435-89C21D532346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DAE05C2-1CEE-4D4E-B435-89C21D532346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5AE62D5-652E-4ACD-8930-16934E00768F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5AE62D5-652E-4ACD-8930-16934E00768F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5AE62D5-652E-4ACD-8930-16934E00768F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5AE62D5-652E-4ACD-8930-16934E00768F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6C5B11B2-4333-41C7-9E65-1E983399156D} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+		{DE56AAC6-8567-4AB2-9B91-CEE463D5AF42} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+		{9DAE05C2-1CEE-4D4E-B435-89C21D532346} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+		{CC282EC3-9F46-4E90-9FF5-6EAC7F5B3096} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+		{B5AE62D5-652E-4ACD-8930-16934E00768F} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+		{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D} = {34C94E1A-41DC-4B9B-A741-345629C9025E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F306F488-9BF6-4D58-85F7-9694E1C43D61}
+	EndGlobalSection
+EndGlobal

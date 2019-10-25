@@ -3,10 +3,10 @@
 This guide explains how to perform OCR on one or more images and/or PDF files to
 produce a new, text-searchable PDF.
 
-First, create a [ProcessingContext]:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [OcrToPdfAsync] to take one or more local files and have PrizmDoc Server
@@ -19,13 +19,13 @@ text-searchable.
 For example, you can use a single image as input:
 
 ```csharp
-var result = await context.OcrToPdfAsync("scan.jpeg");
+var result = await prizmDocServer.OcrToPdfAsync("scan.jpeg");
 ```
 
 You can also use multiple images as input:
 
 ```csharp
-var result = await context.OcrToPdfAsync(new SourceDocument[]
+var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
 {
   new SourceDocument("page-1-scan.jpeg"),
   new SourceDocument("page-2-scan.jpeg"),
@@ -36,14 +36,14 @@ var result = await context.OcrToPdfAsync(new SourceDocument[]
 Or you can use a multi-page PDF as input:
 
 ```csharp
-var result = await context.OcrToPdfAsync("scanned.pdf");
+var result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
 ```
 
 You can even combine these, optionally specifying the specific pages to use for
 a particular file:
 
 ```csharp
-var result = await context.OcrToPdfAsync(new SourceDocument[]
+var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
 {
   new SourceDocument("boilerplate-cover-page.png"),
   new SourceDocument("contract.pdf", pages: "2-5"),
@@ -90,16 +90,14 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // OCR an image-only PDF, creating a new PDF:
-      var result = await context.OcrToPdfAsync("scanned.pdf");
+      var result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
       await result.RemoteWorkFile.SaveAsync("output.pdf");
 
       // OCR a collection of JPEG scans, creating a single output PDF:
-      var result = await context.OcrToPdfAsync(new SourceDocument[]
+      var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
       {
         "scan-page-1.jpg",
         "scan-page-2.jpg",
@@ -118,7 +116,7 @@ wrappers around the lower-level [ConvertAsync] methods. You could achieve the
 same sort of thing with a [ConvertAsync] call like so:
 
 ```csharp
-var results = await context.ConvertAsync("project-proposal.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+var results = await prizmDocServer.ConvertAsync("project-proposal.docx", new DestinationOptions(DestinationFileFormat.Pdf)
 {
   PdfOptions = new PdfDestinationOptions
   {
@@ -131,10 +129,10 @@ var results = await context.ConvertAsync("project-proposal.docx", new Destinatio
 var result = results.Single();
 ```
 
-See the [ProcessingContext] API reference for more information.
+See the [PrizmDocServerClient] API reference for more information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
 [Conversion.Result]: xref:Accusoft.PrizmDocServer.Conversion.Result
 [Result]: xref:Accusoft.PrizmDocServer.Conversion.Result
-[OcrToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.OcrToPdfAsync(System.String)
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)
+[OcrToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.OcrToPdfAsync(System.String)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)

@@ -46,14 +46,12 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"input\":{\"dest\":{\"format\":\"pdf\",\"pdfOptions\":{\"forceOneFilePerPage\":false}},\"sources\":[{\"fileId\":\"ML3AbF-qzIH5K9mVVxTlBX\",\"pages\":\"\"}]},\"minSecondsAvailable\":18000,\"errorCode\":\"WorkFileDoesNotExist\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.sources[0].fileId\"}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var originalRemoteWorkFile = new RemoteWorkFile(null, "ML3AbF-qzIH5K9mVVxTlBX", "FCnaLL517YPRAnrcX2wlnKURpNPsp2d2pMPkcvCcpdY=", "docx");
       var originalConversionInput = new SourceDocument(originalRemoteWorkFile);
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(originalConversionInput, new DestinationOptions(DestinationFileFormat.Pdf));
+        await prizmDocServer.ConvertAsync(originalConversionInput, new DestinationOptions(DestinationFileFormat.Pdf));
       }, "SourceDocument refers to a remote work file which does not exist. It may have expired.");
     }
 
@@ -75,11 +73,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"input\":{\"dest\":{\"format\":\"pdf\",\"pdfOptions\":{\"forceOneFilePerPage\":false}},\"sources\":[{\"fileId\":\"LxuuLktmmMaicAs1wMvvsQ\",\"pages\":\"\"},{\"fileId\":\"S5uCdv7vnkTRzKKlTvhtaw\",\"pages\":\"2-\"},{\"fileId\":\"5J15gtlduA_xORR8j7ejSg\",\"pages\":\"\"}]},\"minSecondsAvailable\":18000,\"errorCode\":\"WorkFileDoesNotExist\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.sources[1].fileId\"}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument>
+        await prizmDocServer.ConvertAsync(new List<SourceDocument>
           {
             input0, input1, input2
           },

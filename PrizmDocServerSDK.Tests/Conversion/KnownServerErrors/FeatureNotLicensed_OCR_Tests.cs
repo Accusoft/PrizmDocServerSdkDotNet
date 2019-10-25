@@ -45,13 +45,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"errorCode\":\"FeatureNotLicensed\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.dest.pdfOptions.ocr\"}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions
           {

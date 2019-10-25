@@ -1,0 +1,83 @@
+using Accusoft.PrizmDocServer.Tests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Accusoft.PrizmDocServer.Conversion.Tests
+{
+  [TestClass]
+  public class SourceDocument_EnsureUsableRemoteWorkFileAsync_Tests
+  {
+    [TestMethod]
+    public async Task Will_POST_work_file_when_given_a_local_file_path()
+    {
+      var affinitySession = Util.RestClient.CreateAffinitySession();
+      var input = new SourceDocument("documents/example.docx");
+      Assert.IsNull(input.RemoteWorkFile);
+      await input.EnsureUsableRemoteWorkFileAsync(affinitySession);
+      Assert.IsNotNull(input.RemoteWorkFile);
+    }
+
+    [TestMethod]
+    public async Task Will_use_existing_RemoteWorkFile()
+    {
+      var affinitySession = Util.RestClient.CreateAffinitySession();
+
+      RemoteWorkFile remoteWorkFile;
+      using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world!")))
+      {
+        remoteWorkFile = await affinitySession.UploadAsync(stream);
+      }
+
+      var input = new SourceDocument(remoteWorkFile);
+      Assert.AreEqual(remoteWorkFile, input.RemoteWorkFile);
+      await input.EnsureUsableRemoteWorkFileAsync(affinitySession);
+      Assert.AreEqual(remoteWorkFile, input.RemoteWorkFile);
+    }
+
+    [MultiServerTestMethod]
+    public async Task Will_reupload_an_existing_RemoteWorkFile_when_the_affinity_is_wrong()
+    {
+      var session1 = Util.RestClient.CreateAffinitySession();
+      var session2 = Util.RestClient.CreateAffinitySession();
+
+      RemoteWorkFile file1;
+      using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("File 1")))
+      {
+        file1 = await session1.UploadAsync(stream);
+      }
+
+      RemoteWorkFile file2;
+      using (var stream = new MemoryStream(Encoding.UTF8.GetBytes("File 2")))
+      {
+        file2 = await session2.UploadAsync(stream);
+      }
+
+      Assert.AreNotEqual(file1.AffinityToken, file2.AffinityToken);
+
+      var source2 = new SourceDocument(file2);
+      var originalRemoteWorkFile = source2.RemoteWorkFile;
+      Assert.AreEqual(file2, originalRemoteWorkFile);
+
+      // Ensure file2 is re-uploaded to the same machine as file1...
+      await source2.EnsureUsableRemoteWorkFileAsync(Util.RestClient.CreateAffinitySession(), affinityToken: file1.AffinityToken);
+
+      // Verify source RemoteWorkFile assignment was changed to something new
+      Assert.AreNotEqual(source2.RemoteWorkFile, originalRemoteWorkFile);
+
+      // Verify the affinity token of file1 and source2.RemoteWorkFile now match
+      Assert.AreEqual(file1.AffinityToken, source2.RemoteWorkFile.AffinityToken);
+
+      // Verify the contents of the file are still correct
+      using (var stream = new MemoryStream())
+      {
+        await source2.RemoteWorkFile.CopyToAsync(stream);
+        stream.Position = 0;
+        var reader = new StreamReader(stream, Encoding.UTF8);
+        var text = reader.ReadToEnd();
+        Assert.AreEqual("File 2", text);
+      }
+    }
+  }
+}

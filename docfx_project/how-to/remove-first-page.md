@@ -3,17 +3,17 @@
 This guide explains how to remove the first page of a document, producing a new
 PDF.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [ConvertToPdfAsync], passing in a [SourceDocument] with a `pages`
 argument set to `"2-"`, indicating that you only want pages 2 and following:
 
 ```csharp
-var result = await context.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "2-"));
+var result = await prizmDocServer.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "2-"));
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert
@@ -53,12 +53,10 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Take a DOCX file and convert all of its pages except the first one to a PDF.
-      var result = await context.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "2-"));
+      var result = await prizmDocServer.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "2-"));
 
       // Save the result to "output.pdf".
       await result.RemoteWorkFile.SaveAsync("output.pdf");
@@ -74,5 +72,5 @@ specific pages like `"1, 4, 5"`, an open-ended page range like `"2-"` (page 2
 through the end of the document), or a combination of these, like `"2, 4-9, 12-"`.
 
 [SourceDocument]: xref:Accusoft.PrizmDocServer.Conversion.SourceDocument
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
-[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
+[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)

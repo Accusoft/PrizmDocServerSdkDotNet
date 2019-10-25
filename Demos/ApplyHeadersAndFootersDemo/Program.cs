@@ -18,13 +18,11 @@ namespace Demos
     {
       File.Delete("output.pdf");
 
-      var client = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
       // Take a DOCX file, append headers and footers to each page (expanding
       // the page size), and convert it to a PDF.
-      var result = await context.ConvertToPdfAsync("project-proposal.docx",
+      var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx",
         header: new HeaderFooterOptions
         {
           Color = "#0000FF", // blue

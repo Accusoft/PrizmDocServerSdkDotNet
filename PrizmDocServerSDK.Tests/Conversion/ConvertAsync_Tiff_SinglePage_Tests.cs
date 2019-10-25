@@ -13,8 +13,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -29,8 +29,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_set_to_100px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -50,8 +50,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxHeight_set_to_150px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -71,8 +71,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_640px_and_maxHeight_480px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {

@@ -17,13 +17,11 @@ namespace Demos
     {
       File.Delete("output.pdf");
 
-      var client = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
       // Take a DOCX file and replace its cover page with a boilerplate cover,
       // append a boilerplate back page, and then produce a new PDF.
-      var result = await context.CombineToPdfAsync(
+      var result = await prizmDocServer.CombineToPdfAsync(
         new[] {
           new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
           new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document

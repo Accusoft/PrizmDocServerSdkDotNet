@@ -16,10 +16,9 @@ namespace Accusoft.PrizmDocServer.Tests
       }
     }
 
-    public static ProcessingContext CreateContext()
+    public static PrizmDocServerClient CreatePrizmDocServerClient()
     {
-      var prizmDocServer = new PrizmDocServerClient(System.Environment.GetEnvironmentVariable("BASE_URL"), System.Environment.GetEnvironmentVariable("API_KEY"));
-      return prizmDocServer.CreateProcessingContext();
+      return new PrizmDocServerClient(System.Environment.GetEnvironmentVariable("BASE_URL"), System.Environment.GetEnvironmentVariable("API_KEY"));
     }
   }
 }

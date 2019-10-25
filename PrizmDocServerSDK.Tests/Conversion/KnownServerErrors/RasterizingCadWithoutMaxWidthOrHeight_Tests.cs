@@ -11,33 +11,33 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task CAD_to_PNG()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Png));
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Png));
       }, "When converting a CAD SourceDocument to PNG, you must specify PngOptions.MaxWidth or PngOptions.MaxHeight.");
     }
 
     [TestMethod]
     public async Task CAD_to_JPEG()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Jpeg));
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Jpeg));
       }, "When converting a CAD SourceDocument to JPEG, you must specify JpegOptions.MaxWidth or JpegOptions.MaxHeight.");
     }
 
     [TestMethod]
     public async Task CAD_to_TIFF()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Tiff));
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Tiff));
       }, "When converting a CAD SourceDocument to TIFF, you must specify TiffOptions.MaxWidth or TiffOptions.MaxHeight.");
     }
   }

@@ -12,8 +12,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", DestinationFileFormat.Tiff)).Single();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Tiff)).Single();
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(2, result.PageCount);
 
@@ -29,9 +29,9 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Just_the_first_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
       var sourceDocument = new SourceDocument("documents/example.docx", pages: "1");
-      var result = (await context.ConvertAsync(sourceDocument, DestinationFileFormat.Tiff)).Single();
+      var result = (await prizmDocServer.ConvertAsync(sourceDocument, DestinationFileFormat.Tiff)).Single();
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(1, result.PageCount);
 
@@ -47,8 +47,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_set_to_100px()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -66,8 +66,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxHeight_set_to_150px()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -85,8 +85,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_640px_and_maxHeight_480px()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         TiffOptions = new TiffDestinationOptions()
         {
@@ -107,8 +107,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestCategory("Slow")]
     public async Task With_header()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         Header = new HeaderFooterOptions()
         {
@@ -124,7 +124,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         }
       })).Single();
 
-      result = await context.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
+      result = await prizmDocServer.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
       var pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
       foreach (var page in pagesText)
       {
@@ -138,8 +138,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestCategory("Slow")]
     public async Task With_footer()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         Footer = new HeaderFooterOptions()
         {
@@ -155,7 +155,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         }
       })).Single();
 
-      result = await context.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
+      result = await prizmDocServer.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
       var pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
       foreach (var page in pagesText)
       {
@@ -169,8 +169,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestCategory("Slow")]
     public async Task With_header_and_footer()
     {
-      var context = Util.CreateContext();
-      var result = (await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = (await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Tiff)
       {
         Header = new HeaderFooterOptions()
         {
@@ -198,7 +198,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         }
       })).Single();
 
-      result = await context.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
+      result = await prizmDocServer.OcrToPdfAsync(new SourceDocument(result.RemoteWorkFile));
       var pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
       foreach (var page in pagesText)
       {

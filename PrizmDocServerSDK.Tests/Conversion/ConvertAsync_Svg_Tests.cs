@@ -13,8 +13,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", DestinationFileFormat.Svg);
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Svg);
       Assert.AreEqual(2, results.Count(), "Wrong number of results");
 
       await AssertSinglePageSvgResultsAsync(results);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Accusoft.PrizmDoc.Net.Http;
@@ -39,6 +40,11 @@ namespace Accusoft.PrizmDocServer
         await res.ThrowIfRestApiError();
         await res.Content.CopyToAsync(stream);
       }
+    }
+
+    internal async Task<HttpResponseMessage> HttpGetAsync()
+    {
+      return await session.GetAsync($"/PCCIS/V1/WorkFile/{FileId}");
     }
 
     public bool Equals(RemoteWorkFile other)

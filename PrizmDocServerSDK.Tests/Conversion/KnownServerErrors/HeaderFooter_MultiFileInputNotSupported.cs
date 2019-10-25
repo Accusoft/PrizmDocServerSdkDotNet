@@ -12,11 +12,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_applying_a_header_to_multiple_sources()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument>
+        await prizmDocServer.ConvertAsync(new List<SourceDocument>
         {
           new SourceDocument("documents/example.pdf"),
           new SourceDocument("documents/example.pdf"),
@@ -38,11 +38,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_applying_a_footer_to_multiple_sources()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument>
+        await prizmDocServer.ConvertAsync(new List<SourceDocument>
         {
           new SourceDocument("documents/example.pdf"),
           new SourceDocument("documents/example.pdf"),

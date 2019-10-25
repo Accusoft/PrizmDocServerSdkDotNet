@@ -13,8 +13,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", DestinationFileFormat.Jpeg);
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Jpeg);
       Assert.AreEqual(2, results.Count(), "Wrong number of results");
 
       await AssertSinglePageJpegResultsAsync(results);
@@ -23,8 +23,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_set_to_100px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
       {
         JpegOptions = new JpegDestinationOptions()
         {
@@ -43,8 +43,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxHeight_set_to_150px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
       {
         JpegOptions = new JpegDestinationOptions()
         {
@@ -63,8 +63,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_640px_and_maxHeight_480px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Jpeg)
       {
         JpegOptions = new JpegDestinationOptions()
         {

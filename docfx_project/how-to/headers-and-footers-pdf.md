@@ -3,10 +3,10 @@
 This guide explains how to apply headers and footers to a document, producing a
 new PDF.
 
-First, create a [ProcessingContext]:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [ConvertToPdfAsync] to create a PDF, using the `header` and/or
@@ -16,7 +16,7 @@ to each page.
 For example, code like this:
 
 ```csharp
-var result = await context.ConvertToPdfAsync("project-proposal.docx",
+var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx",
   header: new HeaderFooterOptions()
   {
     Color = "#0000FF", // blue
@@ -80,13 +80,11 @@ namespace Demos
     {
       File.Delete("output.pdf");
 
-      var client = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
       // Take a DOCX file, append headers and footers to each page (expanding
       // the page size), and convert it to a PDF.
-      var result = await context.ConvertToPdfAsync("project-proposal.docx",
+      var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx",
         header: new HeaderFooterOptions
         {
           Color = "#0000FF", // blue
@@ -146,6 +144,6 @@ least 8. The first page of the document would use the value `00000051`.
 There are additional properties for specifying the font size and family. See
 [HeaderFooterOptions] for more information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
 [HeaderFooterOptions]: xref:Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions
-[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)

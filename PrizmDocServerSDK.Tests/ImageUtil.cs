@@ -42,8 +42,8 @@ namespace Accusoft.PrizmDocServer.Tests
 
     public static async Task<IEnumerable<ImageDimensions>> GetTiffPagesDimensionsAsync(string filename)
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync(filename, DestinationFileFormat.Png);
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync(filename, DestinationFileFormat.Png);
 
       IList<ImageDimensions> pageDimensions = new List<ImageDimensions>();
 

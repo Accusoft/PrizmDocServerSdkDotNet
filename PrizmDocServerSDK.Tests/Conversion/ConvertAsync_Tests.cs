@@ -12,9 +12,9 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Can_perform_a_conversion()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
-      var results = await context.ConvertAsync(new List<SourceDocument> {
+      var results = await prizmDocServer.ConvertAsync(new List<SourceDocument> {
         new SourceDocument("documents/example.docx", pages: "1"),
         new SourceDocument("documents/example.docx")
       }, new DestinationOptions(DestinationFileFormat.Pdf));
@@ -31,9 +31,9 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Document_passwords_are_not_included_in_results()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
-      var results = await context.ConvertAsync(new SourceDocument("documents/password.docx", password: "open"), new DestinationOptions(DestinationFileFormat.Pdf));
+      var results = await prizmDocServer.ConvertAsync(new SourceDocument("documents/password.docx", password: "open"), new DestinationOptions(DestinationFileFormat.Pdf));
 
       Assert.IsNull(results.Single().Sources.Single().Password);
     }

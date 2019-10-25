@@ -2,17 +2,17 @@
 
 This guide explains how to perform a simple conversion of a file to TIFF.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [ConvertAsync] to take a local file, such as
 `"project-proposal.docx"`, and have PrizmDoc Server convert it to a TIFF:
 
 ```csharp
-var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Tiff);
+var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Tiff);
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert it
@@ -54,12 +54,10 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Take a DOCX file and convert it to a TIFF.
-      var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Tiff);
+      var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Tiff);
 
       // Save the result to "output.pdf".
       await results.Single().RemoteWorkFile.SaveAsync("output.pdf");
@@ -68,8 +66,8 @@ namespace Demos
 }
 ```
 
-There are additional overloads of [ConvertToTiffAsync] which provide more
-flexibility. See the [ProcessingContext] API reference for more information.
+There are additional overloads of [ConvertAsync] which provide more
+flexibility. See the [PrizmDocServerClient] API reference for more information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)

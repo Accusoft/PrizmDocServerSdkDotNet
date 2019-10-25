@@ -20,11 +20,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Header_with_PDF_output_with_force_one_file_per_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions { ForceOneFilePerPage = true },
           Header = exampleHeaderFooterContent
@@ -35,11 +35,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Footer_with_PDF_output_with_force_one_file_per_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions { ForceOneFilePerPage = true },
           Footer = exampleHeaderFooterContent
@@ -50,11 +50,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Header_with_TIFF_output_with_force_one_file_per_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
         {
           TiffOptions = new TiffDestinationOptions { ForceOneFilePerPage = true },
           Header = exampleHeaderFooterContent
@@ -65,11 +65,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Footer_with_TIFF_output_with_force_one_file_per_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
         {
           TiffOptions = new TiffDestinationOptions { ForceOneFilePerPage = true },
           Footer = exampleHeaderFooterContent

@@ -12,22 +12,22 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_using_a_single_source_input()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "wat"), new DestinationOptions(DestinationFileFormat.Pdf));
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "wat"), new DestinationOptions(DestinationFileFormat.Pdf));
       }, "SourceDocument (\"documents/example.pdf\") has an invalid value for \"pages\". A valid pages value is a string like \"1\", \"1,3,5-10\", or \"2-\" (just like in a print dialog).");
     }
 
     [TestMethod]
     public async Task When_there_are_multiple_source_inputs()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument> {
+        await prizmDocServer.ConvertAsync(new List<SourceDocument> {
           new SourceDocument("documents/example.pdf"),
           new SourceDocument("documents/example.pdf", pages: "wat"),
           new SourceDocument("documents/example.pdf"),

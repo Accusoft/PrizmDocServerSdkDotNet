@@ -2,16 +2,16 @@
 
 This guide explains how to combine pages from multiple documents into a single new PDF.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [CombineToPdfAsync] with a collection of [SourceDocument] instances, resulting in PrizmDoc Server combining the requested pages of those documents into a single new PDF:
 
 ```csharp
-var result = await context.CombineToPdfAsync(
+var result = await prizmDocServer.CombineToPdfAsync(
   new[] {
     new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
     new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
@@ -59,13 +59,11 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Take a DOCX file and replace its cover page with a boilerplate cover,
       // append a boilerplate back page, and then produce a new PDF.
-      var result = await context.CombineToPdfAsync(
+      var result = await prizmDocServer.CombineToPdfAsync(
         new[] {
           new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
           new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
@@ -90,14 +88,14 @@ wrappers around the lower-level [ConvertAsync] methods. You could achieve the
 same sort of thing with a [ConvertAsync] call like so:
 
 ```csharp
-var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
+var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
 var result = results.Single();
 ```
 
-See the [ProcessingContext] API reference for more information.
+See the [PrizmDocServerClient] API reference for more information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
 [SourceDocument]: xref:Accusoft.PrizmDocServer.Conversion.SourceDocument
-[CombineToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.CombineToPdfAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[CombineToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.CombineToPdfAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
 [HeaderFooterOptions]: xref:Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)

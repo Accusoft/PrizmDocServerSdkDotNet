@@ -2,6 +2,8 @@
 
 [Convert a file to PDF.](convert-to-pdf.md)
 
+[Convert a file to TIFF.](convert-to-tiff.md)
+
 [Convert the pages of a file to PNG images.](convert-pages-to-pngs.md)
 
 [Convert the pages of a file to JPEG images.](convert-pages-to-jpegs.md)

@@ -12,11 +12,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Unavailable_font_family_with_header()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
         {
           Header = new HeaderFooterOptions
           {
@@ -33,11 +33,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Unavailable_font_family_with_footer()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
         {
           Footer = new HeaderFooterOptions
           {

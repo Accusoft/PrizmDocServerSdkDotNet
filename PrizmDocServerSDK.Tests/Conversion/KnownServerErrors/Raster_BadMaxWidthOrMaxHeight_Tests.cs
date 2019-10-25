@@ -11,11 +11,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task JPEG_bad_MaxWidth()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg)
         {
           JpegOptions = new JpegDestinationOptions { MaxWidth = "wat" }
         });
@@ -25,11 +25,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task JPEG_bad_MaxHeight()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg)
         {
           JpegOptions = new JpegDestinationOptions { MaxHeight = "wat" }
         });
@@ -39,11 +39,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task PNG_bad_MaxWidth()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Png)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Png)
         {
           PngOptions = new PngDestinationOptions { MaxWidth = "wat" }
         });
@@ -53,11 +53,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task PNG_bad_MaxHeight()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Png)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Png)
         {
           PngOptions = new PngDestinationOptions { MaxHeight = "wat" }
         });
@@ -67,11 +67,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task TIFF_bad_MaxWidth()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
         {
           TiffOptions = new TiffDestinationOptions { MaxWidth = "wat" }
         });
@@ -81,11 +81,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task TIFF_bad_MaxHeight()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Tiff)
         {
           TiffOptions = new TiffDestinationOptions { MaxHeight = "wat" }
         });

@@ -2,17 +2,17 @@
 
 This guide explains how to perform a simple conversion of a file to PDF.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [ConvertToPdfAsync] to take a local file, such as
 `"project-proposal.docx"`, and have PrizmDoc Server convert it to a PDF:
 
 ```csharp
-var result = await context.ConvertToPdfAsync("project-proposal.docx");
+var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert it
@@ -52,12 +52,10 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Take a DOCX file and convert it to a PDF.
-      var result = await context.ConvertToPdfAsync("project-proposal.docx");
+      var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
 
       // Save the result to "output.pdf".
       await result.RemoteWorkFile.SaveAsync("output.pdf");
@@ -71,14 +69,14 @@ around the lower-level [ConvertAsync] methods. You could achieve the same sort
 of thing with a [ConvertAsync] call like so:
 
 ```csharp
-var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
+var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
 var result = results.Single();
 ```
 
 There are additional overloads for [ConvertToPdfAsync] and [ConvertAsync] which
-provide more flexibility. See the [ProcessingContext] API reference for more
+provide more flexibility. See the [PrizmDocServerClient] API reference for more
 information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
-[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
+[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)

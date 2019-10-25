@@ -12,8 +12,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Single_input()
     {
-      var context = Util.CreateContext();
-      var result = await context.OcrToPdfAsync("documents/ocr/chaucer-scan-3-pages.pdf");
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = await prizmDocServer.OcrToPdfAsync("documents/ocr/chaucer-scan-3-pages.pdf");
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(3, result.PageCount);
 
@@ -29,9 +29,9 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Just_the_first_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
       var sourceDocument = new SourceDocument("documents/ocr/chaucer-scan-3-pages.pdf", pages: "1");
-      var result = await context.ConvertToPdfAsync(sourceDocument);
+      var result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(1, result.PageCount);
 
@@ -47,10 +47,10 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Multiple_inputs()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
       var sourceDocument1 = new SourceDocument("documents/ocr/color.bmp");
       var sourceDocument2 = new SourceDocument("documents/ocr/text.bmp");
-      var result = await context.OcrToPdfAsync(new SourceDocument[] { sourceDocument1, sourceDocument2 });
+      var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[] { sourceDocument1, sourceDocument2 });
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(2, result.PageCount);
 

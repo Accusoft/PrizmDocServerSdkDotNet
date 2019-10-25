@@ -16,12 +16,10 @@ namespace Demos
     {
       File.Delete("output.pdf");
 
-      var client = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
       // Take a DOCX file and convert it to a PDF.
-      var result = await context.ConvertToPdfAsync("project-proposal.docx");
+      var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
 
       // Save the result to "output.pdf".
       await result.RemoteWorkFile.SaveAsync("output.pdf");

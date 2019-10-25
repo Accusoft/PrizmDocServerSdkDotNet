@@ -12,8 +12,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var result = await context.ConvertToPdfAsync("documents/example.docx");
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx");
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(2, result.PageCount);
 
@@ -29,9 +29,9 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Just_the_first_page()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
       var sourceDocument = new SourceDocument("documents/example.docx", pages: "1");
-      var result = await context.ConvertToPdfAsync(sourceDocument);
+      var result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(1, result.PageCount);
 
@@ -47,8 +47,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_header()
     {
-      var context = Util.CreateContext();
-      var result = await context.ConvertToPdfAsync("documents/example.docx", header: new HeaderFooterOptions()
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", header: new HeaderFooterOptions()
       {
         Lines = new List<HeaderFooterLine>()
         {
@@ -73,8 +73,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_footer()
     {
-      var context = Util.CreateContext();
-      var result = await context.ConvertToPdfAsync("documents/example.docx", footer: new HeaderFooterOptions()
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", footer: new HeaderFooterOptions()
       {
         Lines = new List<HeaderFooterLine>()
         {
@@ -99,8 +99,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_header_and_footer()
     {
-      var context = Util.CreateContext();
-      var result = await context.ConvertToPdfAsync("documents/example.docx",
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx",
         header: new HeaderFooterOptions()
         {
           Lines = new List<HeaderFooterLine>()

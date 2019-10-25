@@ -20,88 +20,88 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Header_with_SVG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Svg) { Header = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Svg) { Header = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing SVG output.");
     }
 
     [TestMethod]
     public async Task Footer_with_SVG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Svg) { Footer = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Svg) { Footer = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing SVG output.");
     }
 
     [TestMethod]
     public async Task Header_with_PNG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png) { Header = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png) { Header = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing PNG output.");
     }
 
     [TestMethod]
     public async Task Footer_with_PNG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png) { Footer = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png) { Footer = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing PNG output.");
     }
 
     [TestMethod]
     public async Task Header_with_JPEG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg) { Header = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg) { Header = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing JPEG output.");
     }
 
     [TestMethod]
     public async Task Footer_with_JPEG_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg) { Footer = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Jpeg) { Footer = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing JPEG output.");
     }
 
     [PdcTestMethod]
     public async Task Header_with_DOCX_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Docx) { Header = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Docx) { Header = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing DOCX output.");
     }
 
     [PdcTestMethod]
     public async Task Footer_with_DOCX_output()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Docx) { Footer = exampleHeaderFooterContent });
+        await prizmDocServer.ConvertAsync("documents/example.pdf", new DestinationOptions(DestinationFileFormat.Docx) { Footer = exampleHeaderFooterContent });
       }, "Remote server does not support applying headers or footers when producing DOCX output.");
     }
   }

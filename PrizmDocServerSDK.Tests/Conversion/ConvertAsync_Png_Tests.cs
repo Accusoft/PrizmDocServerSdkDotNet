@@ -13,8 +13,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_local_file_path()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", DestinationFileFormat.Png);
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Png);
       Assert.AreEqual(2, results.Count(), "Wrong number of results");
 
       await AssertSinglePagePngResultsAsync(results);
@@ -23,8 +23,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_set_to_100px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
       {
         PngOptions = new PngDestinationOptions()
         {
@@ -43,8 +43,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxHeight_set_to_150px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
       {
         PngOptions = new PngDestinationOptions()
         {
@@ -63,8 +63,8 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task With_maxWidth_640px_and_maxHeight_480px()
     {
-      var context = Util.CreateContext();
-      var results = await context.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
+      var results = await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Png)
       {
         PngOptions = new PngDestinationOptions()
         {

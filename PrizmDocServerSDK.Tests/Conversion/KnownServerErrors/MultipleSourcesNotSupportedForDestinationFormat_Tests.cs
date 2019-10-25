@@ -47,11 +47,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Multiple_to_SVG()
     {
-      var context = prizmDocServer.CreateProcessingContext();
-
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument> {
+        await prizmDocServer.ConvertAsync(new List<SourceDocument> {
           new SourceDocument("documents/example.docx"),
           new SourceDocument("documents/example.pdf")
         }, new DestinationOptions(DestinationFileFormat.Svg));
@@ -61,11 +59,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Multiple_to_PNG()
     {
-      var context = prizmDocServer.CreateProcessingContext();
-
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument> {
+        await prizmDocServer.ConvertAsync(new List<SourceDocument> {
           new SourceDocument("documents/example.docx"),
           new SourceDocument("documents/example.pdf")
         }, new DestinationOptions(DestinationFileFormat.Png));
@@ -75,11 +71,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Multiple_to_JPEG()
     {
-      var context = prizmDocServer.CreateProcessingContext();
-
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument> {
+        await prizmDocServer.ConvertAsync(new List<SourceDocument> {
           new SourceDocument("documents/example.docx"),
           new SourceDocument("documents/example.pdf")
         }, new DestinationOptions(DestinationFileFormat.Jpeg));
@@ -89,11 +83,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task Multiple_to_DOCX()
     {
-      var context = prizmDocServer.CreateProcessingContext();
-
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new List<SourceDocument> {
+        await prizmDocServer.ConvertAsync(new List<SourceDocument> {
           new SourceDocument("documents/example.docx"),
           new SourceDocument("documents/example.pdf")
         }, new DestinationOptions(DestinationFileFormat.Docx));

@@ -11,10 +11,10 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestMethod]
     public async Task Multiple_inputs_one_with_password()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
       var sourceDocument1 = new SourceDocument("documents/example.docx");
       var sourceDocument2 = new SourceDocument("documents/password.docx", password: "open");
-      var result = await context.CombineToPdfAsync(new[] { sourceDocument1, sourceDocument2 });
+      var result = await prizmDocServer.CombineToPdfAsync(new[] { sourceDocument1, sourceDocument2 });
       Assert.IsTrue(result.IsSuccess);
       Assert.AreEqual(3, result.PageCount);
 

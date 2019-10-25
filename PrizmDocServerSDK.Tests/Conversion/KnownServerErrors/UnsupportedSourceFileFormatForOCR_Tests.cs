@@ -11,12 +11,12 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_using_a_single_source_input()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       // This assertion is coupled to what is currently supported in the product. It would be better if we used a mock for this test.
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.docx"), new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.docx"), new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions()
           {

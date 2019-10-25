@@ -6,13 +6,13 @@
     <Authors>Accusoft</Authors>
     <Company>Accusoft</Company>
     <Product />
-    <Version>1.0.0-beta.19</Version>
+    <Version>1.0.0-beta.20</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Copyright © 2019 Accusoft Corporation</Copyright>
     <Description>
 			PrizmDoc Server .NET SDK
     </Description>
-    <PackageProjectUrl>https://github.com/Accusoft/PrizmDocServerDotNetSDK</PackageProjectUrl>
+    <PackageProjectUrl>https://help.accusoft.com/PrizmDoc/sdks/server/dotnet/v1/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Accusoft/PrizmDocServerDotNetSDK</RepositoryUrl>
     <PackageId>Accusoft.PrizmDocServerSDK</PackageId>
     <PackageIcon>icon.png</PackageIcon>

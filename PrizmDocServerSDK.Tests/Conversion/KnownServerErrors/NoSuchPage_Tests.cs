@@ -43,11 +43,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_using_a_single_source_input()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       var sourceDocument = new SourceDocument("documents/example.pdf", pages: "97-99");
 
-      var results = await context.ConvertAsync(sourceDocument, new DestinationOptions(DestinationFileFormat.Pdf)
+      var results = await prizmDocServer.ConvertAsync(sourceDocument, new DestinationOptions(DestinationFileFormat.Pdf)
       {
         PdfOptions = new PdfDestinationOptions()
         {
@@ -65,13 +65,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_there_are_multiple_source_inputs()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       var source1 = new SourceDocument("documents/example.pdf");
       var source2 = new SourceDocument("documents/example.pdf", pages: "97-99");
       var source3 = new SourceDocument("documents/example.pdf");
 
-      var results = await context.ConvertAsync(new List<SourceDocument> {
+      var results = await prizmDocServer.ConvertAsync(new List<SourceDocument> {
         source1,
         source2,
         source3,

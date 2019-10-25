@@ -2,10 +2,10 @@
 
 This guide explains how to convert the pages of a file to PNG images.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, call [ConvertAsync] to take a local file, such as
@@ -13,7 +13,7 @@ Then, call [ConvertAsync] to take a local file, such as
 document to a PNG:
 
 ```csharp
-var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
+var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert the
@@ -50,12 +50,10 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Take a DOCX file and convert each of its pages to a PNG.
-      var results = await context.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
+      var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
 
       // Save each result to a PNG file.
       for (var i=0; i < results.Count(); i++)
@@ -68,7 +66,7 @@ namespace Demos
 ```
 
 There are additional overloads of [ConvertAsync] which provide more
-flexibility. See the [ProcessingContext] API reference for more information.
+flexibility. See the [PrizmDocServerClient] API reference for more information.
 
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)

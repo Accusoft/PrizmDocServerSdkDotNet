@@ -45,13 +45,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"errorCode\":\"InvalidInput\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.dest.pdfOptions.ocr.language\",\"expected\":{\"enum\": [\"english\"]}}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions
           {
@@ -74,13 +72,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"errorCode\":\"InvalidInput\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.dest.pdfOptions.ocr.language\",\"expected\":{\"enum\":[\"english\",\"russian\"]}}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions
           {
@@ -103,13 +99,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"errorCode\":\"InvalidInput\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.dest.pdfOptions.ocr.language\",\"expected\":{\"enum\":[\"english\",\"greek\",\"hebrew\"]}}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)
         {
           PdfOptions = new PdfDestinationOptions
           {

@@ -45,13 +45,11 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
           .WithHeader("Content-Type", "application/json")
           .WithBody("{\"errorCode\":\"ServerOnFire\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.admin.enableTurboMode\"}}"));
 
-      var context = prizmDocServer.CreateProcessingContext();
-
       var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf));
+        await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf));
       }, @"Remote server returned an error: ServerOnFire {
   ""in"": ""body"",
   ""at"": ""input.admin.enableTurboMode""

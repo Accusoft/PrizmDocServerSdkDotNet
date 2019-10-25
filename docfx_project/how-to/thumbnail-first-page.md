@@ -12,10 +12,10 @@ efficiently as a simple, two-step process:
 
 Here's how you do that in code.
 
-First, create a [ProcessingContext] for your conversion:
+First, create a [PrizmDocServerClient]:
 
 ```csharp
-var context = client.CreateProcessingContext();
+var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
 Then, extract just the first page to a temporary PDF by calling
@@ -23,7 +23,7 @@ Then, extract just the first page to a temporary PDF by calling
 to `"1"`:
 
 ```csharp
-var tempFirstPagePdf = await context.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "1"));
+var tempFirstPagePdf = await prizmDocServer.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "1"));
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert
@@ -37,7 +37,7 @@ Next, we convert this temporary PDF to a thumbnail PNG by calling
 [ConvertAsync]:
 
 ```csharp
-var thumbnailPngs = await context.ConvertAsync(new SourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
+var thumbnailPngs = await prizmDocServer.ConvertAsync(new SourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
 {
   PngOptions = new PngDestinationOptions() {
     MaxWidth = "512px",
@@ -89,18 +89,16 @@ namespace Demos
 
     static async Task MainAsync()
     {
-      var client = new PrizmDocServerClient(/* your connection info */);
-
-      var context = client.CreateProcessingContext();
+      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 
       // Extract the first page as an intermediate PDF. We won't ever bother
       // downloading this from PrizmDoc Server.
-      var tempFirstPagePdf = await context.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "1"));
+      var tempFirstPagePdf = await prizmDocServer.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "1"));
 
       // Convert the PDF to PNGs, specifying a max width and height. We'll get
       // back a collection of results, one per page. In our case, there is only
       // one page.
-      var thumbnailPngs = await context.ConvertAsync(new SourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
+      var thumbnailPngs = await prizmDocServer.ConvertAsync(new SourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
       {
         PngOptions = new PngDestinationOptions() {
           MaxWidth = "512px",
@@ -117,6 +115,6 @@ namespace Demos
 
 [RemoteWorkFile]: xref:Accusoft.PrizmDocServer.RemoteWorkFile
 [SourceDocument]: xref:Accusoft.PrizmDocServer.Conversion.SourceDocument
-[ProcessingContext]: xref:Accusoft.PrizmDocServer.ProcessingContext
-[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.ProcessingContext.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)
+[PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
+[ConvertToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertToPdfAsync(System.String,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.String,Accusoft.PrizmDocServer.Conversion.DestinationFileFormat)

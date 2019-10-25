@@ -12,11 +12,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_applying_a_header_to_a_single_source_with_a_page_range_specified()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
         {
           Header = new HeaderFooterOptions()
           {
@@ -32,11 +32,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestMethod]
     public async Task When_applying_a_footer_to_a_single_source_with_a_page_range_specified()
     {
-      var context = Util.CreateContext();
+      var prizmDocServer = Util.CreatePrizmDocServerClient();
 
       await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
       {
-        await context.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
+        await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
         {
           Footer = new HeaderFooterOptions()
           {

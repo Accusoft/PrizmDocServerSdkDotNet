@@ -12,13 +12,20 @@ h1 {
   margin-right: 1em;
 }
 
-.danger {
-  background-color: #f2dede;
+.warning {
+  background-color: #fff3cd;
+  color: black;
+  border: 1px solid #856404;
+  border-radius: 0.25em;
   padding: 1em;
-  margin: 0.5em;
-  border: 3px solid #880000;
-  border-radius: 0.5em;
-  font-size: 1.5em;
+}
+
+.warning p {
+  margin: 0;
+}
+
+.warning ul {
+  margin: 1em;
 }
 
 .sample-document-page {

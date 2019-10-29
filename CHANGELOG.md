@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.0-beta.21 - 2019-10-29
+
+Updated package description and documentation home page. No changes to the SDK
+itself.
+
 ## 1.0.0-beta.20 - 2019-10-24
 
 ### Changed

@@ -74,26 +74,7 @@ namespace Accusoft.PrizmDocServer.Tests
       Assert.AreEqual(mostFrequentAffinityToken, distinctAffinityTokensAfter.Single());
 
       var outputFileText = String.Join("\n", await TextUtil.ExtractPagesText(output.RemoteWorkFile));
-      Assert.AreEqual(@"File 1
-
-File 2
-
-File 3
-
-File 4
-
-File 5
-
-File 6
-
-File 7
-
-File 8
-
-File 9
-
-File 10
-", outputFileText);
+      Assert.AreEqual(@"File 1File 2File 3File 4File 5File 6File 7File 8File 9File 10", outputFileText.Replace("\r", "").Replace("\n", ""));
     }
   }
 }

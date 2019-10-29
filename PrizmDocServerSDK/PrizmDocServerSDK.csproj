@@ -6,11 +6,68 @@
     <Authors>Accusoft</Authors>
     <Company>Accusoft</Company>
     <Product />
-    <Version>1.0.0-beta.20</Version>
+    <Version>1.0.0-beta.21</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Copyright © 2019 Accusoft Corporation</Copyright>
     <Description>
-			PrizmDoc Server .NET SDK
+      PrizmDoc Server .NET SDK (BETA)
+
+      The PrizmDoc Server .NET SDK is a wrapper around the PrizmDoc Server REST
+      API. It manages the low-level HTTP details for you, making it easy to
+      consume PrizmDoc Server functionality in .NET.
+
+      Documentation Site: https://help.accusoft.com/PrizmDoc/sdks/server/dotnet/v1/
+
+
+
+      PrizmDoc Server is a powerful document processing engine you can use to:
+
+      - Convert documents to PDF, TIFF, JPEG, PNG, or SVG
+      - Combine documents to PDF or TIFF
+      - Extract pages from documents
+      - Create thumbnail images for document pages
+      - Apply headers and footers to documents
+      - Apply OCR to produce a text-searchable PDF
+      - Automatically identify text to be redacted by regex
+      - Redact to PDF or plain text
+      - Burn-in annotations to PDF
+      - Identify form fields in PDFs or images
+      - Search for text in a document
+
+      NOTE: This beta version of the PrizmDoc Server .NET SDK only exposes a
+      subset of PrizmDoc Server functionality:
+
+      - Convert documents to PDF, TIFF, JPEG, PNG, or SVG
+      - Combine documents to PDF or TIFF
+      - Extract pages from documents
+      - Create thumbnail images for document pages
+      - Apply headers and footers to documents
+      - Apply OCR to produce a text-searchable PDF
+
+      We will continue to expose more functionality in future beta releases.
+      During the beta, the API surface may change from beta release to beta
+      release.
+
+
+
+      Before you can get started with this SDK, you'll need access to a PrizmDoc
+      Server deployment. There are two ways to go about that:
+
+      1. Sign up for a free PrizmDoc Cloud account and use Accusoft's cloud-hosted PrizmDoc Server (easiest to get started).
+      2. Become a PrizmDoc Viewer customer and host PrizmDoc Server yourself.
+
+      To sign up for PrizmDoc Cloud, visit https://cloud.accusoft.com/
+
+      To learn more about the PrizmDoc Viewer product which PrizmDoc Server is a
+      part of, visit
+      https://www.accusoft.com/products/prizmdoc-suite/prizmdoc-viewer/
+
+
+
+      If you already have access to PrizmDoc Server and are ready to get
+      started, check out the documentation site for this .NET SDK:
+
+      https://help.accusoft.com/PrizmDoc/sdks/server/dotnet/v1/
     </Description>
     <PackageProjectUrl>https://help.accusoft.com/PrizmDoc/sdks/server/dotnet/v1/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Accusoft/PrizmDocServerDotNetSDK</RepositoryUrl>

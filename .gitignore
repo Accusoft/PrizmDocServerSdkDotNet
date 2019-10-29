@@ -340,3 +340,6 @@ ASALocalRun/
 healthchecksdb
 
 .DS_Store
+
+coverage.opencover.xml
+coverage-report/

@@ -1,54 +1,56 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Accusoft.PrizmDocServer.Exceptions;
 using Accusoft.PrizmDocServer.Tests;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
 {
-  [TestClass]
-  public class HeaderFooter_UnavailableFontFamily_Tests
-  {
-    [TestMethod]
-    public async Task Unavailable_font_family_with_header()
+    [TestClass]
+    public class HeaderFooter_UnavailableFontFamily_Tests
     {
-      var prizmDocServer = Util.CreatePrizmDocServerClient();
-
-      await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
-      {
-        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        [TestMethod]
+        public async Task Unavailable_font_family_with_header()
         {
-          Header = new HeaderFooterOptions
-          {
-            FontFamily = "Lexicon",
-            Lines = new List<HeaderFooterLine>
-            {
-              new HeaderFooterLine { Left = "Test" },
-            }
-          }
-        });
-      }, "Header.FontFamily or Footer.FontFamily specifies a font which is not available on the remote server.");
-    }
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-    [TestMethod]
-    public async Task Unavailable_font_family_with_footer()
-    {
-      var prizmDocServer = Util.CreatePrizmDocServerClient();
+            await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
+                async () =>
+                {
+                    await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+                    {
+                        Header = new HeaderFooterOptions
+                        {
+                            FontFamily = "Lexicon",
+                            Lines = new List<HeaderFooterLine>
+                            {
+                                new HeaderFooterLine { Left = "Test" },
+                            },
+                        },
+                    });
+                }, "Header.FontFamily or Footer.FontFamily specifies a font which is not available on the remote server.");
+        }
 
-      await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
-      {
-        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        [TestMethod]
+        public async Task Unavailable_font_family_with_footer()
         {
-          Footer = new HeaderFooterOptions
-          {
-            FontFamily = "Lexicon",
-            Lines = new List<HeaderFooterLine>
-            {
-              new HeaderFooterLine { Left = "Test" },
-            }
-          }
-        });
-      }, "Header.FontFamily or Footer.FontFamily specifies a font which is not available on the remote server.");
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
+
+            await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
+                async () =>
+                {
+                    await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+                    {
+                        Footer = new HeaderFooterOptions
+                        {
+                            FontFamily = "Lexicon",
+                            Lines = new List<HeaderFooterLine>
+                            {
+                                new HeaderFooterLine { Left = "Test" },
+                            },
+                        },
+                    });
+                }, "Header.FontFamily or Footer.FontFamily specifies a font which is not available on the remote server.");
+        }
     }
-  }
 }

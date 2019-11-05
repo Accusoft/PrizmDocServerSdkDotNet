@@ -1,54 +1,56 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Accusoft.PrizmDocServer.Exceptions;
 using Accusoft.PrizmDocServer.Tests;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
 {
-  [TestClass]
-  public class HeaderFooter_FontSize_Invalid_Tests
-  {
-    [TestMethod]
-    public async Task Invalid_header_font_size()
+    [TestClass]
+    public class HeaderFooter_FontSize_Invalid_Tests
     {
-      var prizmDocServer = Util.CreatePrizmDocServerClient();
-
-      await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
-      {
-        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        [TestMethod]
+        public async Task Invalid_header_font_size()
         {
-          Header = new HeaderFooterOptions
-          {
-            FontSize = "wat",
-            Lines = new List<HeaderFooterLine>
-            {
-              new HeaderFooterLine { Left = "Test" },
-            }
-          }
-        });
-      }, "Invalid Header.FontSize value for remote server: \"wat\"");
-    }
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-    [TestMethod]
-    public async Task Invalid_footer_font_size()
-    {
-      var prizmDocServer = Util.CreatePrizmDocServerClient();
+            await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
+                async () =>
+                {
+                    await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+                    {
+                        Header = new HeaderFooterOptions
+                        {
+                            FontSize = "wat",
+                            Lines = new List<HeaderFooterLine>
+                            {
+                                new HeaderFooterLine { Left = "Test" },
+                            },
+                        },
+                    });
+                }, "Invalid Header.FontSize value for remote server: \"wat\"");
+        }
 
-      await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(async () =>
-      {
-        await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+        [TestMethod]
+        public async Task Invalid_footer_font_size()
         {
-          Footer = new HeaderFooterOptions
-          {
-            FontSize = "waaat",
-            Lines = new List<HeaderFooterLine>
-            {
-              new HeaderFooterLine { Left = "Test" },
-            }
-          }
-        });
-      }, "Invalid Footer.FontSize value for remote server: \"waaat\"");
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
+
+            await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
+                async () =>
+                {
+                    await prizmDocServer.ConvertAsync("documents/example.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+                    {
+                        Footer = new HeaderFooterOptions
+                        {
+                            FontSize = "waaat",
+                            Lines = new List<HeaderFooterLine>
+                            {
+                                new HeaderFooterLine { Left = "Test" },
+                            },
+                        },
+                    });
+                }, "Invalid Footer.FontSize value for remote server: \"waaat\"");
+        }
     }
-  }
 }

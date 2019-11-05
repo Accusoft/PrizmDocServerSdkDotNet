@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.0-beta.22 - 2019-11-05
+
+Require all builds pass StyleCop.Analyzer rules.
+Minor documentation improvements.
+No changes to the API or functionality.
+
 ## 1.0.0-beta.21 - 2019-10-29
 
 Updated package description and documentation home page. No changes to the SDK

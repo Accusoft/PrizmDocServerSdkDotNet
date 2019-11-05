@@ -1,0 +1,27 @@
+﻿[*]
+insert_final_newline = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1611: Element parameters should be documented
+dotnet_diagnostic.SA1611.severity = none
+
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1200: Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity = none
+
+# IDE0003: Prefer explicit this prefix
+dotnet_style_qualification_for_event = true:silent
+dotnet_style_qualification_for_method = true:silent
+dotnet_style_qualification_for_field = true:silent
+dotnet_style_qualification_for_property = true:silent

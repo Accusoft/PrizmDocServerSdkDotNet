@@ -1,3 +1,7 @@
+#pragma warning disable SA1611 // Element parameters should be documented
+#pragma warning disable SA1612 // Element parameter documentation should match element parameters
+#pragma warning disable SA1615 // Element return value should be documented
+
 using System;
 using System.IO;
 using System.Net.Http;
@@ -9,64 +13,65 @@ using Newtonsoft.Json;
 
 namespace Accusoft.PrizmDocServer
 {
-  internal static class AffinitySessionExtensions
-  {
     /// <summary>
-    /// Upload a local file, creating a new <see cref="RemoteWorkFile"/> which
-    /// can be used within this <see cref="ProcessingContext"/>.
+    /// Defines convenience extension methods for the PrizmDoc REST Client AffinitySession class.
     /// </summary>
-    /// <param name="localFilePath">Path to a local file you want to upload.</param>
-    /// <returns><see cref="RemoteWorkFile"/> instance.</returns>
-    internal static async Task<RemoteWorkFile> UploadAsync(this AffinitySession affinitySession, string localFilePath, string affinityToken = null)
+    internal static class AffinitySessionExtensions
     {
-      if (!File.Exists(localFilePath))
-      {
-        throw new ArgumentException($"File not found: {localFilePath}", "localFilePathToDocument");
-      }
+        /// <summary>
+        /// Upload a local file, creating a new <see cref="RemoteWorkFile"/>.
+        /// </summary>
+        internal static async Task<RemoteWorkFile> UploadAsync(this AffinitySession affinitySession, string localFilePath, string affinityToken = null)
+        {
+            if (affinitySession is null)
+            {
+                throw new ArgumentNullException(nameof(affinitySession));
+            }
 
-      var fileExtension = Path.GetExtension(localFilePath);
+            if (!File.Exists(localFilePath))
+            {
+                throw new ArgumentException($"File not found: {localFilePath}", "localFilePathToDocument");
+            }
 
-      using (var localFileReadStream = File.OpenRead(localFilePath))
-      {
-        return await affinitySession.UploadAsync(localFileReadStream, fileExtension, affinityToken);
-      }
+            string fileExtension = Path.GetExtension(localFilePath);
+
+            using (FileStream localFileReadStream = File.OpenRead(localFilePath))
+            {
+                return await affinitySession.UploadAsync(localFileReadStream, fileExtension, affinityToken);
+            }
+        }
+
+        /// <summary>
+        /// Upload a <see cref="Stream"/>, creating a new <see cref="RemoteWorkFile"/>.
+        /// </summary>
+        internal static async Task<RemoteWorkFile> UploadAsync(this AffinitySession affinitySession, Stream documentStream, string fileExtension = "txt", string affinityToken = null)
+        {
+            // Remove leading period on fileExtension if present.
+            if (fileExtension != null && fileExtension.StartsWith("."))
+            {
+                fileExtension = fileExtension.Substring(1);
+            }
+
+            var req = new HttpRequestMessage(HttpMethod.Post, $"/PCCIS/V1/WorkFile?FileExtension={fileExtension}")
+            {
+                Content = new StreamContent(documentStream),
+            };
+            if (affinityToken != null)
+            {
+                req.Headers.Add("Accusoft-Affinity-Token", affinityToken);
+            }
+
+            string json;
+            using (HttpResponseMessage response = await affinitySession.SendAsync(req))
+            {
+                await response.ThrowIfRestApiError();
+                json = await response.Content.ReadAsStringAsync();
+            }
+
+            var info = JsonConvert.DeserializeObject<PostWorkFileResponse>(json);
+            var remoteWorkFile = new RemoteWorkFile(affinitySession, info.fileId, info.affinityToken, info.fileExtension);
+
+            return remoteWorkFile;
+        }
     }
-
-    /// <summary>
-    /// Upload a <see cref="System.IO.Stream"/>, creating a new
-    /// <see cref="RemoteWorkFile"/> which can be used within this
-    /// <see cref="ProcessingContext"/>.
-    /// </summary>
-    /// <param name="documentStream">Stream of bytes of the document (file) you want to upload.</param>
-    /// <returns><see cref="RemoteWorkFile"/> instance.</returns>
-    internal static async Task<RemoteWorkFile> UploadAsync(this AffinitySession affinitySession, Stream documentStream, string fileExtension = "txt", string affinityToken = null)
-    {
-      // Remove leading period on fileExtension if present.
-      if (fileExtension != null && fileExtension.StartsWith("."))
-      {
-        fileExtension = fileExtension.Substring(1);
-      }
-
-      var req = new HttpRequestMessage(HttpMethod.Post, $"/PCCIS/V1/WorkFile?FileExtension={fileExtension}")
-      {
-        Content = new StreamContent(documentStream)
-      };
-      if (affinityToken != null)
-      {
-        req.Headers.Add("Accusoft-Affinity-Token", affinityToken);
-      }
-
-      string json;
-      using (var response = await affinitySession.SendAsync(req))
-      {
-        await response.ThrowIfRestApiError();
-        json = await response.Content.ReadAsStringAsync();
-      }
-
-      var info = JsonConvert.DeserializeObject<PostWorkFileResponse>(json);
-      var remoteWorkFile = new RemoteWorkFile(affinitySession, info.fileId, info.affinityToken, info.fileExtension);
-
-      return remoteWorkFile;
-    }
-  }
 }

@@ -9,90 +9,125 @@ using Accusoft.PrizmDocServer.Exceptions;
 
 namespace Accusoft.PrizmDocServer
 {
-  public class RemoteWorkFile : IEquatable<RemoteWorkFile>
-  {
-    internal RemoteWorkFile(AffinitySession session, string fileId, string affinityToken, string fileExtension)
+    /// <summary>
+    /// Contains information about a remote work file.
+    /// </summary>
+    public class RemoteWorkFile : IEquatable<RemoteWorkFile>
     {
-      this.session = session;
-      this.FileId = fileId;
-      this.AffinityToken = affinityToken;
-      this.FileExtension = fileExtension;
+        private readonly AffinitySession session;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only used internally and by tests")]
+        internal RemoteWorkFile(AffinitySession session, string fileId, string affinityToken, string fileExtension)
+        {
+            this.session = session;
+            this.FileId = fileId;
+            this.AffinityToken = affinityToken;
+            this.FileExtension = fileExtension;
+        }
+
+        /// <summary>
+        /// Gets unique id of the remote work file.
+        /// </summary>
+        public string FileId { get; }
+
+        /// <summary>
+        /// Gets affinity token of the remote work file, identifying the remote server the file is stored on.
+        /// </summary>
+        public string AffinityToken { get; }
+
+        /// <summary>
+        /// Gets file extension for the remote work file, indicating the file type.
+        /// </summary>
+        public string FileExtension { get; }
+
+        /// <summary>
+        /// Downloads the remote work file and saves it to a local file path.
+        /// </summary>
+        /// <param name="localFilePath">Path where the file should be written to.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task SaveAsync(string localFilePath)
+        {
+            using (FileStream localFileWriteStream = File.OpenWrite(localFilePath))
+            {
+                await this.CopyToAsync(localFileWriteStream);
+            }
+        }
+
+        /// <summary>
+        /// Downloads the remote work file and copies it to a local stream.
+        /// </summary>
+        /// <param name="stream">Stream where the file should be copied to.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task CopyToAsync(Stream stream)
+        {
+            using (HttpResponseMessage res = await this.session.GetAsync($"/PCCIS/V1/WorkFile/{this.FileId}"))
+            {
+                await res.ThrowIfRestApiError();
+                await res.Content.CopyToAsync(stream);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(RemoteWorkFile other)
+        {
+            return this.FileId == other.FileId &&
+                   this.AffinityToken == other.AffinityToken &&
+                   this.FileExtension == other.FileExtension;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 3681487;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<AffinitySession>.Default.GetHashCode(this.session);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.FileId);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.AffinityToken);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(this.FileExtension);
+            return hashCode;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            var other = obj as RemoteWorkFile;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.Equals(other);
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+
+            builder.Append("RemoteWorkFile { ");
+            builder.Append($"FileId: {this.FileId}");
+            if (this.AffinityToken != null)
+            {
+                builder.Append($", AffinityToken: {this.AffinityToken}");
+            }
+
+            if (this.FileExtension != null)
+            {
+                builder.Append($", FileExtension: {this.FileExtension}");
+            }
+
+            builder.Append(" }");
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Start an HTTP GET to download the remote file bytes. You are responsible for disposing the returned HttpResponseMessage.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        internal async Task<HttpResponseMessage> HttpGetAsync()
+        {
+            return await this.session.GetAsync($"/PCCIS/V1/WorkFile/{this.FileId}");
+        }
     }
-
-    private AffinitySession session;
-
-    public string FileId { get; }
-    public string AffinityToken { get; }
-    public string FileExtension { get; }
-
-    public async Task SaveAsync(string localFilePath)
-    {
-      using (var localFileWriteStream = File.OpenWrite(localFilePath))
-      {
-        await CopyToAsync(localFileWriteStream);
-      }
-    }
-
-    public async Task CopyToAsync(Stream stream)
-    {
-      using (var res = await session.GetAsync($"/PCCIS/V1/WorkFile/{FileId}"))
-      {
-        await res.ThrowIfRestApiError();
-        await res.Content.CopyToAsync(stream);
-      }
-    }
-
-    internal async Task<HttpResponseMessage> HttpGetAsync()
-    {
-      return await session.GetAsync($"/PCCIS/V1/WorkFile/{FileId}");
-    }
-
-    public bool Equals(RemoteWorkFile other)
-    {
-      return this.FileId == other.FileId &&
-             this.AffinityToken == other.AffinityToken &&
-             this.FileExtension == other.FileExtension;
-    }
-
-    public override int GetHashCode()
-    {
-      var hashCode = 3681487;
-      hashCode = hashCode * -1521134295 + EqualityComparer<AffinitySession>.Default.GetHashCode(session);
-      hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FileId);
-      hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AffinityToken);
-      hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FileExtension);
-      return hashCode;
-    }
-
-    public override bool Equals(object obj)
-    {
-      var other = obj as RemoteWorkFile;
-
-      if (other == null)
-      {
-        return false;
-      }
-
-      return this.Equals(other);
-    }
-
-    public override string ToString()
-    {
-      var builder = new StringBuilder();
-
-      builder.Append("RemoteWorkFile { ");
-      builder.Append($"FileId: {FileId}");
-      if (AffinityToken != null)
-      {
-        builder.Append($", AffinityToken: {AffinityToken}");
-      }
-      if (FileExtension != null)
-      {
-        builder.Append($", FileExtension: {FileExtension}");
-      }
-      builder.Append(" }");
-
-      return builder.ToString();
-    }
-  }
 }

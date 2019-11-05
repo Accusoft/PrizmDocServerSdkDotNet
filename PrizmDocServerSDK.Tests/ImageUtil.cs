@@ -7,57 +7,51 @@ using SixLabors.ImageSharp;
 
 namespace Accusoft.PrizmDocServer.Tests
 {
-  public class ImageDimensions
-  {
-    public int Width { get; set; }
-    public int Height { get; set; }
-  }
-
-  public static class ImageUtil
-  {
-    public static ImageDimensions GetImageDimensions(string filename)
+    public static class ImageUtil
     {
-      using (var file = File.OpenRead(filename))
-      {
-        return GetImageDimensions(file);
-      }
-    }
-
-    public static ImageDimensions GetImageDimensions(Stream stream)
-    {
-      if (stream.Position > 0)
-      {
-        stream.Position = 0;
-      }
-
-      var info = Image.Identify(stream);
-
-      if (info == null)
-      {
-        throw new ArgumentException("Could not determine image information");
-      }
-
-      return new ImageDimensions() { Width = info.Width, Height = info.Height };
-    }
-
-    public static async Task<IEnumerable<ImageDimensions>> GetTiffPagesDimensionsAsync(string filename)
-    {
-      var prizmDocServer = Util.CreatePrizmDocServerClient();
-      var results = await prizmDocServer.ConvertAsync(filename, DestinationFileFormat.Png);
-
-      IList<ImageDimensions> pageDimensions = new List<ImageDimensions>();
-
-      foreach (var result in results)
-      {
-        using (var memoryStream = new MemoryStream())
+        public static ImageDimensions GetImageDimensions(string filename)
         {
-          await result.RemoteWorkFile.CopyToAsync(memoryStream);
-          var dimensions = GetImageDimensions(memoryStream);
-          pageDimensions.Add(dimensions);
+            using (FileStream file = File.OpenRead(filename))
+            {
+                return GetImageDimensions(file);
+            }
         }
-      }
 
-      return pageDimensions;
+        public static ImageDimensions GetImageDimensions(Stream stream)
+        {
+            if (stream.Position > 0)
+            {
+                stream.Position = 0;
+            }
+
+            IImageInfo info = Image.Identify(stream);
+
+            if (info == null)
+            {
+                throw new ArgumentException("Could not determine image information");
+            }
+
+            return new ImageDimensions() { Width = info.Width, Height = info.Height };
+        }
+
+        public static async Task<IEnumerable<ImageDimensions>> GetTiffPagesDimensionsAsync(string filename)
+        {
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
+            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(filename, DestinationFileFormat.Png);
+
+            IList<ImageDimensions> pageDimensions = new List<ImageDimensions>();
+
+            foreach (Result result in results)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await result.RemoteWorkFile.CopyToAsync(memoryStream);
+                    ImageDimensions dimensions = GetImageDimensions(memoryStream);
+                    pageDimensions.Add(dimensions);
+                }
+            }
+
+            return pageDimensions;
+        }
     }
-  }
 }

@@ -2,27 +2,31 @@
 using System.IO;
 using System.Threading.Tasks;
 using Accusoft.PrizmDocServer;
+using Accusoft.PrizmDocServer.Conversion;
 
 namespace Demos
 {
-  class Program
-  {
-    static void Main(string[] args)
+    /// <summary>
+    /// Demo program which converts a file to a PDF.
+    /// </summary>
+    internal class Program
     {
-      MainAsync().GetAwaiter().GetResult();
+        private static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        private static async Task MainAsync()
+        {
+            File.Delete("output.pdf");
+
+            var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
+
+            // Take a DOCX file and convert it to a PDF.
+            Result result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
+
+            // Save the result to "output.pdf".
+            await result.RemoteWorkFile.SaveAsync("output.pdf");
+        }
     }
-
-    static async Task MainAsync()
-    {
-      File.Delete("output.pdf");
-
-      var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
-
-      // Take a DOCX file and convert it to a PDF.
-      var result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
-
-      // Save the result to "output.pdf".
-      await result.RemoteWorkFile.SaveAsync("output.pdf");
-    }
-  }
 }

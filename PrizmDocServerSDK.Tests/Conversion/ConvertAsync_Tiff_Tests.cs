@@ -13,14 +13,14 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task Multiple_inputs_one_with_password()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            SourceDocument sourceDocument1 = new SourceDocument("documents/example.docx");
-            SourceDocument sourceDocument2 = new SourceDocument("documents/password.docx", password: "open");
-            Result result = (await prizmDocServer.ConvertAsync(new[] { sourceDocument1, sourceDocument2 }, DestinationFileFormat.Tiff)).Single();
+            ConversionSourceDocument sourceDocument1 = new ConversionSourceDocument("documents/example.docx");
+            ConversionSourceDocument sourceDocument2 = new ConversionSourceDocument("documents/password.docx", password: "open");
+            ConversionResult result = (await prizmDocServer.ConvertAsync(new[] { sourceDocument1, sourceDocument2 }, DestinationFileFormat.Tiff)).Single();
 
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(3, result.PageCount);
 
-            List<SourceDocument> resultSourceDocuments = result.Sources.ToList();
+            List<ConversionSourceDocument> resultSourceDocuments = result.Sources.ToList();
 
             Assert.AreEqual(sourceDocument1.RemoteWorkFile, resultSourceDocuments[0].RemoteWorkFile);
             Assert.IsNull(resultSourceDocuments[0].Password);

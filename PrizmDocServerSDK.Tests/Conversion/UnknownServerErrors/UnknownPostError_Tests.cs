@@ -45,9 +45,9 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
                 .WithHeader("Content-Type", "application/json")
                 .WithBody("{\"errorCode\":\"ServerOnFire\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.admin.enableTurboMode\"}}"));
 
-            var dummyInput = new SourceDocument(new RemoteWorkFile(null, null, null, null));
+            var dummyInput = new ConversionSourceDocument(new RemoteWorkFile(null, null, null, null));
 
-            var expectedMessage = @"Remote server returned an error: ServerOnFire {
+            string expectedMessage = @"Remote server returned an error: ServerOnFire {
   ""in"": ""body"",
   ""at"": ""input.admin.enableTurboMode""
 }";

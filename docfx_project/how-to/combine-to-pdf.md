@@ -8,19 +8,22 @@ First, create a [PrizmDocServerClient]:
 var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
 ```
 
-Then, call [CombineToPdfAsync] with a collection of [SourceDocument] instances, resulting in PrizmDoc Server combining the requested pages of those documents into a single new PDF:
+Then, call [CombineToPdfAsync] with a collection of [ConversionSourceDocument] instances, resulting in PrizmDoc Server combining the requested pages of those documents into a single new PDF:
 
 ```csharp
-var result = await prizmDocServer.CombineToPdfAsync(
-  new[] {
-    new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
-    new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
-    new SourceDocument("boilerplate-back-page.pdf") // end with a boilerplate back page
-  }
+IEnumerable<ConversionResult> result = await prizmDocServer.CombineToPdfAsync(
+    new[] {
+        // start with a boilerplate cover page
+        new ConversionSourceDocument("boilerplate-cover-page.pdf"),
+        // keep all but the first page of the "main" document
+        new ConversionSourceDocument("project-proposal.docx", pages: "2-"),
+        // end with a boilerplate back page
+        new ConversionSourceDocument("boilerplate-back-page.pdf")
+    }
 );
 ```
 
-This will upload _all_ of the local files specified for each [SourceDocument] to
+This will upload _all_ of the local files specified for each [ConversionSourceDocument] to
 PrizmDoc Server, ask PrizmDoc Server to combine the specified documents and
 pages to a PDF, and then return once the conversion is complete.
 
@@ -50,31 +53,34 @@ using Accusoft.PrizmDocServer.Conversion;
 
 namespace Demos
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      MainAsync().GetAwaiter().GetResult();
-    }
-
-    static async Task MainAsync()
-    {
-      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
-
-      // Take a DOCX file and replace its cover page with a boilerplate cover,
-      // append a boilerplate back page, and then produce a new PDF.
-      var result = await prizmDocServer.CombineToPdfAsync(
-        new[] {
-          new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
-          new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
-          new SourceDocument("boilerplate-back-page.pdf") // end with a boilerplate back page
+        static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
         }
-      );
 
-      // Save the result to "output.pdf".
-      await result.RemoteWorkFile.SaveAsync("output.pdf");
+        static async Task MainAsync()
+        {
+            var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
+
+            // Take a DOCX file and replace its cover page with a boilerplate cover,
+            // append a boilerplate back page, and then produce a new PDF.
+            ConversionResult result = await prizmDocServer.CombineToPdfAsync(
+                new[] {
+                    // start with a boilerplate cover page
+                    new ConversionSourceDocument("boilerplate-cover-page.pdf"),
+                    // keep all but the first page of the "main" document
+                    new ConversionSourceDocument("project-proposal.docx", pages: "2-"),
+                    // end with a boilerplate back page
+                    new ConversionSourceDocument("boilerplate-back-page.pdf")
+                }
+            );
+
+            // Save the result to "output.pdf".
+            await result.RemoteWorkFile.SaveAsync("output.pdf");
+        }
     }
-  }
 }
 ```
 
@@ -88,14 +94,14 @@ wrappers around the lower-level [ConvertAsync] methods. You could achieve the
 same sort of thing with a [ConvertAsync] call like so:
 
 ```csharp
-var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
-var result = results.Single();
+IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Pdf);
+ConversionResult result = results.Single();
 ```
 
 See the [PrizmDocServerClient] API reference for more information.
 
 [PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
-[SourceDocument]: xref:Accusoft.PrizmDocServer.Conversion.SourceDocument
-[CombineToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.CombineToPdfAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
+[ConversionSourceDocument]: xref:Accusoft.PrizmDocServer.Conversion.ConversionSourceDocument
+[CombineToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.CombineToPdfAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.ConversionSourceDocument},Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions,Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions)
 [HeaderFooterOptions]: xref:Accusoft.PrizmDocServer.Conversion.HeaderFooterOptions
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.ConversionSourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)

@@ -36,26 +36,26 @@ namespace Accusoft.PrizmDocServer.Tests
             }
 
             // Try to create some files with the same affinity
-            var affinitySession = Util.RestClient.CreateAffinitySession();
-            var wf3 = await this.UploadPlainTextAsync(affinitySession, "File 3");
-            var wf4 = await this.UploadPlainTextAsync(affinitySession, "File 4");
-            var wf5 = await this.UploadPlainTextAsync(affinitySession, "File 5");
-            var wf6 = await this.UploadPlainTextAsync(affinitySession, "File 6");
-            var wf7 = await this.UploadPlainTextAsync(affinitySession, "File 7");
-            var wf8 = await this.UploadPlainTextAsync(affinitySession, "File 8");
-            var wf9 = await this.UploadPlainTextAsync(affinitySession, "File 9");
-            var wf10 = await this.UploadPlainTextAsync(affinitySession, "File 10");
+            AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
+            RemoteWorkFile wf3 = await this.UploadPlainTextAsync(affinitySession, "File 3");
+            RemoteWorkFile wf4 = await this.UploadPlainTextAsync(affinitySession, "File 4");
+            RemoteWorkFile wf5 = await this.UploadPlainTextAsync(affinitySession, "File 5");
+            RemoteWorkFile wf6 = await this.UploadPlainTextAsync(affinitySession, "File 6");
+            RemoteWorkFile wf7 = await this.UploadPlainTextAsync(affinitySession, "File 7");
+            RemoteWorkFile wf8 = await this.UploadPlainTextAsync(affinitySession, "File 8");
+            RemoteWorkFile wf9 = await this.UploadPlainTextAsync(affinitySession, "File 9");
+            RemoteWorkFile wf10 = await this.UploadPlainTextAsync(affinitySession, "File 10");
 
-            var doc1 = new SourceDocument(wf1);
-            var doc2 = new SourceDocument(wf2);
-            var doc3 = new SourceDocument(wf3);
-            var doc4 = new SourceDocument(wf4);
-            var doc5 = new SourceDocument(wf5);
-            var doc6 = new SourceDocument(wf6);
-            var doc7 = new SourceDocument(wf7);
-            var doc8 = new SourceDocument(wf8);
-            var doc9 = new SourceDocument(wf9);
-            var doc10 = new SourceDocument(wf10);
+            var doc1 = new ConversionSourceDocument(wf1);
+            var doc2 = new ConversionSourceDocument(wf2);
+            var doc3 = new ConversionSourceDocument(wf3);
+            var doc4 = new ConversionSourceDocument(wf4);
+            var doc5 = new ConversionSourceDocument(wf5);
+            var doc6 = new ConversionSourceDocument(wf6);
+            var doc7 = new ConversionSourceDocument(wf7);
+            var doc8 = new ConversionSourceDocument(wf8);
+            var doc9 = new ConversionSourceDocument(wf9);
+            var doc10 = new ConversionSourceDocument(wf10);
 
             var sourceDocuments = new[] { doc1, doc2, doc3, doc4, doc5, doc6, doc7, doc8, doc9, doc10 };
 
@@ -66,9 +66,9 @@ namespace Accusoft.PrizmDocServer.Tests
             string mostFrequentAffinityToken = sourceDocuments.GroupBy(x => x.RemoteWorkFile.AffinityToken).OrderByDescending(x => x.Count()).Select(x => x.Key).First();
 
             // Act
-            Result output = await Util.CreatePrizmDocServerClient().CombineToPdfAsync(sourceDocuments);
+            ConversionResult output = await Util.CreatePrizmDocServerClient().CombineToPdfAsync(sourceDocuments);
 
-            // Assert that the SourceDocument instances all now have RemoteWorkFile instances with the same affinity token.
+            // Assert that the ConversionSourceDocument instances all now have RemoteWorkFile instances with the same affinity token.
             IEnumerable<string> distinctAffinityTokensAfter = sourceDocuments.Select(x => x.RemoteWorkFile.AffinityToken).Distinct();
             Assert.AreEqual(1, distinctAffinityTokensAfter.Count());
             Assert.AreEqual(mostFrequentAffinityToken, distinctAffinityTokensAfter.Single());

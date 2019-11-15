@@ -15,7 +15,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     {
         private static PrizmDocServerClient prizmDocServer;
         private static FluentMockServer mockServer;
-        private SourceDocument dummySource = new SourceDocument(new RemoteWorkFile(null, null, null, null));
+        private ConversionSourceDocument dummySource = new ConversionSourceDocument(new RemoteWorkFile(null, null, null, null));
 
         [ClassInitialize]
         public static void BeforeAll(TestContext context)
@@ -51,13 +51,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.docx"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.docx"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Svg));
-                }, "Remote server does not support combining multiple SourceDocument instances to SVG. When converting to SVG, use a single SourceDocument.");
+                }, "Remote server does not support combining multiple ConversionSourceDocument instances to SVG. When converting to SVG, use a single ConversionSourceDocument.");
         }
 
         [TestMethod]
@@ -67,13 +67,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.docx"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.docx"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Png));
-                }, "Remote server does not support combining multiple SourceDocument instances to PNG. When converting to PNG, use a single SourceDocument.");
+                }, "Remote server does not support combining multiple ConversionSourceDocument instances to PNG. When converting to PNG, use a single ConversionSourceDocument.");
         }
 
         [TestMethod]
@@ -83,13 +83,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.docx"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.docx"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Jpeg));
-                }, "Remote server does not support combining multiple SourceDocument instances to JPEG. When converting to JPEG, use a single SourceDocument.");
+                }, "Remote server does not support combining multiple ConversionSourceDocument instances to JPEG. When converting to JPEG, use a single ConversionSourceDocument.");
         }
 
         [TestMethod]
@@ -99,13 +99,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.docx"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.docx"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Docx));
-                }, "Remote server does not support combining multiple SourceDocument instances to DOCX. When converting to DOCX, use a single SourceDocument.");
+                }, "Remote server does not support combining multiple ConversionSourceDocument instances to DOCX. When converting to DOCX, use a single ConversionSourceDocument.");
         }
     }
 }

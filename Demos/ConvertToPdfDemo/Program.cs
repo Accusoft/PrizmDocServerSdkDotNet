@@ -23,7 +23,7 @@ namespace Demos
             var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
             // Take a DOCX file and convert it to a PDF.
-            Result result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync("project-proposal.docx");
 
             // Save the result to "output.pdf".
             await result.RemoteWorkFile.SaveAsync("output.pdf");

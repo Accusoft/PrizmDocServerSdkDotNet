@@ -8,13 +8,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accusoft.PrizmDocServer.Conversion.Tests
 {
     [TestClass]
-    public class SourceDocument_EnsureUsableRemoteWorkFileAsync_Tests
+    public class ConversionSourceDocument_EnsureUsableRemoteWorkFileAsync_Tests
     {
         [TestMethod]
         public async Task Will_POST_work_file_when_given_a_local_file_path()
         {
             AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
-            var input = new SourceDocument("documents/example.docx");
+            var input = new ConversionSourceDocument("documents/example.docx");
             Assert.IsNull(input.RemoteWorkFile);
             await input.EnsureUsableRemoteWorkFileAsync(affinitySession);
             Assert.IsNotNull(input.RemoteWorkFile);
@@ -31,7 +31,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
                 remoteWorkFile = await affinitySession.UploadAsync(stream);
             }
 
-            var input = new SourceDocument(remoteWorkFile);
+            var input = new ConversionSourceDocument(remoteWorkFile);
             Assert.AreEqual(remoteWorkFile, input.RemoteWorkFile);
             await input.EnsureUsableRemoteWorkFileAsync(affinitySession);
             Assert.AreEqual(remoteWorkFile, input.RemoteWorkFile);
@@ -57,7 +57,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
 
             Assert.AreNotEqual(file1.AffinityToken, file2.AffinityToken);
 
-            var source2 = new SourceDocument(file2);
+            var source2 = new ConversionSourceDocument(file2);
             RemoteWorkFile originalRemoteWorkFile = source2.RemoteWorkFile;
             Assert.AreEqual(file2, originalRemoteWorkFile);
 

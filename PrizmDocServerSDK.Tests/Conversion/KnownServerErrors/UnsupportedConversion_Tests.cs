@@ -18,7 +18,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.mp3"), new DestinationOptions(DestinationFileFormat.Pdf));
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.mp3"), new DestinationOptions(DestinationFileFormat.Pdf));
                 }, "Unsupported file format \"mp3\". The remote server only supports the following input file formats: \"bmp\", \"cal\", \"cals\", \"csv\", \"cur\", \"cut\", \"dcim\", \"dcm\", \"dcx\", \"dgn\", \"dib\", \"dicm\", \"dicom\", \"doc\", \"docm\", \"docx\", \"dot\", \"dotm\", \"dotx\", \"dwf\", \"dwg\", \"dxf\", \"eml\", \"emz\", \"fodg\", \"fodp\", \"fods\", \"fodt\", \"gif\", \"htm\", \"html\", \"ico\", \"img\", \"jp2\", \"jpc\", \"jpeg\", \"jpg\", \"jpx\", \"msg\", \"ncr\", \"odg\", \"odp\", \"ods\", \"odt\", \"otg\", \"otp\", \"ots\", \"ott\", \"pbm\", \"pcd\", \"pct\", \"pcx\", \"pdf\", \"pgm\", \"pic\", \"pict\", \"png\", \"pot\", \"potm\", \"potx\", \"ppm\", \"pps\", \"ppsm\", \"ppsx\", \"ppt\", \"pptm\", \"pptx\", \"psb\", \"psd\", \"ras\", \"rtf\", \"sct\", \"sgi\", \"tga\", \"tif\", \"tiff\", \"tpic\", \"txt\", \"vdx\", \"vsd\", \"vsdm\", \"vsdx\", \"wbmp\", \"wmf\", \"wmz\", \"wpg\", \"xbm\", \"xhtml\", \"xls\", \"xlsm\", \"xlsx\", \"xlt\", \"xltm\", \"xltx\", \"xwd\"");
         }
 
@@ -32,14 +32,14 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.mp3"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.mp3"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "Unsupported file format \"mp3\" for SourceDocument at index 1. The remote server only supports the following input file formats: \"bmp\", \"cal\", \"cals\", \"csv\", \"cur\", \"cut\", \"dcim\", \"dcm\", \"dcx\", \"dgn\", \"dib\", \"dicm\", \"dicom\", \"doc\", \"docm\", \"docx\", \"dot\", \"dotm\", \"dotx\", \"dwf\", \"dwg\", \"dxf\", \"eml\", \"emz\", \"fodg\", \"fodp\", \"fods\", \"fodt\", \"gif\", \"htm\", \"html\", \"ico\", \"img\", \"jp2\", \"jpc\", \"jpeg\", \"jpg\", \"jpx\", \"msg\", \"ncr\", \"odg\", \"odp\", \"ods\", \"odt\", \"otg\", \"otp\", \"ots\", \"ott\", \"pbm\", \"pcd\", \"pct\", \"pcx\", \"pdf\", \"pgm\", \"pic\", \"pict\", \"png\", \"pot\", \"potm\", \"potx\", \"ppm\", \"pps\", \"ppsm\", \"ppsx\", \"ppt\", \"pptm\", \"pptx\", \"psb\", \"psd\", \"ras\", \"rtf\", \"sct\", \"sgi\", \"tga\", \"tif\", \"tiff\", \"tpic\", \"txt\", \"vdx\", \"vsd\", \"vsdm\", \"vsdx\", \"wbmp\", \"wmf\", \"wmz\", \"wpg\", \"xbm\", \"xhtml\", \"xls\", \"xlsm\", \"xlsx\", \"xlt\", \"xltm\", \"xltx\", \"xwd\"");
+                }, "Unsupported file format \"mp3\" for ConversionSourceDocument at index 1. The remote server only supports the following input file formats: \"bmp\", \"cal\", \"cals\", \"csv\", \"cur\", \"cut\", \"dcim\", \"dcm\", \"dcx\", \"dgn\", \"dib\", \"dicm\", \"dicom\", \"doc\", \"docm\", \"docx\", \"dot\", \"dotm\", \"dotx\", \"dwf\", \"dwg\", \"dxf\", \"eml\", \"emz\", \"fodg\", \"fodp\", \"fods\", \"fodt\", \"gif\", \"htm\", \"html\", \"ico\", \"img\", \"jp2\", \"jpc\", \"jpeg\", \"jpg\", \"jpx\", \"msg\", \"ncr\", \"odg\", \"odp\", \"ods\", \"odt\", \"otg\", \"otp\", \"ots\", \"ott\", \"pbm\", \"pcd\", \"pct\", \"pcx\", \"pdf\", \"pgm\", \"pic\", \"pict\", \"png\", \"pot\", \"potm\", \"potx\", \"ppm\", \"pps\", \"ppsm\", \"ppsx\", \"ppt\", \"pptm\", \"pptx\", \"psb\", \"psd\", \"ras\", \"rtf\", \"sct\", \"sgi\", \"tga\", \"tif\", \"tiff\", \"tpic\", \"txt\", \"vdx\", \"vsd\", \"vsdm\", \"vsdx\", \"wbmp\", \"wmf\", \"wmz\", \"wpg\", \"xbm\", \"xhtml\", \"xls\", \"xlsm\", \"xlsx\", \"xlt\", \"xltm\", \"xltx\", \"xwd\"");
         }
     }
 }

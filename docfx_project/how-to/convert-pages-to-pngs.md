@@ -13,7 +13,7 @@ Then, call [ConvertAsync] to take a local file, such as
 document to a PNG:
 
 ```csharp
-var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
+IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
 ```
 
 This will upload the file to PrizmDoc Server, ask PrizmDoc Server to convert the
@@ -27,7 +27,7 @@ PrizmDoc Server, iterate through each of the results and call
 ```csharp
 for (var i=0; i < results.Count(); i++)
 {
-  await results[i].RemoteWorkFile.SaveAsync($"page-{i+1}.png");
+    await results[i].RemoteWorkFile.SaveAsync($"page-{i+1}.png");
 }
 ```
 
@@ -41,27 +41,27 @@ using Accusoft.PrizmDocServer;
 
 namespace Demos
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      MainAsync().GetAwaiter().GetResult();
+        static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
+            var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
+
+            // Take a DOCX file and convert each of its pages to a PNG.
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
+
+            // Save each result to a PNG file.
+            for (var i=0; i < results.Count(); i++)
+            {
+                await results.ElementAt(i).RemoteWorkFile.SaveAsync($"page-{i+1}.png");
+            }
+        }
     }
-
-    static async Task MainAsync()
-    {
-      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
-
-      // Take a DOCX file and convert each of its pages to a PNG.
-      var results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Png);
-
-      // Save each result to a PNG file.
-      for (var i=0; i < results.Count(); i++)
-      {
-        await results.ElementAt(i).RemoteWorkFile.SaveAsync($"page-{i+1}.png");
-      }
-    }
-  }
 }
 ```
 

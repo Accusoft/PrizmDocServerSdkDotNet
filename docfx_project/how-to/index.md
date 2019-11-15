@@ -17,3 +17,5 @@
 [Remove the first page of a document, producing a new PDF.](remove-first-page.md)
 
 [Create a PNG thumbnail of the first page of a document.](thumbnail-first-page.md)
+
+[Automatically create redaction definitions by regex.](create-redactions.md)

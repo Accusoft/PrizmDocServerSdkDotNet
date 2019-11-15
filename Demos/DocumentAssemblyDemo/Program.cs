@@ -24,12 +24,12 @@ namespace Demos
 
             // Take a DOCX file and replace its cover page with a boilerplate cover,
             // append a boilerplate back page, and then produce a new PDF.
-            Result result = await prizmDocServer.CombineToPdfAsync(
+            ConversionResult result = await prizmDocServer.CombineToPdfAsync(
                 new[]
                 {
-                    new SourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
-                    new SourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
-                    new SourceDocument("boilerplate-back-page.pdf"), // end with a boilerplate back page
+                    new ConversionSourceDocument("boilerplate-cover-page.pdf"), // start with a boilerplate cover page
+                    new ConversionSourceDocument("project-proposal.docx", pages: "2-"), // keep all but the first page of the "main" document
+                    new ConversionSourceDocument("boilerplate-back-page.pdf"), // end with a boilerplate back page
                 });
 
             // Save the result to "output.pdf".

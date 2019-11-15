@@ -14,7 +14,7 @@ namespace Accusoft.PrizmDocServer.Tests
 
         public static byte[] ReadFileHeader(string filename, int numBytes)
         {
-            var buffer = new byte[numBytes];
+            byte[] buffer = new byte[numBytes];
 
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {

@@ -17,7 +17,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.docx"), new DestinationOptions(DestinationFileFormat.Pdf)
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.docx"), new DestinationOptions(DestinationFileFormat.Pdf)
                     {
                         PdfOptions = new PdfDestinationOptions()
                         {

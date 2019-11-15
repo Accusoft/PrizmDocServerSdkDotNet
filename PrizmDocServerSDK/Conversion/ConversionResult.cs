@@ -6,12 +6,12 @@ namespace Accusoft.PrizmDocServer.Conversion
     /// <summary>
     /// Represents a conversion result, either a successful result which can be downloaded as a file or an error result if a page or set of pages could not be converted.
     /// </summary>
-    public class Result
+    public class ConversionResult
     {
         private readonly RemoteWorkFile remoteWorkFile;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only used internally.")]
-        internal Result(RemoteWorkFile remoteWorkFile, int pageCount, IEnumerable<SourceDocument> sources)
+        internal ConversionResult(RemoteWorkFile remoteWorkFile, int pageCount, IEnumerable<ConversionSourceDocument> sources)
         {
             if (remoteWorkFile == null)
             {
@@ -29,7 +29,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only used internally.")]
-        internal Result(string errorCode, IEnumerable<SourceDocument> sources)
+        internal ConversionResult(string errorCode, IEnumerable<ConversionSourceDocument> sources)
         {
             this.ErrorCode = errorCode;
             this.Sources = sources;
@@ -93,6 +93,6 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// <summary>
         /// Gets the collection of source documents which contributed to this specific result.
         /// </summary>
-        public IEnumerable<SourceDocument> Sources { get; }
+        public IEnumerable<ConversionSourceDocument> Sources { get; }
     }
 }

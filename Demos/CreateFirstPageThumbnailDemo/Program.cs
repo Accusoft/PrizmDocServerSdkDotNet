@@ -33,12 +33,12 @@ namespace Demos
 
             // Extract the first page as an intermediate PDF. We won't ever bother
             // downloading this from PrizmDoc Server.
-            Result tempFirstPagePdf = await prizmDocServer.ConvertToPdfAsync(new SourceDocument("project-proposal.docx", pages: "1"));
+            ConversionResult tempFirstPagePdf = await prizmDocServer.ConvertToPdfAsync(new ConversionSourceDocument("project-proposal.docx", pages: "1"));
 
             // Convert the PDF to PNGs, specifying a max width and height. We'll get
             // back a collection of results, one per page. In our case, there is only
             // one page.
-            IEnumerable<Result> thumbnailPngs = await prizmDocServer.ConvertAsync(new SourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
+            IEnumerable<ConversionResult> thumbnailPngs = await prizmDocServer.ConvertAsync(new ConversionSourceDocument(tempFirstPagePdf.RemoteWorkFile), new DestinationOptions(DestinationFileFormat.Png)
             {
                 PngOptions = new PngDestinationOptions()
                 {

@@ -17,8 +17,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/password.docx"), new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "Password required for SourceDocument (\"documents/password.docx\").");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/password.docx"), new DestinationOptions(DestinationFileFormat.Pdf));
+                }, "Password required for ConversionSourceDocument (\"documents/password.docx\").");
         }
 
         [TestMethod]
@@ -29,8 +29,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/password.docx", password: "wrong"), new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "Invalid password for SourceDocument (\"documents/password.docx\").");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/password.docx", password: "wrong"), new DestinationOptions(DestinationFileFormat.Pdf));
+                }, "Invalid password for ConversionSourceDocument (\"documents/password.docx\").");
         }
 
         [TestMethod]
@@ -42,14 +42,14 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/password.docx"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/password.docx"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "Password required for SourceDocument at index 1 (\"documents/password.docx\").");
+                }, "Password required for ConversionSourceDocument at index 1 (\"documents/password.docx\").");
         }
 
         [TestMethod]
@@ -61,14 +61,14 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/password.docx", password: "wrong"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/password.docx", password: "wrong"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "Invalid password for SourceDocument at index 1 (\"documents/password.docx\").");
+                }, "Invalid password for ConversionSourceDocument at index 1 (\"documents/password.docx\").");
         }
     }
 }

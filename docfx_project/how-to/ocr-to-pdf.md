@@ -19,36 +19,36 @@ text-searchable.
 For example, you can use a single image as input:
 
 ```csharp
-var result = await prizmDocServer.OcrToPdfAsync("scan.jpeg");
+ConversionResult result = await prizmDocServer.OcrToPdfAsync("scan.jpeg");
 ```
 
 You can also use multiple images as input:
 
 ```csharp
-var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
+ConversionResult result = await prizmDocServer.OcrToPdfAsync(new ConversionSourceDocument[]
 {
-  new SourceDocument("page-1-scan.jpeg"),
-  new SourceDocument("page-2-scan.jpeg"),
-  new SourceDocument("page-3-scan.jpeg")
+    new ConversionSourceDocument("page-1-scan.jpeg"),
+    new ConversionSourceDocument("page-2-scan.jpeg"),
+    new ConversionSourceDocument("page-3-scan.jpeg")
 });
 ```
 
 Or you can use a multi-page PDF as input:
 
 ```csharp
-var result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
+ConversionResult result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
 ```
 
 You can even combine these, optionally specifying the specific pages to use for
 a particular file:
 
 ```csharp
-var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
+ConversionResult result = await prizmDocServer.OcrToPdfAsync(new ConversionSourceDocument[]
 {
-  new SourceDocument("boilerplate-cover-page.png"),
-  new SourceDocument("contract.pdf", pages: "2-5"),
-  new SourceDocument("affidavit.tiff"),
-  new SourceDocument("meeting-minutes.jpeg"),
+    new ConversionSourceDocument("boilerplate-cover-page.png"),
+    new ConversionSourceDocument("contract.pdf", pages: "2-5"),
+    new ConversionSourceDocument("affidavit.tiff"),
+    new ConversionSourceDocument("meeting-minutes.jpeg"),
 });
 ```
 
@@ -81,31 +81,31 @@ using Accusoft.PrizmDocServer;
 
 namespace Demos
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      MainAsync().GetAwaiter().GetResult();
+        static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
+            var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
+
+            // OCR an image-only PDF, creating a new PDF:
+            ConversionResult result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
+            await result.RemoteWorkFile.SaveAsync("output.pdf");
+
+            // OCR a collection of JPEG scans, creating a single output PDF:
+            ConversionResult result = await prizmDocServer.OcrToPdfAsync(new ConversionSourceDocument[]
+            {
+                "scan-page-1.jpg",
+                "scan-page-2.jpg",
+                "scan-page-3.jpg"
+            });
+            await result.RemoteWorkFile.SaveAsync("output.pdf");
+        }
     }
-
-    static async Task MainAsync()
-    {
-      var prizmDocServer = new PrizmDocServerClient(/* your connection info */);
-
-      // OCR an image-only PDF, creating a new PDF:
-      var result = await prizmDocServer.OcrToPdfAsync("scanned.pdf");
-      await result.RemoteWorkFile.SaveAsync("output.pdf");
-
-      // OCR a collection of JPEG scans, creating a single output PDF:
-      var result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[]
-      {
-        "scan-page-1.jpg",
-        "scan-page-2.jpg",
-        "scan-page-3.jpg"
-      });
-      await result.RemoteWorkFile.SaveAsync("output.pdf");
-    }
-  }
 }
 ```
 
@@ -116,23 +116,21 @@ wrappers around the lower-level [ConvertAsync] methods. You could achieve the
 same sort of thing with a [ConvertAsync] call like so:
 
 ```csharp
-var results = await prizmDocServer.ConvertAsync("project-proposal.docx", new DestinationOptions(DestinationFileFormat.Pdf)
+IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("project-proposal.docx", new DestinationOptions(DestinationFileFormat.Pdf)
 {
-  PdfOptions = new PdfDestinationOptions
-  {
-    Ocr = new OcrOptions()
+    PdfOptions = new PdfDestinationOptions
     {
-      Language = "english"
+        Ocr = new OcrOptions()
+        {
+            Language = "english"
+        }
     }
-  }
 });
-var result = results.Single();
+ConversionResult result = results.Single();
 ```
 
 See the [PrizmDocServerClient] API reference for more information.
 
 [PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
-[Conversion.Result]: xref:Accusoft.PrizmDocServer.Conversion.Result
-[Result]: xref:Accusoft.PrizmDocServer.Conversion.Result
 [OcrToPdfAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.OcrToPdfAsync(System.String)
-[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.SourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)
+[ConvertAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.ConvertAsync(System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Conversion.ConversionSourceDocument},Accusoft.PrizmDocServer.Conversion.DestinationOptions)

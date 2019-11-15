@@ -27,6 +27,8 @@ namespace Accusoft.PrizmDocServer.Json.Serialization
             Instance.Converters.Add(new Conversion.PngDestinationOptionsConverter());
             Instance.Converters.Add(new Conversion.TiffDestinationOptionsConverter());
             Instance.Converters.Add(new Conversion.HeaderFooterLineConverter());
+
+            Instance.Converters.Add(new Redaction.RegexRedactionMatchRuleConverter());
         }
 
         public static JsonSerializer Instance { get; private set; }

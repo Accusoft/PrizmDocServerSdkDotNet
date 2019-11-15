@@ -14,11 +14,11 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(
-                new List<SourceDocument>
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync(
+                new List<ConversionSourceDocument>
                 {
-                    new SourceDocument("documents/example.docx", pages: "1"),
-                    new SourceDocument("documents/example.docx"),
+                    new ConversionSourceDocument("documents/example.docx", pages: "1"),
+                    new ConversionSourceDocument("documents/example.docx"),
                 },
                 new DestinationOptions(DestinationFileFormat.Pdf));
 
@@ -36,7 +36,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(new SourceDocument("documents/password.docx", password: "open"), new DestinationOptions(DestinationFileFormat.Pdf));
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/password.docx", password: "open"), new DestinationOptions(DestinationFileFormat.Pdf));
 
             Assert.IsNull(results.Single().Sources.Single().Password);
         }

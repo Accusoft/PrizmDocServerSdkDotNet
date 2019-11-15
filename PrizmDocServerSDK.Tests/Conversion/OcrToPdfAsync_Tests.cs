@@ -14,11 +14,11 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task Single_input()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            Result result = await prizmDocServer.OcrToPdfAsync("documents/ocr/chaucer-scan-3-pages.pdf");
+            ConversionResult result = await prizmDocServer.OcrToPdfAsync("documents/ocr/chaucer-scan-3-pages.pdf");
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(3, result.PageCount);
 
-            SourceDocument resultSourceDocument = result.Sources.ToList()[0];
+            ConversionSourceDocument resultSourceDocument = result.Sources.ToList()[0];
             Assert.IsNotNull(resultSourceDocument.RemoteWorkFile);
             Assert.IsNull(resultSourceDocument.Password);
             Assert.AreEqual("1-3", resultSourceDocument.Pages);
@@ -31,12 +31,12 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task Just_the_first_page()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            var sourceDocument = new SourceDocument("documents/ocr/chaucer-scan-3-pages.pdf", pages: "1");
-            Result result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
+            var sourceDocument = new ConversionSourceDocument("documents/ocr/chaucer-scan-3-pages.pdf", pages: "1");
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(1, result.PageCount);
 
-            SourceDocument resultSourceDocument = result.Sources.ToList()[0];
+            ConversionSourceDocument resultSourceDocument = result.Sources.ToList()[0];
             Assert.AreEqual(sourceDocument.RemoteWorkFile, resultSourceDocument.RemoteWorkFile);
             Assert.IsNull(resultSourceDocument.Password);
             Assert.AreEqual("1", resultSourceDocument.Pages);
@@ -49,13 +49,13 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task Multiple_inputs()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            var sourceDocument1 = new SourceDocument("documents/ocr/color.bmp");
-            var sourceDocument2 = new SourceDocument("documents/ocr/text.bmp");
-            Result result = await prizmDocServer.OcrToPdfAsync(new SourceDocument[] { sourceDocument1, sourceDocument2 });
+            var sourceDocument1 = new ConversionSourceDocument("documents/ocr/color.bmp");
+            var sourceDocument2 = new ConversionSourceDocument("documents/ocr/text.bmp");
+            ConversionResult result = await prizmDocServer.OcrToPdfAsync(new ConversionSourceDocument[] { sourceDocument1, sourceDocument2 });
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(2, result.PageCount);
 
-            List<SourceDocument> resultSourceDocuments = result.Sources.ToList();
+            List<ConversionSourceDocument> resultSourceDocuments = result.Sources.ToList();
 
             Assert.AreEqual(sourceDocument1.RemoteWorkFile, resultSourceDocuments[0].RemoteWorkFile);
             Assert.IsNull(resultSourceDocuments[0].Password);

@@ -17,8 +17,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "wat"), new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "SourceDocument (\"documents/example.pdf\") has an invalid value for \"pages\". A valid pages value is a string like \"1\", \"1,3,5-10\", or \"2-\" (just like in a print dialog).");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.pdf", pages: "wat"), new DestinationOptions(DestinationFileFormat.Pdf));
+                }, "ConversionSourceDocument (\"documents/example.pdf\") has an invalid value for \"pages\". A valid pages value is a string like \"1\", \"1,3,5-10\", or \"2-\" (just like in a print dialog).");
         }
 
         [TestMethod]
@@ -30,14 +30,14 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.pdf", pages: "wat"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf", pages: "wat"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf));
-                }, "SourceDocument at index 1 (\"documents/example.pdf\") has an invalid value for \"pages\". A valid pages value is a string like \"1\", \"1,3,5-10\", or \"2-\" (just like in a print dialog).");
+                }, "ConversionSourceDocument at index 1 (\"documents/example.pdf\") has an invalid value for \"pages\". A valid pages value is a string like \"1\", \"1,3,5-10\", or \"2-\" (just like in a print dialog).");
         }
     }
 }

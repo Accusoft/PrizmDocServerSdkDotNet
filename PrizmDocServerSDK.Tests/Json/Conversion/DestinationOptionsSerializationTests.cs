@@ -3,19 +3,21 @@ using Accusoft.PrizmDocServer.Conversion;
 using Accusoft.PrizmDocServer.Json.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Accusoft.PrizmDocServer.Json.Tests
+namespace Accusoft.PrizmDocServer.Json.Conversion.Tests
 {
     [TestClass]
-    public class ConversionOptionsSerializationTests
+    public class DestinationOptionsSerializationTests
     {
         [TestMethod]
         public void Can_serialize_a_minimal_instance()
         {
             var options = new DestinationOptions(DestinationFileFormat.Pdf);
 
-            var stringWriter = new StringWriter();
-            PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
-            Assert.AreEqual("{\"format\":\"pdf\"}", stringWriter.ToString());
+            using (var stringWriter = new StringWriter())
+            {
+                PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
+                Assert.AreEqual("{\"format\":\"pdf\"}", stringWriter.ToString());
+            }
         }
 
         [TestMethod]
@@ -33,9 +35,11 @@ namespace Accusoft.PrizmDocServer.Json.Tests
                 },
             };
 
-            var stringWriter = new StringWriter();
-            PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
-            Assert.AreEqual("{\"format\":\"pdf\",\"pdfOptions\":{\"forceOneFilePerPage\":true,\"ocr\":{\"language\":\"english\",\"defaultDpi\":{\"x\":72,\"y\":120}}}}", stringWriter.ToString());
+            using (var stringWriter = new StringWriter())
+            {
+                PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
+                Assert.AreEqual("{\"format\":\"pdf\",\"pdfOptions\":{\"forceOneFilePerPage\":true,\"ocr\":{\"language\":\"english\",\"defaultDpi\":{\"x\":72,\"y\":120}}}}", stringWriter.ToString());
+            }
         }
 
         [TestMethod]
@@ -64,9 +68,11 @@ namespace Accusoft.PrizmDocServer.Json.Tests
                 },
             };
 
-            var stringWriter = new StringWriter();
-            PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
-            Assert.AreEqual("{\"format\":\"pdf\",\"jpegOptions\":{\"maxWidth\":\"640px\",\"maxHeight\":\"480px\"},\"pdfOptions\":{\"forceOneFilePerPage\":true,\"ocr\":{\"language\":\"russian\",\"defaultDpi\":{\"x\":72,\"y\":120}}},\"pngOptions\":{\"maxWidth\":\"800px\",\"maxHeight\":\"600px\"}}", stringWriter.ToString());
+            using (var stringWriter = new StringWriter())
+            {
+                PrizmDocRestApiJsonSerializer.Instance.Serialize(stringWriter, options);
+                Assert.AreEqual("{\"format\":\"pdf\",\"jpegOptions\":{\"maxWidth\":\"640px\",\"maxHeight\":\"480px\"},\"pdfOptions\":{\"forceOneFilePerPage\":true,\"ocr\":{\"language\":\"russian\",\"defaultDpi\":{\"x\":72,\"y\":120}}},\"pngOptions\":{\"maxWidth\":\"800px\",\"maxHeight\":\"600px\"}}", stringWriter.ToString());
+            }
         }
     }
 }

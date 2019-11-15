@@ -14,27 +14,27 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task With_local_file_path()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Svg);
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("documents/example.docx", DestinationFileFormat.Svg);
             Assert.AreEqual(2, results.Count(), "Wrong number of results");
 
             await this.AssertSinglePageSvgResultsAsync(results);
         }
 
-        private async Task AssertSinglePageSvgResultsAsync(IEnumerable<Result> results, Action<string> customAssertions = null)
+        private async Task AssertSinglePageSvgResultsAsync(IEnumerable<ConversionResult> results, Action<string> customAssertions = null)
         {
             for (int i = 0; i < results.Count(); i++)
             {
-                Result result = results.ElementAt(i);
+                ConversionResult result = results.ElementAt(i);
 
                 Assert.IsTrue(result.IsSuccess);
                 Assert.AreEqual(1, result.PageCount, "Wrong page count for result");
 
-                SourceDocument resultSourceDocument = result.Sources.ToList()[0];
+                ConversionSourceDocument resultSourceDocument = result.Sources.ToList()[0];
                 Assert.IsNotNull(resultSourceDocument.RemoteWorkFile);
                 Assert.IsNull(resultSourceDocument.Password);
                 Assert.AreEqual((i + 1).ToString(), resultSourceDocument.Pages, "Wrong source page range for result");
 
-                var filename = $"page-{i}.svg";
+                string filename = $"page-{i}.svg";
                 await result.RemoteWorkFile.SaveAsync(filename);
                 FileAssert.IsSvg(filename);
 

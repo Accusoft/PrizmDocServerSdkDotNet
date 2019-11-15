@@ -25,7 +25,7 @@ namespace Demos
 
             // Take a DOCX file, append headers and footers to each page (expanding
             // the page size), and convert it to a PDF.
-            var result = await prizmDocServer.ConvertToPdfAsync(
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync(
                 "project-proposal.docx",
                 header: new HeaderFooterOptions
                 {

@@ -6,7 +6,7 @@
     <Authors>Accusoft</Authors>
     <Company>Accusoft</Company>
     <Product />
-    <Version>1.0.0-beta.22</Version>
+    <Version>1.0.0-beta.24</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Copyright © 2019 Accusoft Corporation</Copyright>
     <Description>
@@ -43,6 +43,7 @@
       - Create thumbnail images for document pages
       - Apply headers and footers to documents
       - Apply OCR to produce a text-searchable PDF
+      - Automatically identify text to be redacted by regex
 
       We will continue to expose more functionality in future beta releases.
       During the beta, the API surface may change from beta release to beta
@@ -100,7 +101,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="PrizmDocRestClient" Version="1.0.0-beta.3" />
+    <PackageReference Include="PrizmDocRestClient" Version="1.0.0-beta.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

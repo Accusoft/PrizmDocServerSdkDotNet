@@ -47,13 +47,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 .WithBody("{\"input\":{\"dest\":{\"format\":\"pdf\",\"pdfOptions\":{\"forceOneFilePerPage\":false}},\"sources\":[{\"fileId\":\"ML3AbF-qzIH5K9mVVxTlBX\",\"pages\":\"\"}]},\"minSecondsAvailable\":18000,\"errorCode\":\"WorkFileDoesNotExist\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.sources[0].fileId\"}}"));
 
             var originalRemoteWorkFile = new RemoteWorkFile(null, "ML3AbF-qzIH5K9mVVxTlBX", "FCnaLL517YPRAnrcX2wlnKURpNPsp2d2pMPkcvCcpdY=", "docx");
-            var originalConversionInput = new SourceDocument(originalRemoteWorkFile);
+            var originalConversionInput = new ConversionSourceDocument(originalRemoteWorkFile);
 
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
             {
                 await prizmDocServer.ConvertAsync(originalConversionInput, new DestinationOptions(DestinationFileFormat.Pdf));
-            }, "SourceDocument refers to a remote work file which does not exist. It may have expired.");
+            }, "ConversionSourceDocument refers to a remote work file which does not exist. It may have expired.");
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             var remoteWorkFile1 = new RemoteWorkFile(null, "S5uCdv7vnkTRzKKlTvhtaw", "FCnaLL517YPRAnrcX2wlnKURpNPsp2d2pMPkcvCcpdY=", "docx");
             var remoteWorkFile2 = new RemoteWorkFile(null, "5J15gtlduA_xORR8j7ejSg", "FCnaLL517YPRAnrcX2wlnKURpNPsp2d2pMPkcvCcpdY=", "docx");
 
-            var input0 = new SourceDocument(remoteWorkFile0);
-            var input1 = new SourceDocument(remoteWorkFile1, pages: "2-");
-            var input2 = new SourceDocument(remoteWorkFile2);
+            var input0 = new ConversionSourceDocument(remoteWorkFile0);
+            var input1 = new ConversionSourceDocument(remoteWorkFile1, pages: "2-");
+            var input2 = new ConversionSourceDocument(remoteWorkFile2);
 
             mockServer
               .Given(Request.Create().WithPath("/v2/contentConverters").UsingPost())
@@ -78,12 +78,12 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
             {
                 await prizmDocServer.ConvertAsync(
-                    new List<SourceDocument>
+                    new List<ConversionSourceDocument>
                     {
                         input0, input1, input2,
                     },
                     new DestinationOptions(DestinationFileFormat.Pdf));
-            }, "SourceDocument at index 1 refers to a remote work file which does not exist. It may have expired.");
+            }, "ConversionSourceDocument at index 1 refers to a remote work file which does not exist. It may have expired.");
         }
     }
 }

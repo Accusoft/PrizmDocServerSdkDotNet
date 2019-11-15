@@ -14,20 +14,20 @@ namespace Accusoft.PrizmDocServer.Conversion
     /// Typically, you create a source document from a local file path, like this:
     ///
     /// <code>
-    /// var sourceDocument = new SourceDocument("my-local-file.docx");
+    /// var sourceDocument = new ConversionSourceDocument("my-local-file.docx");
     /// </code>
     ///
     /// You can optionally specify a specific set of pages to use:
     ///
     /// <code>
-    /// var sourceDocument = new SourceDocument("my-local-file.docx", pages: "2, 5-9, 14-");
+    /// var sourceDocument = new ConversionSourceDocument("my-local-file.docx", pages: "2, 5-9, 14-");
     /// </code>
     ///
     /// And, if the document is password-protected, you can optionally specify the
     /// password required to open it:
     ///
     /// <code>
-    /// var sourceDocument = new SourceDocument("secret.docx", password: "opensesame");
+    /// var sourceDocument = new ConversionSourceDocument("secret.docx", password: "opensesame");
     /// </code>
     ///
     /// Finally, you can create a source document from an already-existing remote
@@ -35,16 +35,16 @@ namespace Accusoft.PrizmDocServer.Conversion
     ///
     /// <code>
     /// var result = await prizmDocServer.ConvertToPdfAsync("my-local-file.docx");
-    /// var sourceDocument = new SourceDocument(result.RemoteWorkFile);
+    /// var sourceDocument = new ConversionSourceDocument(result.RemoteWorkFile);
     /// </code>
     ///
     /// In this way, you can use the results of one operation as input to a
     /// subsequent operation without needing to download the intermediate results.
     /// </summary>
-    public class SourceDocument
+    public class ConversionSourceDocument
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SourceDocument"/> class for a local file.
+        /// Initializes a new instance of the <see cref="ConversionSourceDocument"/> class for a local file.
         /// </summary>
         /// <param name="localFilePath">Local file to use as a source document.</param>
         /// <param name="pages">When provided, causes the conversion to only use a specified set of pages from the source document.
@@ -56,7 +56,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// or a combination of these, like <c>"2, 4-9, 12-"</c>.
         /// </param>
         /// <param name="password">Password to open the document. Only required if the document requires a password to open.</param>
-        public SourceDocument(string localFilePath, string pages = null, string password = null)
+        public ConversionSourceDocument(string localFilePath, string pages = null, string password = null)
         {
             this.LocalFilePath = localFilePath;
             this.Pages = pages;
@@ -64,7 +64,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SourceDocument"/> class for an existing remote work file.
+        /// Initializes a new instance of the <see cref="ConversionSourceDocument"/> class for an existing remote work file.
         /// </summary>
         /// <param name="remoteWorkFile">Remote work file to use as a source document.</param>
         /// <param name="pages">When provided, causes the conversion to only use a specified set of pages from the source document.
@@ -76,7 +76,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// or a combination of these, like <c>"2, 4-9, 12-"</c>.
         /// </param>
         /// <param name="password">Password to open the document. Only required if the document requires a password to open.</param>
-        public SourceDocument(RemoteWorkFile remoteWorkFile, string pages = null, string password = null)
+        public ConversionSourceDocument(RemoteWorkFile remoteWorkFile, string pages = null, string password = null)
         {
             if (remoteWorkFile == null)
             {
@@ -131,9 +131,10 @@ namespace Accusoft.PrizmDocServer.Conversion
                     return;
                 }
 
-                // If the remote work file exists but has the wrong affinity (it is on
-                // the wrong machine), then download and re-upload it to the correct
-                // machine, and assign the new RemoteWorkFile to this SourceDocument.
+                // If the remote work file exists but has the wrong affinity (it
+                // is on the wrong machine), then download and re-upload it to
+                // the correct machine, and assign the new RemoteWorkFile to
+                // this ConversionSourceDocument.
                 using (HttpResponseMessage res = await this.RemoteWorkFile.HttpGetAsync())
                 {
                     await res.ThrowIfRestApiError();

@@ -28,6 +28,7 @@ subset of PrizmDoc Server functionality:</p>
 <li>Create thumbnail images for document pages</li>
 <li>Apply headers and footers to documents</li>
 <li>Apply OCR to produce a text-searchable PDF</li>
+<li>Automatically identify text to be redacted by regex</li>
 </ul>
 <p>We will continue to expose more functionality in future beta releases.
 During the beta, the API surface may change from beta release to beta

@@ -16,8 +16,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Png));
-                }, "When converting a CAD SourceDocument to PNG, you must specify PngOptions.MaxWidth or PngOptions.MaxHeight.");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Png));
+                }, "When converting a CAD ConversionSourceDocument to PNG, you must specify PngOptions.MaxWidth or PngOptions.MaxHeight.");
         }
 
         [TestMethod]
@@ -28,8 +28,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Jpeg));
-                }, "When converting a CAD SourceDocument to JPEG, you must specify JpegOptions.MaxWidth or JpegOptions.MaxHeight.");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Jpeg));
+                }, "When converting a CAD ConversionSourceDocument to JPEG, you must specify JpegOptions.MaxWidth or JpegOptions.MaxHeight.");
         }
 
         [TestMethod]
@@ -40,8 +40,8 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Tiff));
-                }, "When converting a CAD SourceDocument to TIFF, you must specify TiffOptions.MaxWidth or TiffOptions.MaxHeight.");
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.dwg"), new DestinationOptions(DestinationFileFormat.Tiff));
+                }, "When converting a CAD ConversionSourceDocument to TIFF, you must specify TiffOptions.MaxWidth or TiffOptions.MaxHeight.");
         }
     }
 }

@@ -13,11 +13,11 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task With_local_file_path()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            Result result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx");
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx");
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(2, result.PageCount);
 
-            SourceDocument resultSourceDocument = result.Sources.ToList()[0];
+            ConversionSourceDocument resultSourceDocument = result.Sources.ToList()[0];
             Assert.IsNotNull(resultSourceDocument.RemoteWorkFile);
             Assert.IsNull(resultSourceDocument.Password);
             Assert.AreEqual("1-2", resultSourceDocument.Pages);
@@ -30,12 +30,12 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task Just_the_first_page()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            SourceDocument sourceDocument = new SourceDocument("documents/example.docx", pages: "1");
-            Result result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
+            ConversionSourceDocument sourceDocument = new ConversionSourceDocument("documents/example.docx", pages: "1");
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync(sourceDocument);
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual(1, result.PageCount);
 
-            SourceDocument resultSourceDocument = result.Sources.ToList()[0];
+            ConversionSourceDocument resultSourceDocument = result.Sources.ToList()[0];
             Assert.AreEqual(sourceDocument.RemoteWorkFile, resultSourceDocument.RemoteWorkFile);
             Assert.IsNull(resultSourceDocument.Password);
             Assert.AreEqual("1", resultSourceDocument.Pages);
@@ -48,7 +48,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task With_header()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            Result result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", header: new HeaderFooterOptions()
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", header: new HeaderFooterOptions()
             {
                 Lines = new List<HeaderFooterLine>()
                 {
@@ -74,7 +74,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task With_footer()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            Result result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", footer: new HeaderFooterOptions()
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync("documents/example.docx", footer: new HeaderFooterOptions()
             {
                 Lines = new List<HeaderFooterLine>()
         {
@@ -100,7 +100,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         public async Task With_header_and_footer()
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            Result result = await prizmDocServer.ConvertToPdfAsync(
+            ConversionResult result = await prizmDocServer.ConvertToPdfAsync(
                 "documents/example.docx",
                 header: new HeaderFooterOptions()
                 {

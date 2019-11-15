@@ -47,7 +47,7 @@ namespace Accusoft.PrizmDocServer
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task SaveAsync(string localFilePath)
         {
-            using (FileStream localFileWriteStream = File.OpenWrite(localFilePath))
+            using (FileStream localFileWriteStream = File.Open(localFilePath, FileMode.Create))
             {
                 await this.CopyToAsync(localFileWriteStream);
             }

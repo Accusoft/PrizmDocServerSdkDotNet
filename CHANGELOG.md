@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 1.0.0-beta.24 - 2019-11-13
+
+### Added
+
+- CreateRedactionsAsync methods.
+
+### Changed
+
+- In the `Accusoft.PrizmDocServer.Conversion` namespace:
+  - Renamed class `SourceDocument` to `ConversionSourceDocument`.
+  - Renamed class `Result` to `ConversionResult`.
+- Fixed a bug in `RemoteWorkFile.SaveAsync` where it did not properly replace an
+  existing file.
+
+## 1.0.0-beta.23 - 2019-11-05
+
+Internal refactoring. No changes to the API or functionality.
+
 ## 1.0.0-beta.22 - 2019-11-05
 
 Require all builds pass StyleCop.Analyzer rules.

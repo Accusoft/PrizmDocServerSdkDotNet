@@ -15,9 +15,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-            var sourceDocument = new SourceDocument("documents/example.pdf", pages: "97-99");
+            var sourceDocument = new ConversionSourceDocument("documents/example.pdf", pages: "97-99");
 
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(sourceDocument, new DestinationOptions(DestinationFileFormat.Pdf)
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync(sourceDocument, new DestinationOptions(DestinationFileFormat.Pdf)
             {
                 PdfOptions = new PdfDestinationOptions()
                 {
@@ -37,12 +37,12 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
-            var source1 = new SourceDocument("documents/example.pdf");
-            var source2 = new SourceDocument("documents/example.pdf", pages: "97-99");
-            var source3 = new SourceDocument("documents/example.pdf");
+            var source1 = new ConversionSourceDocument("documents/example.pdf");
+            var source2 = new ConversionSourceDocument("documents/example.pdf", pages: "97-99");
+            var source3 = new ConversionSourceDocument("documents/example.pdf");
 
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(
-                new List<SourceDocument>
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync(
+                new List<ConversionSourceDocument>
                 {
                     source1,
                     source2,
@@ -67,7 +67,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             AssertSuccessResult(results.ElementAt(6), "2", source3);
         }
 
-        private static void AssertSuccessResult(Result result, string expectedPagesValue, SourceDocument associatedSourceDocument, int expectedPageCount = 1)
+        private static void AssertSuccessResult(ConversionResult result, string expectedPagesValue, ConversionSourceDocument associatedSourceDocument, int expectedPageCount = 1)
         {
             Assert.IsTrue(result.IsSuccess);
             Assert.IsFalse(result.IsError);
@@ -79,7 +79,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             Assert.AreEqual(associatedSourceDocument.RemoteWorkFile.FileExtension, result.Sources.ElementAt(0).RemoteWorkFile.FileExtension);
         }
 
-        private static void AssertErrorResult(Result result, string expectedErrorCode, string expectedPagesValue, SourceDocument associatedSourceDocument)
+        private static void AssertErrorResult(ConversionResult result, string expectedErrorCode, string expectedPagesValue, ConversionSourceDocument associatedSourceDocument)
         {
             Assert.IsFalse(result.IsSuccess);
             Assert.IsTrue(result.IsError);

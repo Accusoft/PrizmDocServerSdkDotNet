@@ -37,11 +37,11 @@ namespace Accusoft.PrizmDocServer.Tests
         public static async Task<IEnumerable<ImageDimensions>> GetTiffPagesDimensionsAsync(string filename)
         {
             PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
-            IEnumerable<Result> results = await prizmDocServer.ConvertAsync(filename, DestinationFileFormat.Png);
+            IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync(filename, DestinationFileFormat.Png);
 
             IList<ImageDimensions> pageDimensions = new List<ImageDimensions>();
 
-            foreach (Result result in results)
+            foreach (ConversionResult result in results)
             {
                 using (var memoryStream = new MemoryStream())
                 {

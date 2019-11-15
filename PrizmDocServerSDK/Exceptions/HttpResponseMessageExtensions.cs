@@ -9,7 +9,7 @@ namespace Accusoft.PrizmDocServer.Exceptions
     {
         internal static async Task ThrowIfRestApiError(this HttpResponseMessage response)
         {
-            var err = await ErrorData.From(response);
+            ErrorData err = await ErrorData.From(response);
             if (err != null)
             {
                 throw new RestApiErrorException(err);

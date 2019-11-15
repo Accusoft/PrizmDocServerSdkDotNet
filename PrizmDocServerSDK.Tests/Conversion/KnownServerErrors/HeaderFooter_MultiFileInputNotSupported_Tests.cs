@@ -18,11 +18,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf)
                         {
@@ -34,7 +34,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                                 },
                             },
                         });
-                }, "Remote server does not support applying headers or footers when using multiple SourceDocument instances. To apply headers or footers, use a single SourceDocument instance.");
+                }, "Remote server does not support applying headers or footers when using multiple ConversionSourceDocument instances. To apply headers or footers, use a single ConversionSourceDocument instance.");
         }
 
         [TestMethod]
@@ -46,11 +46,11 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                 async () =>
                 {
                     await prizmDocServer.ConvertAsync(
-                        new List<SourceDocument>
+                        new List<ConversionSourceDocument>
                         {
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.pdf"),
-                            new SourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
+                            new ConversionSourceDocument("documents/example.pdf"),
                         },
                         new DestinationOptions(DestinationFileFormat.Pdf)
                         {
@@ -62,7 +62,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                                 },
                             },
                         });
-                }, "Remote server does not support applying headers or footers when using multiple SourceDocument instances. To apply headers or footers, use a single SourceDocument instance.");
+                }, "Remote server does not support applying headers or footers when using multiple ConversionSourceDocument instances. To apply headers or footers, use a single ConversionSourceDocument instance.");
         }
     }
 }

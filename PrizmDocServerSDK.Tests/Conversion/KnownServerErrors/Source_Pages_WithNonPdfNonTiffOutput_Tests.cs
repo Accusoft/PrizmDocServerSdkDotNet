@@ -22,7 +22,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.docx", pages: "1"), DestinationFileFormat.Png);
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.docx", pages: "1"), DestinationFileFormat.Png);
                 }, $"Remote server does not support taking only specific pages of a source document when the destination type is PNG.");
         }
     }

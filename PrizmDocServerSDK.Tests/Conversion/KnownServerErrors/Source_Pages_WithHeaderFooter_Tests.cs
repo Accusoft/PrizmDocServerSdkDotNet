@@ -17,7 +17,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
                     {
                         Header = new HeaderFooterOptions()
                         {
@@ -27,7 +27,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                             },
                         },
                     });
-                }, "Remote server does not support applying headers or footers when \"pages\" is specified for a SourceDocument.");
+                }, "Remote server does not support applying headers or footers when \"pages\" is specified for a ConversionSourceDocument.");
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
                 async () =>
                 {
-                    await prizmDocServer.ConvertAsync(new SourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
+                    await prizmDocServer.ConvertAsync(new ConversionSourceDocument("documents/example.pdf", pages: "2-"), new DestinationOptions(DestinationFileFormat.Pdf)
                     {
                         Footer = new HeaderFooterOptions()
                         {
@@ -48,7 +48,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
                             },
                         },
                     });
-                }, "Remote server does not support applying headers or footers when \"pages\" is specified for a SourceDocument.");
+                }, "Remote server does not support applying headers or footers when \"pages\" is specified for a ConversionSourceDocument.");
         }
     }
 }

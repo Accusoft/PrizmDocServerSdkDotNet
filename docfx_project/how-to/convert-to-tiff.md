@@ -25,7 +25,7 @@ download the output TIFF from PrizmDoc Server, call `SaveAsync` on the single
 result:
 
 ```csharp
-await results.Single().RemoteWorkFile.SaveAsync("output.pdf");
+await results.Single().RemoteWorkFile.SaveAsync("output.tiff");
 ```
 
 Or, if you'd prefer instead to download the bytes to a stream, call
@@ -59,8 +59,8 @@ namespace Demos
             // Take a DOCX file and convert it to a TIFF.
             IEnumerable<ConversionResult> results = await prizmDocServer.ConvertAsync("project-proposal.docx", DestinationFileFormat.Tiff);
 
-            // Save the result to "output.pdf".
-            await results.Single().RemoteWorkFile.SaveAsync("output.pdf");
+            // Save the result to "output.tiff".
+            await results.Single().RemoteWorkFile.SaveAsync("output.tiff");
         }
     }
 }

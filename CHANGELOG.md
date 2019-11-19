@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0-beta.25 - 2019-11-19
+
+Documentation corrections. No changes to the SDK itself.
+
 ## 1.0.0-beta.24 - 2019-11-13
 
 ### Added

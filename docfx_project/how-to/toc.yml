@@ -16,3 +16,5 @@
   href: remove-first-page.md
 - name: "Thumbnail First Page"
   href: thumbnail-first-page.md
+- name: "Create Redaction Definitions"
+  href: create-redactions.md

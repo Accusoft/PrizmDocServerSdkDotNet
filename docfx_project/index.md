@@ -19,16 +19,11 @@ PrizmDoc Server is a powerful document processing engine you can use to:
 - Search for text in a document
 
 <div class="warning">
-<p><b>NOTE:</b> This beta version of the PrizmDoc Server .NET SDK only exposes a
-subset of PrizmDoc Server functionality:</p>
+<p><b>NOTE:</b> This beta version of the PrizmDoc Server .NET SDK. Some functionality is not yet available:</p>
 <ul>
-<li>Convert documents to PDF, TIFF, JPEG, PNG, or SVG</li>
-<li>Combine documents to PDF or TIFF</li>
-<li>Extract pages from documents</li>
-<li>Create thumbnail images for document pages</li>
-<li>Apply headers and footers to documents</li>
-<li>Apply OCR to produce a text-searchable PDF</li>
-<li>Automatically identify text to be redacted by regex</li>
+<li>Redact to plain text</li>
+<li>Identify form fields in PDFs or images</li>
+<li>Search for text in a document</li>
 </ul>
 <p>We will continue to expose more functionality in future beta releases.
 During the beta, the API surface may change from beta release to beta

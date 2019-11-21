@@ -1,20 +1,36 @@
-- name: "Convert a File to PDF"
-  href: convert-to-pdf.md
-- name: "Convert a File to TIFF"
-  href: convert-to-tiff.md
-- name: "Convert Pages to PNGs"
-  href: convert-pages-to-pngs.md
-- name: "Convert Pages to JPEGs"
-  href: convert-pages-to-jpegs.md
-- name: "OCR to PDF"
-  href: ocr-to-pdf.md
-- name: "Apply Headers and Footers"
-  href: headers-and-footers-pdf.md
-- name: "Combine to PDF"
-  href: combine-to-pdf.md
-- name: "Remove First Page"
-  href: remove-first-page.md
-- name: "Thumbnail First Page"
-  href: thumbnail-first-page.md
-- name: "Create Redaction Definitions"
-  href: create-redactions.md
+- name: Conversion
+  items:
+  - name: "Convert a File to PDF"
+    href: convert-to-pdf.md
+  - name: "Convert a File to TIFF"
+    href: convert-to-tiff.md
+  - name: "Convert Pages to PNGs"
+    href: convert-pages-to-pngs.md
+  - name: "Convert Pages to JPEGs"
+    href: convert-pages-to-jpegs.md
+- name: OCR
+  items:
+  - name: "OCR to PDF"
+    href: ocr-to-pdf.md
+- name: Headers & Footers
+  items:
+  - name: "Apply Headers and Footers"
+    href: headers-and-footers-pdf.md
+- name: Document Assembly
+  items:
+  - name: "Combine to PDF"
+    href: combine-to-pdf.md
+  - name: "Remove First Page"
+    href: remove-first-page.md
+- name: Thumbnailing
+  items:
+  - name: "Thumbnail First Page"
+    href: thumbnail-first-page.md
+- name: Redaction
+  items:
+  - name: "Create a redacted PDF"
+    href: redact-to-pdf.md
+- name: Markup
+  items:
+  - name: "Burn in markup"
+    href: burn-markup.md

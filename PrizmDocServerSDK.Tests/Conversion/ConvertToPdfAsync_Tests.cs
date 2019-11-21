@@ -61,7 +61,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
                 },
             });
 
-            IEnumerable<string> pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
+            string[] pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
             foreach (string page in pagesText)
             {
                 StringAssert.Contains(page, "Top Left");
@@ -87,7 +87,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         },
             });
 
-            IEnumerable<string> pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
+            string[] pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
             foreach (string page in pagesText)
             {
                 StringAssert.Contains(page, "Bottom Left");
@@ -127,7 +127,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
                     },
                 });
 
-            IEnumerable<string> pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
+            string[] pagesText = await TextUtil.ExtractPagesText(result.RemoteWorkFile);
             foreach (string page in pagesText)
             {
                 StringAssert.Contains(page, "Top Left");

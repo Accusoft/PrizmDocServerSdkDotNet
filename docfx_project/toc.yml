@@ -1,6 +1,6 @@
 - name: Getting Started
   href: index.md
-- name: How To
+- name: How To Guides
   href: how-to/
   homepage: how-to/index.md
 - name: API Reference

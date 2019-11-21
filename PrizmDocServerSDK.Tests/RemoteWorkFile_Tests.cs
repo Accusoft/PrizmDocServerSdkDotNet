@@ -57,5 +57,34 @@ namespace Accusoft.PrizmDocServer.Tests
                 CollectionAssert.AreEqual(File.ReadAllBytes(INPUT_FILENAME), memoryStream.ToArray());
             }
         }
+
+        [MultiServerTestMethod]
+        public async Task GetInstanceWithAffinity_works()
+        {
+            // Arrange
+            AffinitySession session1 = Util.RestClient.CreateAffinitySession();
+            AffinitySession session2 = Util.RestClient.CreateAffinitySession();
+
+            RemoteWorkFile file1 = await session1.UploadAsync("documents/confidential-contacts.pdf");
+            RemoteWorkFile file2 = await session2.UploadAsync("documents/confidential-contacts.pdf.markup.json");
+
+            Assert.AreNotEqual(file1.AffinityToken, file2.AffinityToken);
+
+            // Act
+            RemoteWorkFile file2Reuploaded = await file2.GetInstanceWithAffinity(session2, file1.AffinityToken);
+
+            // Assert
+            Assert.AreEqual(file2.FileExtension, file2Reuploaded.FileExtension, "The FileExtension was not set correctly after reupload!");
+            Assert.AreEqual(file1.AffinityToken, file2Reuploaded.AffinityToken, "The AffinityToken was not correct after reupload!");
+
+            using (var originalContent = new MemoryStream())
+            using (var reuploadedContent = new MemoryStream())
+            {
+                await file2.CopyToAsync(originalContent);
+                await file2Reuploaded.CopyToAsync(reuploadedContent);
+
+                CollectionAssert.AreEqual(originalContent.ToArray(), reuploadedContent.ToArray());
+            }
+        }
     }
 }

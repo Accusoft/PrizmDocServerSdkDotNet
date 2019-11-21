@@ -116,46 +116,19 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         internal async Task EnsureUsableRemoteWorkFileAsync(AffinitySession affinitySession, string affinityToken = null)
         {
-            if (this.RemoteWorkFile != null)
+            if (this.RemoteWorkFile == null)
             {
-                // If no affinity token was specified, there is nothing to do.
-                if (affinityToken == null)
+                if (!File.Exists(this.LocalFilePath))
                 {
-                    return;
+                    throw new FileNotFoundException($"File not found: {this.LocalFilePath}");
                 }
 
-                // If the RemoteWorkFile already exists and has the correct affinity,
-                // there is nothing to do.
-                if (this.RemoteWorkFile.AffinityToken == affinityToken)
-                {
-                    return;
-                }
-
-                // If the remote work file exists but has the wrong affinity (it
-                // is on the wrong machine), then download and re-upload it to
-                // the correct machine, and assign the new RemoteWorkFile to
-                // this ConversionSourceDocument.
-                using (HttpResponseMessage res = await this.RemoteWorkFile.HttpGetAsync())
-                {
-                    await res.ThrowIfRestApiError();
-                    Stream downloadStream = await res.Content.ReadAsStreamAsync();
-                    this.RemoteWorkFile = await affinitySession.UploadAsync(downloadStream, affinityToken: affinityToken);
-                }
-
-                return;
+                this.RemoteWorkFile = await affinitySession.UploadAsync(this.LocalFilePath, affinityToken: affinityToken);
             }
-
-            // If the RemoteWorkFile does NOT exist, then we need to upload the
-            // specified local file...
-
-            // If there is no actual local file to upload, then fail.
-            if (!File.Exists(this.LocalFilePath))
+            else
             {
-                throw new FileNotFoundException($"File not found: {this.LocalFilePath}");
+                this.RemoteWorkFile = await this.RemoteWorkFile.GetInstanceWithAffinity(affinitySession, affinityToken);
             }
-
-            // Upload the local file using the specified affinity token.
-            this.RemoteWorkFile = await affinitySession.UploadAsync(this.LocalFilePath, affinityToken: affinityToken);
         }
     }
 }

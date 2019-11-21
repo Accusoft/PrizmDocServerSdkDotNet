@@ -129,5 +129,42 @@ namespace Accusoft.PrizmDocServer
         {
             return await this.session.GetAsync($"/PCCIS/V1/WorkFile/{this.FileId}");
         }
+
+        /// <summary>
+        /// Returns a RemoteWorkFile instance with the specified affinity.
+        /// If this instance already has the specified affinity, it will be
+        /// returned. If it does not, it will be downloaded and re-uploaded
+        /// to create a new instance with the proper affinity, and that new
+        /// instance will be returned.
+        /// </summary>
+        /// <param name="affinitySession">Existing affinity session to use in case of re-upload.</param>
+        /// <param name="affinityToken">Existing affinity token which the RemoteWorkFile needs to match.</param>
+        /// <returns>This existing RemoteWorkFile if the AffinityToken matched the provided affinityToken, or a new RemoteWorkFile with the provided affinityToken.</returns>
+        internal async Task<RemoteWorkFile> GetInstanceWithAffinity(AffinitySession affinitySession, string affinityToken = null)
+        {
+            // If no affinity token was specified, there is nothing to do.
+            if (this.AffinityToken == null)
+            {
+                return this;
+            }
+
+            // If this RemoteWorkFile already has the correct affinity, there is
+            // nothing to do.
+            if (this.AffinityToken == affinityToken)
+            {
+                return this;
+            }
+
+            // If this RemoteWorkFile has the wrong affinity (it is on the wrong
+            // machine), then download and re-upload it to the correct machine,
+            // and assign the new RemoteWorkFile to this
+            // ConversionSourceDocument.
+            using (HttpResponseMessage res = await this.HttpGetAsync())
+            {
+                await res.ThrowIfRestApiError();
+                Stream downloadStream = await res.Content.ReadAsStreamAsync();
+                return await affinitySession.UploadAsync(downloadStream, this.FileExtension, affinityToken: affinityToken);
+            }
+        }
     }
 }

@@ -1,31 +1,36 @@
-# How to Automatically Create Redaction Definitions by Regex
+# How to Create a Redacted PDF
 
-With PrizmDoc Server, redacting content is a two-step process:
+With PrizmDoc Server, creating a redacted PDF is a two-step process:
 
-- First, you must _define_ the content which should be redacted. There are two
-  primary ways to do this:
+1. First, you must create a markup JSON file which _defines_ the redactions
+   which should be applied. There are different ways to do this:
 
-  1. A person can _visually and manually_ select regions of text or content to
+   - A person can _visually and manually_ select regions of text or content to
      be redacted using the PrizmDoc Viewer viewer control in a browser. When
      they save their work, it will be persisted as a [markup JSON] file
      containing all of their redaction definitions.
 
-  2. An application can _automatically_ create redaction definitions using
+   - An application can _automatically_ create redaction definitions using
      PrizmDoc Server and a set of regular expressions defining the kinds of text
      in a document which ought to be redacted. The output of this will be a
      [markup JSON] file containing all of the automatically-generated redaction
-     definitions. **_This how to guide explains how to do just this part._**
+     definitions. This is the approach we will take in the guide below.
 
-- Second, Once you have a [markup JSON] file which defines what should be
-  redacted, you use PrizmDoc Server to _burn in_ this markup into a document,
-  producing a new PDF where the content has actually been redacted.
+2. Second, you use PrizmDoc Server to _burn_ the markup JSON into a document,
+   producing a new PDF where the content has actually been redacted.
 
-This guide explains how to automatically generate a [markup JSON] file with
+This guide explains how to 1) automatically generate a [markup JSON] file with
 redaction definitions for a given document and a set of regular expressions
-defining text patterns in that document which ought to be redacted. The result
-is a [markup JSON] file containing the redaction definitions.
+defining text patterns in that document which ought to be redacted and 2) burn
+the [markup JSON] into the original document, producing a new redacted PDF.
 
-## A Simple Example: Finding the Static Text "John Doe"
+## Step 1: Creating a Markup JSON File Defining What Should Be Redacted
+
+You can use the [CreateRedactionsAsync] method to automatically create a markup
+JSON file for a document and a set of regular expression rules defining what
+kinds of text should be redacted.
+
+### A Simple Example: Finding the Static Text "John Doe"
 
 First, create a [PrizmDocServerClient]:
 
@@ -58,7 +63,7 @@ file, call `SaveAsync` on the returned [RemoteWorkFile]:
 await markupJson.SaveAsync("markup.json");
 ```
 
-## A More Dynamic Example: Finding Social Security Numbers
+### A More Dynamic Example: Finding Social Security Numbers
 
 Let's say you wanted to create redaction definitions for all occurrences of text
 which looked like a Social Security Number. The string you pass in to the
@@ -76,7 +81,7 @@ RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("my-docum
 await markupJson.SaveAsync("markup.json");
 ```
 
-## Using Multiple Rules
+### Using Multiple Rules
 
 Of course, you're not limited to using a single regular expression rule. You can pass in as many different rules as you need, like so:
 
@@ -91,13 +96,13 @@ RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("my-docum
 await markupJson.SaveAsync("markup.json");
 ```
 
-## Customizing Redaction Creation Options
+### Customizing Redaction Creation Options
 
 When defining a redaction match rule, you can optionally set the `RedactWith`
 property to an instance of [RedactionCreationOptions], allowing you more control
 over the appearance of the redactions created by this specific rule.
 
-### Redaction Reason
+#### Redaction Reason
 
 It is common to display some sort of phrase in the middle of a redaction box
 explaining why the content was redacted. We call this the redaction _reason_,
@@ -136,7 +141,7 @@ var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d")
 };
 ```
 
-### Redaction Appearance
+#### Redaction Appearance
 
 In addition to the `Reason`, [RedactionCreationOptions] allows you to set other
 properties, such as `FontColor`, `FillColor`, `BorderColor`, and
@@ -149,7 +154,7 @@ var bruceWayneRule = new RegexRedactionMatchRule(@"Bruce Wayne")
     {
         Reason = "(b)(1)",
         FontColor = "#FDE311", // Use "batman yellow" color for the reason text.
-        FillColor = "#080808", // Use a near-black background color.
+        FillColor = "#000080", // Use a dark blue fill color.
         BorderColor = "#000000", // Use pure black border color.
         BorderThickness = 2 // Make the border 2-pixels thick.
     },
@@ -158,7 +163,7 @@ var bruceWayneRule = new RegexRedactionMatchRule(@"Bruce Wayne")
 
 See the [RedactionCreationOptions] class for more information.
 
-### Attaching Arbitrary Data
+#### Attaching Arbitrary Data
 
 Finally, you can use the `Data` property of [RedactionCreationOptions] to define
 your own set of key/value string pairs which will be attached to every redaction
@@ -182,6 +187,34 @@ var johnDoeRule = new RegexRedactionMatchRule(@"John Doe")
 Then, when inspecting the output [markup JSON], you would find that every
 redaction created by this rule would contain a `data` property with the given
 `user-id` and `age`.
+
+## Step 2: Burning In the Markup, Producing a Redacted PDF
+
+To burn your redactions into a document, simply call [BurnMarkupAsync]
+providing 1) the original document and 2) the markup JSON file which defines the
+areas to be redacted:
+
+```csharp
+RemoteWorkFile result = await prizmDocServer.BurnMarkupAsync("original.pdf", markupJson);
+```
+
+This will ask PrizmDoc Server to burn the markup into the document, producing a
+new redacted PDF, and then return once the burning process is complete.
+
+The returned result is just _metadata_ about the output; the actual redacted PDF
+has not been downloaded yet. To actually download the redacted PDF from PrizmDoc
+Server, call `SaveAsync` on the returned result:
+
+```csharp
+await result.RemoteWorkFile.SaveAsync("redacted.pdf");
+```
+
+Or, if you'd prefer instead to download the bytes to a stream, call
+`result.RemoteWorkFile.CopyToAsync`:
+
+```csharp
+await result.RemoteWorkFile.CopyToAsync(myStream);
+```
 
 ## Complete Example
 
@@ -238,9 +271,9 @@ namespace Demos
                 {
                     Reason = "(b)(1)",
                     FontColor = "#FDE311",
-                    FillColor = "#080808",
+                    FillColor = "#000080",
                     BorderColor = "#000000",
-                    BorderThickness = 1,
+                    BorderThickness = 2,
                     Data = new Dictionary<string, string>
                     {
                         { "Generated By", "Acme Redactor Application" },
@@ -252,8 +285,14 @@ namespace Demos
 
             var rules = new[] { ssnRule, emailRule, bruceWayneRule };
 
-            RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("confidential-contacts.pdf", rules);
-            await markupJson.SaveAsync("markup.json");
+            // Automatically create markup JSON using the rules above.
+            RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("original.pdf", rules);
+
+            // Burn the redactions defined in the markup JSON into the document, producing a new redacted PDF.
+            RemoteWorkFile redactedPdf = await prizmDocServer.BurnMarkupAsync("original.pdf", markupJson);
+
+            // Download and save the redacted PDF
+            await redactedPdf.SaveAsync("redacted.pdf");
         }
     }
 }
@@ -294,3 +333,5 @@ https://help.accusoft.com/PrizmDoc/latest/HTML/webframe.html#markup-json-specifi
 [CreateRedactionsAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.CreateRedactionsAsync(System.String,System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Redaction.RedactionMatchRule})
 [RedactionCreationOptions]: xref:Accusoft.PrizmDocServer.Redaction.RedactionCreationOptions
 [markup JSON]: #markup-json-specification
+[BurnMarkupAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.BurnMarkupAsync(System.String,System.String)
+[RemoteWorkFile]: xref:Accusoft.PrizmDocServer.RemoteWorkFile

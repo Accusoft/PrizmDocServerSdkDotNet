@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcrDemo", "Demos\OcrDemo\Oc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConvertPagesToPngsDemo", "Demos\ConvertPagesToPngsDemo\ConvertPagesToPngsDemo.csproj", "{AAB06C21-911F-4FCD-AC63-F84CF4D6DB8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateRedactionsByRegex", "Demos\CreateRedactionsByRegex\CreateRedactionsByRegex.csproj", "{6223D11C-8D6C-46C1-8FC5-8F7E8E6666B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateRedactedPdf", "Demos\CreateRedactedPdf\CreateRedactedPdf.csproj", "{6223D11C-8D6C-46C1-8FC5-8F7E8E6666B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

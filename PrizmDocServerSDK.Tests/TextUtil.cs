@@ -13,7 +13,7 @@ namespace Accusoft.PrizmDocServer.Tests
         /// <summary>
         /// Extracts text for each page, returning a string of plain text for each page in a RemoteWorkFile.
         /// </summary>
-        public static async Task<IEnumerable<string>> ExtractPagesText(RemoteWorkFile remoteWorkFile)
+        public static async Task<string[]> ExtractPagesText(RemoteWorkFile remoteWorkFile)
         {
             AffinitySession session = Util.RestClient.CreateAffinitySession();
 
@@ -58,7 +58,7 @@ namespace Accusoft.PrizmDocServer.Tests
             JObject data = JObject.Parse(json);
             JArray pages = (JArray)data["pages"];
 
-            return pages.Select(x => (string)x["text"]).ToList();
+            return pages.Select(x => (string)x["text"]).ToArray();
         }
     }
 }

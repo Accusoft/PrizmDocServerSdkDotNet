@@ -1,21 +1,34 @@
-# How To...
+# How To Guides
 
-[Convert a file to PDF.](convert-to-pdf.md)
+## Conversion
 
-[Convert a file to TIFF.](convert-to-tiff.md)
+- [How to convert a file to PDF.](convert-to-pdf.md)
+- [How to convert a file to TIFF.](convert-to-tiff.md)
+- [How to convert the pages of a file to PNG images.](convert-pages-to-pngs.md)
+- [How to convert the pages of a file to JPEG images.](convert-pages-to-jpegs.md)
 
-[Convert the pages of a file to PNG images.](convert-pages-to-pngs.md)
+## OCR
 
-[Convert the pages of a file to JPEG images.](convert-pages-to-jpegs.md)
+- [How to perform OCR on one or more images and/or PDF files, producing a new text-searchable PDF.](ocr-to-pdf.md)
 
-[Perform OCR on one or more images and/or PDF files, producing a new text-searchable PDF.](ocr-to-pdf.md)
+## Headers & Footers
 
-[Apply headers and footers to a document, producing a new PDF.](headers-and-footers-pdf.md)
+- [How to add headers and footers to each page of a document, producing a new PDF.](headers-and-footers-pdf.md)
 
-[Combine pages from multiple documents into a single new PDF.](combine-to-pdf.md)
+## Document Assembly
 
-[Remove the first page of a document, producing a new PDF.](remove-first-page.md)
+- [How to combine pages from multiple documents into a single new PDF.](combine-to-pdf.md)
+- [How to remove the first page of a document, producing a new PDF.](remove-first-page.md)
 
-[Create a PNG thumbnail of the first page of a document.](thumbnail-first-page.md)
+## Thumbnailing
 
-[Automatically create redaction definitions by regex.](create-redactions.md)
+- [How to create a PNG thumbnail of the first page of a document.](thumbnail-first-page.md)
+
+## Redaction
+
+- [How to create a redacted PDF.](redact-to-pdf.md)
+- How to create a redacted plain text file. (COMING SOON)
+
+## Markup
+
+- [How to "burn in" markup, producing a new PDF.](burn-markup.md)

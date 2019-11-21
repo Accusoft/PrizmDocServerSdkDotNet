@@ -6,7 +6,7 @@
     <Authors>Accusoft</Authors>
     <Company>Accusoft</Company>
     <Product />
-    <Version>1.0.0-beta.25</Version>
+    <Version>1.0.0-beta.26</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Copyright © 2019 Accusoft Corporation</Copyright>
     <Description>
@@ -34,16 +34,11 @@
       - Identify form fields in PDFs or images
       - Search for text in a document
 
-      NOTE: This beta version of the PrizmDoc Server .NET SDK only exposes a
-      subset of PrizmDoc Server functionality:
+      NOTE: This beta version of the PrizmDoc Server .NET SDK. Some functionality is not yet available:
 
-      - Convert documents to PDF, TIFF, JPEG, PNG, or SVG
-      - Combine documents to PDF or TIFF
-      - Extract pages from documents
-      - Create thumbnail images for document pages
-      - Apply headers and footers to documents
-      - Apply OCR to produce a text-searchable PDF
-      - Automatically identify text to be redacted by regex
+      - Redact to plain text
+      - Identify form fields in PDFs or images
+      - Search for text in a document
 
       We will continue to expose more functionality in future beta releases.
       During the beta, the API surface may change from beta release to beta

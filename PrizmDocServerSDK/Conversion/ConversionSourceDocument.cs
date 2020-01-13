@@ -89,22 +89,22 @@ namespace Accusoft.PrizmDocServer.Conversion
         }
 
         /// <summary>
-        /// Gets the local file path associated with this source document or <see langword="null"/> if this source document is not associated with a local file path.
+        /// Gets the local file path associated with this source document or <c>null</c> if this source document is not associated with a local file path.
         /// </summary>
         public string LocalFilePath { get; }
 
         /// <summary>
-        /// Gets the associated <see cref="RemoteWorkFile"/> for this source document or <see langword="null"/> if the remote work file has not yet been created.
+        /// Gets the associated <see cref="RemoteWorkFile"/> for this source document or <c>null</c> if the remote work file has not yet been created.
         /// </summary>
         public RemoteWorkFile RemoteWorkFile { get; private set; }
 
         /// <summary>
-        /// Gets the specific pages which should be used or <see langword="null"/> if the entire document should be used.
+        /// Gets the specific pages which should be used or <c>null</c> if the entire document should be used.
         /// </summary>
         public string Pages { get; }
 
         /// <summary>
-        /// Gets the password to open the document or <see langword="null"/> if no password was provided.
+        /// Gets the password to open the document or <c>null</c> if no password was provided.
         /// </summary>
         internal string Password { get; }
 

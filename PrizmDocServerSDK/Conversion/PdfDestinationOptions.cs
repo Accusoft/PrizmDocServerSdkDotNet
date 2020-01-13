@@ -9,10 +9,10 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// Gets or sets a value indicating whether the output should be
         /// multiple single-page PDFs, one file for each page of content
         /// (instead of a single PDF with multiple pages).
-        /// <value><see langword="true"/> if the output should be multiple PDF
-        /// files, one file for each page of content; <see langword="false"/> if
+        /// <value><c>true</c> if the output should be multiple PDF
+        /// files, one file for each page of content; <c>false</c> if
         /// the output should be a single PDF file with multiple pages. The
-        /// default value is <see langword="false"/>.</value>
+        /// default value is <c>false</c>.</value>
         /// </summary>
         public bool ForceOneFilePerPage { get; set; }
 

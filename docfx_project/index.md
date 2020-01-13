@@ -21,7 +21,6 @@ PrizmDoc Server is a powerful document processing engine you can use to:
 <div class="warning">
 <p><b>NOTE:</b> This beta version of the PrizmDoc Server .NET SDK. Some functionality is not yet available:</p>
 <ul>
-<li>Redact to plain text</li>
 <li>Identify form fields in PDFs or images</li>
 <li>Search for text in a document</li>
 </ul>

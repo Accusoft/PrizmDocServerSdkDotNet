@@ -37,9 +37,9 @@ namespace Accusoft.PrizmDocServer.Conversion
 
         /// <summary>
         /// Gets a value indicating whether this result represents a successfully-produced output document.
-        /// When <see langword="true"/>, this is a successful result and you can use <see cref="RemoteWorkFile"/> to download this particular output file.
-        /// When <see langword="false"/>, this is an error result. See the <see cref="ErrorCode"/> for more information.
-        /// <value><see langword="true"/> if this result was successful and has an associated <see cref="RemoteWorkFile"/>; <see langword="false"/> if
+        /// When <c>true</c>, this is a successful result and you can use <see cref="RemoteWorkFile"/> to download this particular output file.
+        /// When <c>false</c>, this is an error result. See the <see cref="ErrorCode"/> for more information.
+        /// <value><c>true</c> if this result was successful and has an associated <see cref="RemoteWorkFile"/>; <c>false</c> if
         /// this result represents an error and has an associated <see cref="ErrorCode"/>.</value>
         /// </summary>
         public bool IsSuccess
@@ -49,9 +49,9 @@ namespace Accusoft.PrizmDocServer.Conversion
 
         /// <summary>
         /// Gets a value indicating whether this result represents an error.
-        /// When <see langword="true"/>, this is an error result. See the <see cref="ErrorCode"/> for more information.
-        /// When <see langword="false"/>, this is a successful result and you can use <see cref="RemoteWorkFile"/> to download this particular output file.
-        /// <value><see langword="true"/> if this result represents an error and has an associated <see cref="ErrorCode"/>; <see langword="false"/> if
+        /// When <c>true</c>, this is an error result. See the <see cref="ErrorCode"/> for more information.
+        /// When <c>false</c>, this is a successful result and you can use <see cref="RemoteWorkFile"/> to download this particular output file.
+        /// <value><c>true</c> if this result represents an error and has an associated <see cref="ErrorCode"/>; <c>false</c> if
         /// this result was successful and has an associated <see cref="RemoteWorkFile"/>.</value>
         /// </summary>
         public bool IsError
@@ -60,7 +60,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         }
 
         /// <summary>
-        /// Gets the specific error code if this is an error result, or <see langword="null"/> if this is a successful result.
+        /// Gets the specific error code if this is an error result, or <c>null</c> if this is a successful result.
         /// </summary>
         public string ErrorCode { get; }
 
@@ -86,7 +86,7 @@ namespace Accusoft.PrizmDocServer.Conversion
 
         /// <summary>
         /// Gets the total number of pages for a successful result, or
-        /// <see langword="null"/> for an error result.
+        /// <c>null</c> for an error result.
         /// </summary>
         public int? PageCount { get; }
 

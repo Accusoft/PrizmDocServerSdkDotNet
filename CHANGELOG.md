@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.0-beta.27 - 2020-01-08
+
+### Added
+
+- `RedactToPlainTextAsync` methods.
+
 ## 1.0.0-beta.26 - 2019-11-21
 
 ### Added

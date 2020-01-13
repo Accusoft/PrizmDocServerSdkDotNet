@@ -1,5 +1,6 @@
 #pragma warning disable SA1600 // Elements should be documented
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -40,7 +41,13 @@ namespace Accusoft.PrizmDocServer.Exceptions
 
         internal static async Task<ErrorData> From(HttpResponseMessage response)
         {
-            if (response.Content.Headers.ContentType.MediaType != "application/json")
+            if (response == null)
+            {
+                throw new ArgumentNullException("response");
+            }
+
+            if (response.Content.Headers.ContentType == null ||
+                response.Content.Headers.ContentType.MediaType != "application/json")
             {
                 return null;
             }

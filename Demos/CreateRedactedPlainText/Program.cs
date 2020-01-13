@@ -10,8 +10,8 @@ namespace Demos
     /// <summary>
     /// Demo program which 1) automatically generates a set of redaction
     /// definitions for a document based on a set of regular expressions and
-    /// then 2) burns the redaction definitions in, producing a new, redacted
-    /// PDF.
+    /// then 2) uses these redaction definitions to produce a redacted plain
+    /// text form of the source document.
     /// </summary>
     internal class Program
     {
@@ -23,7 +23,7 @@ namespace Demos
         private static async Task MainAsync()
         {
             // Delete any existing output file before we get started.
-            File.Delete("redacted.pdf");
+            File.Delete("redacted.txt");
 
             var prizmDocServer = new PrizmDocServerClient(Environment.GetEnvironmentVariable("BASE_URL"), Environment.GetEnvironmentVariable("API_KEY"));
 
@@ -34,40 +34,50 @@ namespace Demos
 
             // Define a rule which will create a redaction for any text in a
             // document which looks like a social security number (###-##-####),
-            // and use the text "(b)(6)" in the center of the redaction
-            // rectangle as the reason for redaction.
+            // and, for PDF output, use the text "(b)(6)" in the center of the
+            // redaction rectangle as the reason for redaction. NOTE: For plain
+            // text output, the redaction reason will NOT be used. Instead, the
+            // plain text will simply show "<Text Redacted>" for any occurrences
+            // replaced.
             var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d")
             {
                 RedactWith = new RedactionCreationOptions()
                 {
-                    Reason = "(b)(6)",
+                    Reason = "(b)(6)", // NOTE: This will not be used in plain text output.
                 },
             };
 
             // Define a rule which will create a redaction for any text in a
             // document which looks like an email address (this is a very basic
-            // regex, matching things like johndoe@somecompany.com) and use the
-            // text "(b)(6)" in the center of the redaction rectangle as
-            // the reason for redaction.
+            // regex, matching things like johndoe@somecompany.com) and, for PDF
+            // output, use the text "(b)(6)" in the center of the redaction
+            // rectangle as the reason for redaction. NOTE: For plain text
+            // output, the redaction reason will NOT be used. Instead, the plain
+            // text will simply show "<Text Redacted>" for any occurrences
+            // replaced.
             var emailRule = new RegexRedactionMatchRule(@"\S+@\S+\.\S+")
             {
                 RedactWith = new RedactionCreationOptions()
                 {
-                    Reason = "(b)(6)",
+                    Reason = "(b)(6)", // NOTE: This will not be used in plain text output.
                 },
             };
 
             // Define a rule which will create a redaction for all occurrences
-            // of "Bruce Wayne" in a document, use the text "(b)(1)" in the
-            // center of the redaction rectangle as the reason for redaction,
-            // customize various colors used, and attach some arbitrary
-            // key/value string data to all redaction definitions which are
-            // created. This arbitrary data will be present in the output markup
-            // JSON file.
+            // of "Bruce Wayne" in a document and, for PDF output, use the text
+            // "(b)(1)" in the center of the redaction rectangle as the reason
+            // for redaction, customize various colors used, and attach some
+            // arbitrary key/value string data to all redaction definitions
+            // which are created. This arbitrary data will be present in the
+            // output markup JSON file. NOTE: For plain text output, the
+            // redaction reason and custom styling options will NOT be used.
+            // Instead, the output plain text will simply show "<Text Redacted>"
+            // for any occurrences replaced.
             var bruceWayneRule = new RegexRedactionMatchRule(@"Bruce Wayne")
             {
                 RedactWith = new RedactionCreationOptions()
                 {
+                    // NOTE: None of these options will be used in the plain text output.
                     Reason = "(b)(1)",
                     FontColor = "#FDE311",
                     FillColor = "#000080",
@@ -90,17 +100,17 @@ namespace Demos
             // document. Any text in the document which matches one of the regex
             // rules will have a redaction definition created for that portion
             // of the document. The output markup.json file with its redaction
-            // definitions can later be burned into the document.
+            // definitions can later be applied to the document.
             RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("confidential-contacts.pdf", rules);
 
             // -----------------------------------------------------------------
-            // Step 2: Burn the markup JSON into the original document,
-            //         producing a new, redacted PDF.
+            // Step 2: Apply the markup JSON to the original document,
+            //         producing a new, redacted plain text file.
             // -----------------------------------------------------------------
-            RemoteWorkFile redactedPdf = await prizmDocServer.BurnMarkupAsync("confidential-contacts.pdf", markupJson);
+            RemoteWorkFile redactedPlainText = await prizmDocServer.RedactToPlainTextAsync("confidential-contacts.pdf", markupJson, "\n");
 
-            // Save the result to "redacted.pdf"
-            await redactedPdf.SaveAsync("redacted.pdf");
+            // Save the result to "redacted.txt"
+            await redactedPlainText.SaveAsync("redacted.txt");
         }
     }
 }

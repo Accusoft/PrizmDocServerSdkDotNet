@@ -30,6 +30,8 @@
   items:
   - name: "Create a redacted PDF"
     href: redact-to-pdf.md
+  - name: "Create redacted plain text"
+    href: redact-to-plain-text.md
 - name: Markup
   items:
   - name: "Burn in markup"

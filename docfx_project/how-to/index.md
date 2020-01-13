@@ -27,7 +27,7 @@
 ## Redaction
 
 - [How to create a redacted PDF.](redact-to-pdf.md)
-- How to create a redacted plain text file. (COMING SOON)
+- [How to create redacted plain text.](redact-to-plain-text.md)
 
 ## Markup
 

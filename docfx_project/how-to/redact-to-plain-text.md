@@ -1,6 +1,14 @@
-# How to Create a Redacted PDF
+# How to Create Redacted Plain Text
 
-With PrizmDoc Server, creating a redacted PDF is a two-step process:
+Similar to [creating a redacted PDF](redact-to-pdf.md), you can also use
+PrizmDoc Server to create redacted plain text. PrizmDoc Server will extract
+plain text from the source document and then apply all of your redactions to the
+plain text, replacing all portions of redacted content with the string `<Text
+Redacted>` (note that, unlike redacted PDF output, redacted plain text output
+does NOT use the redaction reason specified in the markup JSON).
+
+As with [creating redacted PDF output](redact-to-pdf.md), creating redacted
+plain text is a two-step process:
 
 1. First, you must create a markup JSON file which _defines_ the redactions
    which should be applied. There are different ways to do this:
@@ -16,13 +24,14 @@ With PrizmDoc Server, creating a redacted PDF is a two-step process:
      [markup JSON] file containing all of the automatically-generated redaction
      definitions. This is the approach we will take in the guide below.
 
-2. Second, you use PrizmDoc Server to _burn_ the markup JSON into a document,
-   producing a new PDF where the content has actually been redacted.
+2. Second, you use PrizmDoc Server to _apply_ redactions in your markup JSON to
+   the document to produce redacted plain text.
 
 This guide explains how to 1) automatically generate a [markup JSON] file with
 redaction definitions for a given document and a set of regular expressions
 defining text patterns in that document which ought to be redacted and 2) burn
-the [markup JSON] into the original document, producing a new redacted PDF.
+the [markup JSON] into the original document, producing a new redacted plain
+text file.
 
 ## A Visual Example
 
@@ -37,13 +46,141 @@ confidential contact information:
 
 ### Example Output
 
-Then, imagine we want to redact all social security numbers, email addresses,
-and the name "Bruce Wayne" in the original document, producing a redacted PDF
-whose pages look like this:
+Every occurrence of text which PrizmDoc Server redacts will be replaced with the
+hard-coded string `<Text Redacted>` in the output (note that the visual options
+for redactions, such as the redaction reason, color, and border options, do not
+apply to redacted plain text output).
 
-<img class="sample-document-page" src="../images/redacted-page-1.png" />
+Imagine we want to redact all social security numbers, email addresses, and the
+name "Bruce Wayne" in the original document, producing redacted plain text like
+this:
 
-<img class="sample-document-page" src="../images/redacted-page-2.png" />
+```
+
+Page 1 of 2
+Confidential Contact Information
+
+NOTICE: The following information in confidential and intended only for internal use within
+the Human Resources department. If you find a printed version of this document outside of the
+HR offices, kindly burn it at once.
+
+Name
+Peter Parker
+Position
+Photographer
+SSN
+<Text Redacted>
+Phone
+1 (800) 698-4637
+Email
+<Text Redacted>
+
+Name
+Clark Kent
+Position
+Reporter
+SSN
+<Text Redacted>
+Phone
+1-800-552-7678
+Email
+<Text Redacted>
+
+Name
+<Text Redacted>
+Position
+Chairman and CEO of Wayne Enterprises
+SSN
+<Text Redacted>
+Phone
+(800) 574-9469
+Email
+<Text Redacted>
+
+Name
+Bob Parr
+Position
+Insurance Agent
+SSN
+<Text Redacted>
+Phone
+1 (800) 207-7847
+Email
+<Text Redacted>
+
+Name
+Helen Parr
+Position
+Unknown
+SSN
+<Text Redacted>
+Phone
+n/a
+Email
+<Text Redacted>
+
+Name
+Violet Parr
+Position
+n/a
+SSN
+<Text Redacted>
+Phone
+n/a
+Email
+<Text Redacted>
+
+Name
+Dash Parr
+
+Page 2 of 2
+Position
+n/a
+SSN
+<Text Redacted>
+Phone
+n/a
+Email
+<Text Redacted>
+
+Name
+Jack-Jack Parr
+Position
+n/a
+SSN
+<Text Redacted>
+Phone
+n/a
+Email
+n/a
+
+Name
+Harry James Potter
+Position
+Auror Department Head
+SSN
+<Text Redacted>
+Phone
++44 (0) 1256 302 699
+Email
+<Text Redacted>
+
+
+
+
+
+END OF FILE
+```
+
+_**NOTE:** The visual order of sections on a page may differ in plain text output
+from the original document. This is especially true if the original page uses
+multiple columns, boxes, sections, and the like. PrizmDoc Server will extract
+the sections of text in the order they are defined internally in the document,
+which may differ from the order a person would naturally read them in. In the
+example above, notice that the page footer (such "Page 1 of 2"), while visually
+at the bottom of each page, is actually listed at the "top" of each "page" of
+plain text content. This is simply an artifact of how the original document was
+defined internally._
 
 ## Step 1: Creating a Markup JSON File Defining What Should Be Redacted
 
@@ -117,117 +254,26 @@ RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("my-docum
 await markupJson.SaveAsync("markup.json");
 ```
 
-### Customizing Redaction Creation Options
+## Step 2: Applying the Redactions to Produce Redacted Plain Text
 
-When defining a redaction match rule, you can optionally set the `RedactWith`
-property to an instance of [RedactionCreationOptions], allowing you more control
-over the appearance of the redactions created by this specific rule.
-
-#### Redaction Reason
-
-It is common to display some sort of phrase in the middle of a redaction box
-explaining why the content was redacted. We call this the redaction _reason_,
-and you can set it like so:
+To apply your redactions and create redacted plain text, simply call
+[RedactToPlainTextAsync] providing 1) the original document, 2) the markup JSON
+file which defines the areas to be redacted, and 3) the line ending format you
+want to use (typically either `"\n"` or `"\r\n"`):
 
 ```csharp
-var projectXRule = new RegexRedactionMatchRule(@"Project X")
-{
-    RedactWith = new RedactionCreationOptions()
-    {
-        Reason = "CONFIDENTIAL",
-    },
-};
+RemoteWorkFile result = await prizmDocServer.RedactToPlainTextAsync("original.pdf", markupJson, "\n");
 ```
 
-Each rule you define can have its own `Reason`. All redaction definitions
-created by that rule will use the same reason text. For example, you might use
-different legal codes as the redaction reason for different regular expression
-rules, like so:
+This will ask PrizmDoc Server to extract plain text from the original document,
+but replacing all redacted areas with `"<Text Redacted>"`.
+
+The returned result is just _metadata_ about the output; the actual redacted
+plain text file has not been downloaded yet. To actually download the redacted
+plain text file from PrizmDoc Server, call `SaveAsync` on the returned result:
 
 ```csharp
-var johnDoeRule = new RegexRedactionMatchRule(@"John Doe")
-{
-    RedactWith = new RedactionCreationOptions()
-    {
-        Reason = "(b)(1)",
-    },
-};
-
-var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d")
-{
-    RedactWith = new RedactionCreationOptions()
-    {
-        Reason = "(b)(6)",
-    },
-};
-```
-
-#### Redaction Appearance
-
-In addition to the `Reason`, [RedactionCreationOptions] allows you to set other
-properties, such as `FontColor`, `FillColor`, `BorderColor`, and
-`BorderThickness`. Here is an example:
-
-```csharp
-var bruceWayneRule = new RegexRedactionMatchRule(@"Bruce Wayne")
-{
-    RedactWith = new RedactionCreationOptions()
-    {
-        Reason = "(b)(1)",
-        FontColor = "#FDE311", // Use "batman yellow" color for the reason text.
-        FillColor = "#000080", // Use a dark blue fill color.
-        BorderColor = "#000000", // Use pure black border color.
-        BorderThickness = 2 // Make the border 2-pixels thick.
-    },
-};
-```
-
-See the [RedactionCreationOptions] class for more information.
-
-#### Attaching Arbitrary Data
-
-Finally, you can use the `Data` property of [RedactionCreationOptions] to define
-your own set of key/value string pairs which will be attached to every redaction
-definition in the output [markup JSON]. For example, if you define a rule like
-this:
-
-```csharp
-var johnDoeRule = new RegexRedactionMatchRule(@"John Doe")
-{
-    RedactWith = new RedactionCreationOptions()
-    {
-        Data = new Dictionary<string, string>
-        {
-            { "user-id", "jdoe" },
-            { "age", "32" },
-        },
-    },
-};
-```
-
-Then, when inspecting the output [markup JSON], you would find that every
-redaction created by this rule would contain a `data` property with the given
-`user-id` and `age`.
-
-## Step 2: Burning In the Markup, Producing a Redacted PDF
-
-To burn your redactions into a document, simply call [BurnMarkupAsync]
-providing 1) the original document and 2) the markup JSON file which defines the
-areas to be redacted:
-
-```csharp
-RemoteWorkFile result = await prizmDocServer.BurnMarkupAsync("original.pdf", markupJson);
-```
-
-This will ask PrizmDoc Server to burn the markup into the document, producing a
-new redacted PDF, and then return once the burning process is complete.
-
-The returned result is just _metadata_ about the output; the actual redacted PDF
-has not been downloaded yet. To actually download the redacted PDF from PrizmDoc
-Server, call `SaveAsync` on the returned result:
-
-```csharp
-await result.RemoteWorkFile.SaveAsync("redacted.pdf");
+await result.RemoteWorkFile.SaveAsync("redacted.txt");
 ```
 
 Or, if you'd prefer instead to download the bytes to a stream, call
@@ -266,11 +312,7 @@ namespace Demos
             {
                 RedactWith = new RedactionCreationOptions()
                 {
-                    Reason = "(b)(6)",
-                    Data = new Dictionary<string, string>
-                    {
-                        { "Generated By", "Acme Redactor Application" },
-                    },
+                    Reason = "(b)(6)", // NOTE: This will not be used in plain text output.
                 },
             };
 
@@ -278,11 +320,7 @@ namespace Demos
             {
                 RedactWith = new RedactionCreationOptions()
                 {
-                    Reason = "(b)(6)",
-                    Data = new Dictionary<string, string>
-                    {
-                        { "Generated By", "Acme Redactor Application" },
-                    },
+                    Reason = "(b)(6)", // NOTE: This will not be used in plain text output.
                 },
             };
 
@@ -290,16 +328,18 @@ namespace Demos
             {
                 RedactWith = new RedactionCreationOptions()
                 {
+                    // NOTE: None of these options will be used in the plain text output.
                     Reason = "(b)(1)",
                     FontColor = "#FDE311",
                     FillColor = "#000080",
                     BorderColor = "#000000",
                     BorderThickness = 2,
+
+                    // This arbitrary data will simply be present in the generated markup JSON.
                     Data = new Dictionary<string, string>
                     {
-                        { "Generated By", "Acme Redactor Application" },
-                        { "alias", "The Dark Knight" },
-                        { "isBatman", "true" },
+                        { "arbitrary-key-1", "arbitrary-value-1" },
+                        { "arbitrary-key-2", "arbitrary-value-2" },
                     },
                 },
             };
@@ -307,13 +347,13 @@ namespace Demos
             var rules = new[] { ssnRule, emailRule, bruceWayneRule };
 
             // Automatically create markup JSON using the rules above.
-            RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("original.pdf", rules);
+            RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("confidential-contacts.pdf", rules);
 
-            // Burn the redactions defined in the markup JSON into the document, producing a new redacted PDF.
-            RemoteWorkFile redactedPdf = await prizmDocServer.BurnMarkupAsync("original.pdf", markupJson);
+            // Burn the redactions defined in the markup JSON into the document, producing a new redacted plain text file.
+            RemoteWorkFile redactedPlainText = await prizmDocServer.RedactToPlainTextAsync("confidential-contacts.pdf", markupJson, "\n");
 
-            // Download and save the redacted PDF
-            await redactedPdf.SaveAsync("redacted.pdf");
+            // Download and save the redacted plain text
+            await redactedPlainText.SaveAsync("redacted.txt");
         }
     }
 }
@@ -354,5 +394,5 @@ https://help.accusoft.com/PrizmDoc/latest/HTML/webframe.html#markup-json-specifi
 [CreateRedactionsAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.CreateRedactionsAsync(System.String,System.Collections.Generic.IEnumerable{Accusoft.PrizmDocServer.Redaction.RedactionMatchRule})
 [RedactionCreationOptions]: xref:Accusoft.PrizmDocServer.Redaction.RedactionCreationOptions
 [markup JSON]: #markup-json-specification
-[BurnMarkupAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.BurnMarkupAsync(System.String,System.String)
+[RedactToPlainTextAsync]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient.RedactToPlainTextAsync(System.String,System.String,System.String)
 [RemoteWorkFile]: xref:Accusoft.PrizmDocServer.RemoteWorkFile

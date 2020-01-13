@@ -6,7 +6,7 @@
     <Authors>Accusoft</Authors>
     <Company>Accusoft</Company>
     <Product />
-    <Version>1.0.0-beta.26</Version>
+    <Version>1.0.0-beta.27</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Copyright © 2019 Accusoft Corporation</Copyright>
     <Description>
@@ -36,7 +36,6 @@
 
       NOTE: This beta version of the PrizmDoc Server .NET SDK. Some functionality is not yet available:
 
-      - Redact to plain text
       - Identify form fields in PDFs or images
       - Search for text in a document
 

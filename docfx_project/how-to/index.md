@@ -15,9 +15,9 @@
 
 - [How to add headers and footers to each page of a document, producing a new PDF.](headers-and-footers-pdf.md)
 
-## Document Assembly
+## Split and Merge Documents
 
-- [How to combine pages from multiple documents into a single new PDF.](combine-to-pdf.md)
+- [How to cherry-pick and combine pages from multiple documents into a single new PDF.](combine-to-pdf.md)
 - [How to remove the first page of a document, producing a new PDF.](remove-first-page.md)
 
 ## Thumbnailing

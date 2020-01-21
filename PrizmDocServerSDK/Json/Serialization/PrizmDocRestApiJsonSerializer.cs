@@ -22,7 +22,7 @@ namespace Accusoft.PrizmDocServer.Json.Serialization
             {
                 NamingStrategy = new CamelCaseNamingStrategy(),
             });
-            Instance.Converters.Add(new Conversion.FormatConverter());
+            Instance.Converters.Add(new Conversion.DestinationFileFormatConverter());
             Instance.Converters.Add(new Conversion.JpegDestinationOptionsConverter());
             Instance.Converters.Add(new Conversion.PngDestinationOptionsConverter());
             Instance.Converters.Add(new Conversion.TiffDestinationOptionsConverter());

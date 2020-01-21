@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Accusoft.PrizmDocServer.Json.Serialization;
 using Accusoft.PrizmDocServer.Redaction;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Accusoft.PrizmDocServer.Json.Redaction.Tests
+namespace Accusoft.PrizmDocServer.Json.Serialization.Redaction.Tests
 {
     [TestClass]
-    public class RegexRedactionMatchRuleSerializationTests
+    public class RegexRedactionMatchRuleSerialization_Tests
     {
         [TestMethod]
         public void Serializes_nothing_when_pattern_is_null()

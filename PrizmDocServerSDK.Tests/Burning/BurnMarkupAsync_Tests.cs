@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Accusoft.PrizmDoc.Net.Http;
 using Accusoft.PrizmDocServer.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accusoft.PrizmDocServer.Burning.Tests
 {
     [TestClass]
-    public class BurnMarkupAsyncTests
+    public class BurnMarkupAsync_Tests
     {
         [TestMethod]
         public async Task Can_use_local_file_paths_for_both_document_and_markup_JSON()

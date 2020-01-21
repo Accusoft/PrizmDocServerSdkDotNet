@@ -41,22 +41,21 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
             mockServer
               .Given(Request.Create().WithPath("/v2/contentConverters").UsingPost())
               .RespondWith(Response.Create()
-                .WithStatusCode(480)
+                .WithStatusCode(418)
                 .WithHeader("Content-Type", "application/json")
-                .WithBody("{\"errorCode\":\"ServerOnFire\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.admin.enableTurboMode\"}}"));
+                .WithBody("{\"errorCode\":\"BoilingOver\",\"errorDetails\":{\"in\":\"body\",\"at\":\"input.admin.enableTurboMode\"}}"));
 
             var dummyInput = new ConversionSourceDocument(new RemoteWorkFile(null, null, null, null));
 
-            string expectedMessage = @"Remote server returned an error: ServerOnFire {
+            string expectedMessage = @"Remote server returned an error: I'm a teapot BoilingOver {
   ""in"": ""body"",
   ""at"": ""input.admin.enableTurboMode""
 }";
 
             await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
-                async () =>
-                {
-                    await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf));
-                }, expectedMessage);
+                async () => { await prizmDocServer.ConvertAsync(dummyInput, new DestinationOptions(DestinationFileFormat.Pdf)); },
+                expectedMessage,
+                ignoreCase: true);
         }
     }
 }

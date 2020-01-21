@@ -10,12 +10,12 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/PrizmDocServerSDK.Tests/bin/Debug/netcoreapp2.2/PrizmDocServerSDK.Tests.dll",
+            "program": "${workspaceFolder}/PrizmDocServerSDK.Tests/bin/Debug/netcoreapp3.1/PrizmDocServerSDK.Tests.dll",
             "args": [],
             "cwd": "${workspaceFolder}/PrizmDocServerSDK.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
         },
         {
             "name": ".NET Core Attach",

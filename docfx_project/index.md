@@ -1,33 +1,30 @@
-# PrizmDoc Server .NET SDK **(BETA)**
+# PrizmDoc Server .NET SDK
 
-The PrizmDoc Server .NET SDK is a wrapper around the PrizmDoc Server REST API.
-It manages the low-level HTTP details for you, making it easy to consume
-PrizmDoc Server functionality in .NET.
+Part of the larger [PrizmDoc Viewer] product, PrizmDoc Server is a powerful
+document processing engine which hosts a set of low-level document processing
+REST APIs. While you could use these REST APIs directly, it requires quite a bit
+of effort. This library (the PrizmDoc Server .NET SDK) is a wrapper around the
+PrizmDoc Server REST APIs, making it easy to use PrizmDoc Server functionality
+in .NET.
 
-PrizmDoc Server is a powerful document processing engine you can use to:
+You can use this library with any deployment of PrizmDoc Server, whether it's
+your own self-hosted deployment or Accusoft's cloud-hosted offering. Simply
+construct an instance of [PrizmDocServerClient] with the information about how
+to connect to PrizmDoc Server and start using any of the document-processing
+methods to do things like:
 
 - Convert documents to PDF, TIFF, JPEG, PNG, or SVG
 - Combine documents to PDF or TIFF
 - Extract pages from documents
+- Split and merge pages from various documents
 - Create thumbnail images for document pages
 - Apply headers and footers to documents
-- Apply OCR to produce a text-searchable PDF
+- Perform OCR to produce a text-searchable PDF
 - Automatically identify text to be redacted by regex
 - Redact to PDF or plain text
 - Burn-in annotations to PDF
-- Identify form fields in PDFs or images
-- Search for text in a document
 
-<div class="warning">
-<p><b>NOTE:</b> This beta version of the PrizmDoc Server .NET SDK. Some functionality is not yet available:</p>
-<ul>
-<li>Identify form fields in PDFs or images</li>
-<li>Search for text in a document</li>
-</ul>
-<p>We will continue to expose more functionality in future beta releases.
-During the beta, the API surface may change from beta release to beta
-release.</p>
-</div>
+See the [How To Guides] for more information.
 
 ## Getting Started
 
@@ -67,7 +64,7 @@ var prizmDocServer = new PrizmDocServerClient("http://localhost:18681");
 
 ### 4. Start Processing Some Documents!
 
-- See the [How To] guides for concrete examples.
+- See the [How To Guides] for concrete examples.
 - Consult the [API Reference] for detailed information.
 
 ## Source Code
@@ -77,5 +74,5 @@ The source for this library is [available on GitHub](https://github.com/Accusoft
 [PrizmDoc Viewer]: https://www.accusoft.com/products/prizmdoc-suite/prizmdoc-viewer
 [PrizmDoc Cloud]: https://cloud.accusoft.com
 [PrizmDocServerClient]: xref:Accusoft.PrizmDocServer.PrizmDocServerClient
-[How To]: how-to/index.md
+[How To Guides]: how-to/index.md
 [API Reference]: xref:Accusoft.PrizmDocServer

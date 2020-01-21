@@ -1,12 +1,11 @@
-using System.IO;
+﻿using System.IO;
 using Accusoft.PrizmDocServer.Conversion;
-using Accusoft.PrizmDocServer.Json.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Accusoft.PrizmDocServer.Json.Conversion.Tests
+namespace Accusoft.PrizmDocServer.Json.Serialization.Conversion.Tests
 {
     [TestClass]
-    public class DestinationOptionsSerializationTests
+    public class DestinationOptionsSerialization_Tests
     {
         [TestMethod]
         public void Can_serialize_a_minimal_instance()

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrizmDocServerSDK.Tests", "PrizmDocServerSDK.Tests\PrizmDocServerSDK.Tests.csproj", "{3CFC4596-3531-4BA5-AF14-9F7457359E20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentAssemblyDemo", "Demos\DocumentAssemblyDemo\DocumentAssemblyDemo.csproj", "{6C5B11B2-4333-41C7-9E65-1E983399156D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitAndMergeDocumentsDemo", "Demos\SplitAndMergeDocumentsDemo\SplitAndMergeDocumentsDemo.csproj", "{6C5B11B2-4333-41C7-9E65-1E983399156D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{34C94E1A-41DC-4B9B-A741-345629C9025E}"
 EndProject

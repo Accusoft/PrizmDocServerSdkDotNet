@@ -46,90 +46,117 @@ namespace Accusoft.PrizmDocServer.Exceptions
                 throw new ArgumentNullException("response");
             }
 
-            if (response.Content.Headers.ContentType == null ||
-                response.Content.Headers.ContentType.MediaType != "application/json")
-            {
-                return null;
-            }
+            string body = null;
 
-            string body = await response.Content.ReadAsStringAsync();
+            if (response.Content.Headers.ContentType != null &&
+                response.Content.Headers.ContentType.MediaType == "application/json")
+            {
+                body = await response.Content.ReadAsStringAsync();
+            }
 
             return From(response.StatusCode, response.ReasonPhrase, body);
         }
 
+        internal static bool IsSuccessStatusCode(HttpStatusCode statusCode)
+        {
+            return (int)statusCode >= 200 && (int)statusCode < 300;
+        }
+
         internal static ErrorData From(HttpStatusCode statusCode, string reasonPhrase, string body)
         {
-            string errorCode = null;
-            try
+            // There are two fundamental cases which we consider an error:
+            //
+            // 1. Anytime the response has a JSON body with an "errorCode"
+            //    property, regardless of HTTP status code. For example, GET
+            //    process status will return HTTP 200, but the process itself
+            //    may have failed with an "errorCode".
+            // 2. Anytime the HTTP status code itself indicates an error,
+            //    regardless of whether there is a body or a JSON errorCode.
+            //    For example, perhaps we receive an unexpected HTTP 500 error.
+
+            // If HTTP success and no body, then there is no error.
+            if (IsSuccessStatusCode(statusCode) && body == null)
             {
-                errorCode = (string)JObject.Parse(body)["errorCode"];
-                if (errorCode == null)
+                return null;
+            }
+
+            string errorCode = null;
+            string rawErrorDetails = null;
+            JArray results = null;
+            var innerErrors = new List<InnerErrorData>();
+
+            if (body != null)
+            {
+                try
+                {
+                    errorCode = (string)JObject.Parse(body)["errorCode"];
+                }
+                catch
+                {
+                }
+
+                // If HTTP success and no errorCode within the JSON body, then there is no error.
+                if (IsSuccessStatusCode(statusCode) && errorCode == null)
                 {
                     return null;
                 }
-            }
-            catch
-            {
-            }
 
-            string rawErrorDetails = null;
-            try
-            {
-                rawErrorDetails = JObject.Parse(body)["errorDetails"].ToString();
-            }
-            catch
-            {
-            }
-
-            var innerErrors = new List<InnerErrorData>();
-
-            JArray results = null;
-            try
-            {
-                results = (JArray)JObject.Parse(body)["output"]["results"];
-            }
-            catch
-            {
-            }
-
-            if (results != null)
-            {
-                foreach (JToken result in results)
+                try
                 {
-                    string innerErrorCode = null;
-                    try
-                    {
-                        innerErrorCode = (string)result["errorCode"];
-                    }
-                    catch
-                    {
-                    }
+                    rawErrorDetails = JObject.Parse(body)["errorDetails"].ToString();
+                }
+                catch
+                {
+                }
 
-                    if (innerErrorCode == null)
-                    {
-                        continue;
-                    }
+                try
+                {
+                    results = (JArray)JObject.Parse(body)["output"]["results"];
+                }
+                catch
+                {
+                }
 
-                    string rawInnerErrorDetails = null;
-                    try
+                if (results != null)
+                {
+                    foreach (JToken result in results)
                     {
-                        rawInnerErrorDetails = result["errorDetails"].ToString();
-                    }
-                    catch
-                    {
-                    }
+                        string innerErrorCode = null;
+                        try
+                        {
+                            innerErrorCode = (string)result["errorCode"];
+                        }
+                        catch
+                        {
+                        }
 
-                    innerErrors.Add(new InnerErrorData(innerErrorCode, rawInnerErrorDetails));
+                        if (innerErrorCode == null)
+                        {
+                            continue;
+                        }
+
+                        string rawInnerErrorDetails = null;
+                        try
+                        {
+                            rawInnerErrorDetails = result["errorDetails"].ToString();
+                        }
+                        catch
+                        {
+                        }
+
+                        innerErrors.Add(new InnerErrorData(innerErrorCode, rawInnerErrorDetails));
+                    }
                 }
             }
 
-            // Ignore useless/misleading reason phrases
-            if (reasonPhrase.ToUpperInvariant() == "UNKNOWN" || reasonPhrase.ToUpperInvariant() == "OK")
+            // Exclude the reason phrase from the error message if it does not add value
+            string reasonPhraseForErrorMessage = reasonPhrase;
+            if (reasonPhraseForErrorMessage != null && (reasonPhraseForErrorMessage.ToUpperInvariant() == "UNKNOWN" || reasonPhraseForErrorMessage.ToUpperInvariant() == "OK"))
             {
-                reasonPhrase = null;
+                reasonPhraseForErrorMessage = null;
             }
 
-            string reasonPhraseAndOrErrorCode = string.Join(" ", new[] { reasonPhrase, errorCode }.Distinct()).Trim();
+            string reasonPhraseAndOrErrorCode = string.Join(" ", new[] { reasonPhraseForErrorMessage, errorCode }.Distinct()).Trim();
 
             return new ErrorData($"Remote server returned an error: {reasonPhraseAndOrErrorCode} {rawErrorDetails}".Trim(), statusCode, reasonPhrase, body, errorCode, rawErrorDetails, innerErrors);
         }

@@ -37,6 +37,13 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
             mockServer.Reset();
 
             mockServer
+                .Given(Request.Create().WithPath("/PCCIS/V1/WorkFile").UsingPost())
+                .RespondWith(Response.Create()
+                    .WithSuccess()
+                    .WithHeader("Content-Type", "application/json")
+                    .WithBody("{\"fileId\":\"fake-file-id\"}"));
+
+            mockServer
               .Given(Request.Create().WithPath("/v2/contentConverters").UsingPost())
               .RespondWith(Response.Create()
                 .WithStatusCode(480)

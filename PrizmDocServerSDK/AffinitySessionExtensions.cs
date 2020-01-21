@@ -30,7 +30,7 @@ namespace Accusoft.PrizmDocServer
 
             if (!File.Exists(localFilePath))
             {
-                throw new ArgumentException($"File not found: {localFilePath}", "localFilePathToDocument");
+                throw new FileNotFoundException($"File not found: \"{localFilePath}\"", "localFilePathToDocument");
             }
 
             string fileExtension = Path.GetExtension(localFilePath);

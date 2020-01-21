@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Accusoft.PrizmDocServer.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accusoft.PrizmDocServer.Conversion.Tests
@@ -6,6 +8,14 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     [TestClass]
     public class ConversionSourceDocument_Tests
     {
+        [TestMethod]
+        public void Constructor_rejects_null_remoteWorkFile()
+        {
+            UtilAssert.ThrowsExceptionWithMessageContaining<ArgumentNullException>(
+                () => new ConversionSourceDocument((RemoteWorkFile)null),
+                "remoteWorkFile");
+        }
+
         [TestMethod]
         public void Can_easily_construct_a_list_of_conversion_inputs()
         {

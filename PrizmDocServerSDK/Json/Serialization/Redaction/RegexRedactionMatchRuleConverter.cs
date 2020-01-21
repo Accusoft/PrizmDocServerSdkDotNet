@@ -36,18 +36,9 @@ namespace Accusoft.PrizmDocServer.Json.Serialization.Redaction
             writer.WriteStartObject();
 
             writer.WritePropertyName("type");
-            var regexRule = rule as RegexRedactionMatchRule;
-            if (regexRule != null)
-            {
-                writer.WriteValue("regex");
-
-                writer.WritePropertyName("pattern");
-                writer.WriteValue(regexRule.Pattern);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            writer.WriteValue("regex");
+            writer.WritePropertyName("pattern");
+            writer.WriteValue(rule.Pattern);
 
             writer.WriteEndObject(); // end find object
 

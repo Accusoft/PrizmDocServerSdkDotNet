@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accusoft.PrizmDocServer.Tests
 {
     [TestClass]
-    public class AffinityTests
+    public class Affinity_Tests
     {
         public async Task<RemoteWorkFile> UploadPlainTextAsync(AffinitySession affinitySession, string text)
         {

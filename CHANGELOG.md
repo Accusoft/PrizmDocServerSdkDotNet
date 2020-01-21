@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.0.0-beta.28 - 2020-01-20
+
+### Added
+
+- `UploadAsync` methods, allowing you to create a `RemoteWorkFile` instance from either a local file path or a stream of bytes.
+
+### Changed
+
+- `ConvertAsync` now returns `ReadOnlyCollection<ConversionResult>` instead of `IEnumerable<ConversionResult>`.
+
 ## 1.0.0-beta.27 - 2020-01-08
 
 ### Added

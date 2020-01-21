@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accusoft.PrizmDocServer.PlainTextRedaction.Tests
 {
     [TestClass]
-    public class RedactToPlainTextAsyncTests
+    public class RedactToPlainTextAsync_Tests
     {
         [TestMethod]
         public async Task Can_use_local_file_paths_for_both_document_and_markup_JSON()

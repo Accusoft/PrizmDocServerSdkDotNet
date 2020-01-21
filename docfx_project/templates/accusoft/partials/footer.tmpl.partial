@@ -1,0 +1,12 @@
+<footer>
+  <div class="grad-bottom"></div>
+  <div class="footer">
+    <div class="container">
+      <span class="pull-right">
+        <a href="#top">Back to top</a>
+      </span>
+      {{{_appFooter}}}
+      {{^_appFooter}}<span>© 2019-2020 <a href="https://www.accusoft.com">Accusoft</a></span>{{/_appFooter}}
+    </div>
+  </div>
+</footer>

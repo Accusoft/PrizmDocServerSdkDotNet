@@ -11,6 +11,18 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
     public class ConversionSourceDocument_EnsureUsableRemoteWorkFileAsync_Tests
     {
         [TestMethod]
+        public async Task Will_throw_an_exception_if_given_a_path_to_a_local_file_which_cannot_be_found()
+        {
+            AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
+            var input = new ConversionSourceDocument("documents/does not exist.pdf");
+            Assert.IsNull(input.RemoteWorkFile);
+
+            await UtilAssert.ThrowsExceptionWithMessageAsync<FileNotFoundException>(
+                async () => { await input.EnsureUsableRemoteWorkFileAsync(affinitySession); },
+                "File not found: \"documents/does not exist.pdf\"");
+        }
+
+        [TestMethod]
         public async Task Will_POST_work_file_when_given_a_local_file_path()
         {
             AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();

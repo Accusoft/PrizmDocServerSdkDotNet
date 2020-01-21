@@ -6,6 +6,29 @@ h1 {
   margin-top: 0 !important;
 }
 
+a {
+  color: #ff7e4a;
+  cursor: pointer;
+}
+
+a:hover,
+a:focus {
+  color: #ad5532;
+  text-decoration: none;
+}
+
+.toc .nav > li.active > a {
+  color: #ff7e4a;
+}
+
+.affix ul > li.active > a,
+.affix ul > li.active > a:before,
+.affix > ul > li.active > a,
+.affix > ul > li.active > a:before {
+  /* color: #67baaf; */
+  color: #ff7e4a;
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -31,4 +54,37 @@ h1 {
 .sample-document-page {
   margin: 1em;
   border: 1px solid black;
+}
+
+code {
+  color:#333;
+  background-color:#f3f3f3;
+  border-radius:4px
+}
+
+.navbar-collapse {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-header {
+  float: right;
+}
+
+.navbar-brand {
+  float: right;
+}
+
+.navbar-toggle {
+  float: left;
+}
+
+ul.breadcrumb {
+  margin-left: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar-header {
+    width: 100%;
+  }
 }

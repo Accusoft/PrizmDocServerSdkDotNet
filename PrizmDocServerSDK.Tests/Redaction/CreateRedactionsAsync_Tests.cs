@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace Accusoft.PrizmDocServer.Redaction.Tests
 {
     [TestClass]
-    public class CreateRedactionsAsyncTests
+    public class CreateRedactionsAsync_Tests
     {
         [TestMethod]
         public async Task Can_create_redactions()

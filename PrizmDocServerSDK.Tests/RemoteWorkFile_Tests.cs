@@ -12,12 +12,12 @@ namespace Accusoft.PrizmDocServer.Tests
         [TestMethod]
         public async Task UploadAsync_with_local_file_path_followed_by_SaveAsync_roundtrip_works()
         {
-            AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
             const string INPUT_FILENAME = "documents/example.docx";
             const string OUTPUT_FILENAME = "downloaded.docx";
 
-            RemoteWorkFile remoteWorkFile = await affinitySession.UploadAsync(INPUT_FILENAME);
+            RemoteWorkFile remoteWorkFile = await prizmDocServer.UploadAsync(INPUT_FILENAME);
             await remoteWorkFile.SaveAsync(OUTPUT_FILENAME);
 
             CollectionAssert.AreEqual(File.ReadAllBytes(INPUT_FILENAME), File.ReadAllBytes(OUTPUT_FILENAME));
@@ -26,7 +26,7 @@ namespace Accusoft.PrizmDocServer.Tests
         [TestMethod]
         public async Task UploadAsync_with_memory_stream_followed_by_SaveAsync_roundtrip_works()
         {
-            AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
             const string ORIGINAL_DOCUMENT_CONTENTS = "Hello world";
             const string OUTPUT_FILENAME = "downloaded.txt";
@@ -34,7 +34,7 @@ namespace Accusoft.PrizmDocServer.Tests
             RemoteWorkFile remoteWorkFile;
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(ORIGINAL_DOCUMENT_CONTENTS)))
             {
-                remoteWorkFile = await affinitySession.UploadAsync(stream);
+                remoteWorkFile = await prizmDocServer.UploadAsync(stream);
             }
 
             await remoteWorkFile.SaveAsync(OUTPUT_FILENAME);
@@ -45,11 +45,11 @@ namespace Accusoft.PrizmDocServer.Tests
         [TestMethod]
         public async Task UploadAsync_with_local_file_path_followed_by_CopyToAsync_roundtrip_works()
         {
-            AffinitySession affinitySession = Util.RestClient.CreateAffinitySession();
+            PrizmDocServerClient prizmDocServer = Util.CreatePrizmDocServerClient();
 
             const string INPUT_FILENAME = "documents/example.docx";
 
-            RemoteWorkFile remoteWorkFile = await affinitySession.UploadAsync(INPUT_FILENAME);
+            RemoteWorkFile remoteWorkFile = await prizmDocServer.UploadAsync(INPUT_FILENAME);
 
             using (var memoryStream = new MemoryStream())
             {

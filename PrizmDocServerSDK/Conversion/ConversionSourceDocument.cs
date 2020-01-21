@@ -120,7 +120,7 @@ namespace Accusoft.PrizmDocServer.Conversion
             {
                 if (!File.Exists(this.LocalFilePath))
                 {
-                    throw new FileNotFoundException($"File not found: {this.LocalFilePath}");
+                    throw new FileNotFoundException($"File not found: \"{this.LocalFilePath}\"");
                 }
 
                 this.RemoteWorkFile = await affinitySession.UploadAsync(this.LocalFilePath, affinityToken: affinityToken);

@@ -2,6 +2,7 @@
 // /v2/contentConverters portion of the PrizmDoc Server REST API.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="localFilePath">Path to a local file to use as input.</param>
         /// <param name="destinationFormat"><see cref="DestinationFileFormat"/> to convert to.</param>
         /// <returns>One or more output results.</returns>
-        public Task<IEnumerable<ConversionResult>> ConvertAsync(string localFilePath, DestinationFileFormat destinationFormat) =>
+        public Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(string localFilePath, DestinationFileFormat destinationFormat) =>
                                          this.ConvertAsync(new List<ConversionSourceDocument> { new ConversionSourceDocument(localFilePath) }, new DestinationOptions(destinationFormat));
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="localFilePath">Path to a local file to use as input.</param>
         /// <param name="options">Destination options.</param>
         /// <returns>One or more output results.</returns>
-        public Task<IEnumerable<ConversionResult>> ConvertAsync(string localFilePath, DestinationOptions options) =>
+        public Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(string localFilePath, DestinationOptions options) =>
                                          this.ConvertAsync(new List<ConversionSourceDocument> { new ConversionSourceDocument(localFilePath) }, options);
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="sourceDocument">Information about the source document to use as input.</param>
         /// <param name="destinationFormat">File format to convert to.</param>
         /// <returns>One or more output results.</returns>
-        public Task<IEnumerable<ConversionResult>> ConvertAsync(ConversionSourceDocument sourceDocument, DestinationFileFormat destinationFormat) =>
+        public Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(ConversionSourceDocument sourceDocument, DestinationFileFormat destinationFormat) =>
                                          this.ConvertAsync(new List<ConversionSourceDocument> { sourceDocument }, new DestinationOptions(destinationFormat));
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="sourceDocument">Information about the source document to use as input.</param>
         /// <param name="options">Destination options.</param>
         /// <returns>One or more output results.</returns>
-        public Task<IEnumerable<ConversionResult>> ConvertAsync(ConversionSourceDocument sourceDocument, DestinationOptions options) =>
+        public Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(ConversionSourceDocument sourceDocument, DestinationOptions options) =>
                                          this.ConvertAsync(new List<ConversionSourceDocument> { sourceDocument }, options);
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="sourceDocuments">Collection of source documents whose pages should be combined, in order, to form the output.</param>
         /// <param name="destinationFormat">File format to convert to.</param>
         /// <returns>One or more output results.</returns>
-        public Task<IEnumerable<ConversionResult>> ConvertAsync(IEnumerable<ConversionSourceDocument> sourceDocuments, DestinationFileFormat destinationFormat) =>
+        public Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(IEnumerable<ConversionSourceDocument> sourceDocuments, DestinationFileFormat destinationFormat) =>
                                          this.ConvertAsync(sourceDocuments, new DestinationOptions(destinationFormat));
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace Accusoft.PrizmDocServer
         /// <param name="sourceDocuments">Collection of source documents whose pages should be combined, in order, to form the output.</param>
         /// <param name="options">Destination options.</param>
         /// <returns>One or more output results.</returns>
-        public async Task<IEnumerable<ConversionResult>> ConvertAsync(IEnumerable<ConversionSourceDocument> sourceDocuments, DestinationOptions options)
+        public async Task<IReadOnlyCollection<ConversionResult>> ConvertAsync(IEnumerable<ConversionSourceDocument> sourceDocuments, DestinationOptions options)
         {
             AffinitySession affinitySession = this.restClient.CreateAffinitySession();
 
@@ -104,46 +105,41 @@ namespace Accusoft.PrizmDocServer
             // Wait for the conversion to complete
             using (HttpResponseMessage response = await affinitySession.GetFinalProcessStatusAsync($"/v2/contentConverters/{processId}"))
             {
-                await this.ThrowIfGetContentConvertersError(sourceDocumentsArray, response);
+                await this.ThrowIfGetContentConvertersFinalStatusIsError(sourceDocumentsArray, response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
             process = JObject.Parse(json);
 
-            // Did the process error?
-            if ((string)process["state"] != "complete")
-            {
-                throw new Exception("The conversion failed:\n" + json);
-            }
-
-            return process["output"]["results"].Children().Select(result =>
-            {
-                IEnumerable<ConversionSourceDocument> sources = result["sources"].Children().Select(source =>
-                    new ConversionSourceDocument(
-                        new RemoteWorkFile(
-                            affinitySession,
-                            (string)source["fileId"],
-                            affinitySession.AffinityToken,
-                            sourceDocumentsArray.Where(x => x.RemoteWorkFile.FileId == (string)source["fileId"]).Select(x => x.RemoteWorkFile.FileExtension).First()),
-                        (string)source["pages"]));
-
-                string errorCode = (string)result["errorCode"];
-
-                if (errorCode != null)
+            return new ReadOnlyCollection<ConversionResult>(
+                process["output"]["results"].Children().Select(result =>
                 {
-                    return new ConversionResult(errorCode, sources);
-                }
+                    IEnumerable<ConversionSourceDocument> sources = result["sources"].Children().Select(source =>
+                        new ConversionSourceDocument(
+                            new RemoteWorkFile(
+                                affinitySession,
+                                (string)source["fileId"],
+                                affinitySession.AffinityToken,
+                                sourceDocumentsArray.Where(x => x.RemoteWorkFile.FileId == (string)source["fileId"]).Select(x => x.RemoteWorkFile.FileExtension).First()),
+                            (string)source["pages"]));
 
-                var remoteWorkFile = new RemoteWorkFile(
-                    affinitySession,
-                    (string)result["fileId"],
-                    affinitySession.AffinityToken,
-                    Enum.GetName(typeof(DestinationFileFormat), options.Format).ToLowerInvariant());
+                    string errorCode = (string)result["errorCode"];
 
-                int pageCount = (int)result["pageCount"];
+                    if (errorCode != null)
+                    {
+                        return new ConversionResult(errorCode, sources);
+                    }
 
-                return new ConversionResult(remoteWorkFile, pageCount, sources);
-            });
+                    var remoteWorkFile = new RemoteWorkFile(
+                        affinitySession,
+                        (string)result["fileId"],
+                        affinitySession.AffinityToken,
+                        Enum.GetName(typeof(DestinationFileFormat), options.Format).ToLowerInvariant());
+
+                    int pageCount = (int)result["pageCount"];
+
+                    return new ConversionResult(remoteWorkFile, pageCount, sources);
+                }).ToList());
         }
 
         private string BuildPostContentConvertersRequestJson(ConversionSourceDocument[] sourceDocuments, DestinationOptions options)
@@ -919,10 +915,11 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfGetContentConvertersError(ConversionSourceDocument[] sourceDocuments, HttpResponseMessage response)
+        private async Task ThrowIfGetContentConvertersFinalStatusIsError(ConversionSourceDocument[] sourceDocuments, HttpResponseMessage response)
         {
             ErrorData err = await ErrorData.From(response);
 
+            // If the final GET response body included an "errorCode" or was non HTTP 200
             if (err != null)
             {
                 string at = this.GetAt(err.RawErrorDetails);
@@ -1048,6 +1045,24 @@ namespace Accusoft.PrizmDocServer
                 }
 
                 throw new RestApiErrorException(err);
+            }
+
+            // If the final GET response was HTTP 200, did NOT include an
+            // "errorCode", but the "status" was, unexpectedly, something other
+            // than "complete" (this should not occur):
+            string json = await response.Content.ReadAsStringAsync();
+            string state = null;
+            try
+            {
+                state = (string)JObject.Parse(json)["state"];
+            }
+            catch
+            {
+            }
+
+            if (state != null && state != "complete")
+            {
+                throw new RestApiErrorException($"Unexpected conversion state \"{state}\":\n{json}");
             }
         }
 

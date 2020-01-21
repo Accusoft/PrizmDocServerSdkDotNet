@@ -1,4 +1,4 @@
-#pragma warning disable SA1600 // Elements should be documented
+﻿#pragma warning disable SA1600 // Elements should be documented
 
 using System;
 using Accusoft.PrizmDocServer.Conversion;
@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Accusoft.PrizmDocServer.Json.Serialization.Conversion
 {
-    public class FormatConverter : JsonConverter
+    public class DestinationFileFormatConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -20,7 +20,7 @@ namespace Accusoft.PrizmDocServer.Json.Serialization.Conversion
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(value.ToString());
+            writer.WriteValue(value.ToString().ToLowerInvariant());
         }
     }
 }

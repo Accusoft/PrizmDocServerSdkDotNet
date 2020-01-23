@@ -16,7 +16,7 @@
   items:
   - name: "Apply Headers and Footers"
     href: headers-and-footers-pdf.md
-- name: Document Assembly
+- name: Split and Merge
   items:
   - name: "Combine to PDF"
     href: combine-to-pdf.md

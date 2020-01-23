@@ -1,6 +1,14 @@
 # CHANGELOG
 
-## 1.0.0-beta.28 - 2020-01-20
+## 1.0.0-beta.29 - 2020-01-23
+
+### Changed
+
+- Upgraded dependencies:
+  - Now using `Accusoft.PrizmDocRestClient` version `1.*`.
+  - Now using `Newtonsoft.Json` version `12.*`.
+
+## 1.0.0-beta.28 - 2020-01-21
 
 ### Added
 
@@ -10,7 +18,7 @@
 
 - `ConvertAsync` now returns `ReadOnlyCollection<ConversionResult>` instead of `IEnumerable<ConversionResult>`.
 
-## 1.0.0-beta.27 - 2020-01-08
+## 1.0.0-beta.27 - 2020-01-13
 
 ### Added
 
@@ -26,7 +34,7 @@
 
 Documentation corrections. No changes to the SDK itself.
 
-## 1.0.0-beta.24 - 2019-11-13
+## 1.0.0-beta.24 - 2019-11-15
 
 ### Added
 
@@ -55,7 +63,7 @@ No changes to the API or functionality.
 Updated package description and documentation home page. No changes to the SDK
 itself.
 
-## 1.0.0-beta.20 - 2019-10-24
+## 1.0.0-beta.20 - 2019-10-25
 
 ### Changed
 
@@ -70,6 +78,6 @@ itself.
 - `ProcessingContext` class.
 - `UploadAsync` methods.
 
-## 1.0.0-beta.19 - 2019-10-17
+## 1.0.0-beta.19 - 2019-10-23
 
 First public beta release.

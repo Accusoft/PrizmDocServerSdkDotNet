@@ -6,7 +6,7 @@
         <a href="#top">Back to top</a>
       </span>
       {{{_appFooter}}}
-      {{^_appFooter}}<span>© 2019-2020 <a href="https://www.accusoft.com">Accusoft</a></span>{{/_appFooter}}
+      {{^_appFooter}}<span>© 2019-2020 <a href="https://www.accusoft.com">Accusoft Corporation</a>. All Rights Reserved.</span>{{/_appFooter}}
     </div>
   </div>
 </footer>

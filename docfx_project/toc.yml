@@ -1,5 +1,6 @@
 - name: Getting Started
   href: /
+  homepage: index.md
 - name: How To Guides
   href: how-to/
   homepage: how-to/index.md

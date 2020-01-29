@@ -144,7 +144,7 @@ namespace Accusoft.PrizmDocServer
             // Start the redaction creation process
             using (HttpResponseMessage response = await affinitySession.PostAsync("/v2/plainTextRedactors", new StringContent(json, Encoding.UTF8, "application/json")))
             {
-                await this.ThrowIfPostPlainTextRedactorsError(sourceDocument, markupJson, response, outputLineEndingFormat);
+                await this.ThrowIfPostPlainTextRedactorsError(response, outputLineEndingFormat);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -154,7 +154,7 @@ namespace Accusoft.PrizmDocServer
             // Wait for the process to complete
             using (HttpResponseMessage response = await affinitySession.GetFinalProcessStatusAsync($"/v2/plainTextRedactors/{processId}"))
             {
-                await this.ThrowIfGetPlainTextRedactorsError(sourceDocument, markupJson, response);
+                await this.ThrowIfGetPlainTextRedactorsError(response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -205,7 +205,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfPostPlainTextRedactorsError(RemoteWorkFile sourceDocument, RemoteWorkFile markupJson, HttpResponseMessage response, string outputLineEndingFormat)
+        private async Task ThrowIfPostPlainTextRedactorsError(HttpResponseMessage response, string outputLineEndingFormat)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -282,7 +282,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfGetPlainTextRedactorsError(RemoteWorkFile sourceDocument, RemoteWorkFile markupJson, HttpResponseMessage response)
+        private async Task ThrowIfGetPlainTextRedactorsError(HttpResponseMessage response)
         {
             ErrorData err = await ErrorData.From(response);
 

@@ -109,10 +109,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
                 await result.RemoteWorkFile.SaveAsync(filename);
                 FileAssert.IsTiff(filename);
 
-                if (customAssertions != null)
-                {
-                    customAssertions(filename);
-                }
+                customAssertions?.Invoke(filename);
             }
         }
     }

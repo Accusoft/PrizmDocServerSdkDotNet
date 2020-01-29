@@ -83,8 +83,20 @@ ul.breadcrumb {
   margin-left: 15px;
 }
 
+.navbar-collapse h1 {
+  color: white;
+  font-size: 20px;
+  float: left;
+  padding: 14px 14px 0 14px;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 768px) {
   .navbar-header {
     width: 100%;
+  }
+
+  .navbar-collapse h1 {
+    float: none;
   }
 }

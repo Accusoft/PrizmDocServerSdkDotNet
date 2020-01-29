@@ -19,7 +19,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
         [TestMethod]
         public void Can_easily_construct_a_list_of_conversion_inputs()
         {
-            var inputs = new List<ConversionSourceDocument>
+            _ = new List<ConversionSourceDocument>
             {
                 new ConversionSourceDocument("other.docx"),
                 new ConversionSourceDocument("wat.pdf"),

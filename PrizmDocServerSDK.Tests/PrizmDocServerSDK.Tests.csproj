@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-
+    <LangVersion>7.1</LangVersion>
     <IsPackable>false</IsPackable>
-
     <RootNamespace>Accusoft.PrizmDocServer.Tests</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>Project.ruleset</CodeAnalysisRuleSet>
     <!--
         These settings are important for StyleCop documentation checking to work correctly.
         See https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md

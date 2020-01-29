@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,7 +13,7 @@ namespace Accusoft.PrizmDocServer.Tests
             UtilAssert.ThrowsExceptionWithMessageContaining<TException>(action, new[] { expectedSubstring });
         }
 
-        public static void ThrowsExceptionWithMessageContaining<TException>(Action action, string[] expectedSubstrings)
+        public static void ThrowsExceptionWithMessageContaining<TException>(Action action, IEnumerable<string> expectedSubstrings)
             where TException : Exception
         {
             try
@@ -22,7 +23,7 @@ namespace Accusoft.PrizmDocServer.Tests
             }
             catch (TException exception)
             {
-                foreach (var expectedSubstring in expectedSubstrings)
+                foreach (string expectedSubstring in expectedSubstrings)
                 {
                     StringAssert.Contains(exception.Message, expectedSubstring);
                 }
@@ -62,6 +63,27 @@ namespace Accusoft.PrizmDocServer.Tests
             catch (TException exception)
             {
                 StringAssert.Contains(exception.Message, expectedSubstring);
+            }
+            catch (Exception exception)
+            {
+                Assert.Fail("Wrong exception thrown!\n" + exception.ToString());
+            }
+        }
+
+        public static async Task ThrowsExceptionWithMessageContainingAsync<TException>(Func<Task> function, IEnumerable<string> expectedSubstrings)
+            where TException : Exception
+        {
+            try
+            {
+                await function();
+                Assert.Fail("No exception thrown!");
+            }
+            catch (TException exception)
+            {
+                foreach (string expectedSubstring in expectedSubstrings)
+                {
+                    StringAssert.Contains(exception.Message, expectedSubstring);
+                }
             }
             catch (Exception exception)
             {

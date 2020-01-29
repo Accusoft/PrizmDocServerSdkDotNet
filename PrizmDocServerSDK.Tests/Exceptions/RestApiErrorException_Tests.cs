@@ -13,13 +13,13 @@ namespace Accusoft.PrizmDocServer.Exceptions.Tests
         [TestMethod]
         public void Can_construct_without_any_arguments()
         {
-            var exception = new RestApiErrorException();
+            _ = new RestApiErrorException();
         }
 
         [TestMethod]
         public void Can_construct_with_message_and_inner_exception()
         {
-            var exception = new RestApiErrorException("Some message", new InvalidOperationException());
+            _ = new RestApiErrorException("Some message", new InvalidOperationException());
         }
 
         [TestMethod]

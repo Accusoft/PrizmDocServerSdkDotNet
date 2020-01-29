@@ -15,9 +15,9 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     {
         private static PrizmDocServerClient prizmDocServer;
         private static FluentMockServer mockServer;
-        private ConversionSourceDocument dummySource = new ConversionSourceDocument(new RemoteWorkFile(null, null, null, null));
 
         [ClassInitialize]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required MSTest Signature")]
         public static void BeforeAll(TestContext context)
         {
             mockServer = FluentMockServer.Start();

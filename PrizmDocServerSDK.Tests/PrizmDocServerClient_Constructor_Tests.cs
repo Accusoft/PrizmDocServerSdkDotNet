@@ -9,25 +9,25 @@ namespace Accusoft.PrizmDocServer.Tests
         [TestMethod]
         public void Can_construct_with_string_baseAddress()
         {
-            var client = new PrizmDocServerClient("http://localhost:18681");
+            _ = new PrizmDocServerClient("http://localhost:18681");
         }
 
         [TestMethod]
         public void Can_construct_with_Uri_baseAddress()
         {
-            var client = new PrizmDocServerClient(new Uri("http://localhost:18681"));
+            _ = new PrizmDocServerClient(new Uri("http://localhost:18681"));
         }
 
         [TestMethod]
         public void Can_construct_with_string_baseAddress_and_cloud_API_key()
         {
-            var client = new PrizmDocServerClient("https://api.accusoft.com", "MY_API_KEY");
+            _ = new PrizmDocServerClient("https://api.accusoft.com", "MY_API_KEY");
         }
 
         [TestMethod]
         public void Can_construct_with_Uri_baseAddress_and_cloud_API_key()
         {
-            var client = new PrizmDocServerClient(new Uri("https://api.accusoft.com"), "MY_API_KEY");
+            _ = new PrizmDocServerClient(new Uri("https://api.accusoft.com"), "MY_API_KEY");
         }
     }
 }

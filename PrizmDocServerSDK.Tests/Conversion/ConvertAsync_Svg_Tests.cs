@@ -38,10 +38,7 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
                 await result.RemoteWorkFile.SaveAsync(filename);
                 FileAssert.IsSvg(filename);
 
-                if (customAssertions != null)
-                {
-                    customAssertions(filename);
-                }
+                customAssertions?.Invoke(filename);
             }
         }
     }

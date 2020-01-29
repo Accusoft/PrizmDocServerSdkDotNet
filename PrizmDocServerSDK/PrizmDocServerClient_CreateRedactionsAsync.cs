@@ -56,7 +56,7 @@ namespace Accusoft.PrizmDocServer
             // Start the redaction creation process
             using (HttpResponseMessage response = await affinitySession.PostAsync("/v2/redactionCreators", new StringContent(json, Encoding.UTF8, "application/json")))
             {
-                await this.ThrowIfPostRedactionCreatorsError(sourceDocument, rulesArray, response);
+                await this.ThrowIfPostRedactionCreatorsError(rulesArray, response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -66,7 +66,7 @@ namespace Accusoft.PrizmDocServer
             // Wait for the process to complete
             using (HttpResponseMessage response = await affinitySession.GetFinalProcessStatusAsync($"/v2/redactionCreators/{processId}"))
             {
-                await this.ThrowIfGetRedactionCreatorsError(sourceDocument, response);
+                await this.ThrowIfGetRedactionCreatorsError(response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -116,7 +116,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfPostRedactionCreatorsError(RemoteWorkFile sourceDocument, RedactionMatchRule[] rules, HttpResponseMessage response)
+        private async Task ThrowIfPostRedactionCreatorsError(RedactionMatchRule[] rules, HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -221,7 +221,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfGetRedactionCreatorsError(RemoteWorkFile sourceDocument, HttpResponseMessage response)
+        private async Task ThrowIfGetRedactionCreatorsError(HttpResponseMessage response)
         {
             ErrorData err = await ErrorData.From(response);
 

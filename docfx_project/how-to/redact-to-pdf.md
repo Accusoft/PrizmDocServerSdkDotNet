@@ -12,7 +12,7 @@ With PrizmDoc Server, creating a redacted PDF is a two-step process:
 
    - An application can _automatically_ create redaction definitions using
      PrizmDoc Server and a set of regular expressions defining the kinds of text
-     in a document which ought to be redacted. The output of this will be a
+     in a document that should be redacted. The output of this will be a
      [markup JSON] file containing all of the automatically-generated redaction
      definitions. This is the approach we will take in the guide below.
 
@@ -21,7 +21,7 @@ With PrizmDoc Server, creating a redacted PDF is a two-step process:
 
 This guide explains how to 1) automatically generate a [markup JSON] file with
 redaction definitions for a given document and a set of regular expressions
-defining text patterns in that document which ought to be redacted and 2) burn
+defining text patterns in that document that should be redacted and 2) burn
 the [markup JSON] into the original document, producing a new redacted PDF.
 
 ## A Visual Example
@@ -37,7 +37,7 @@ confidential contact information:
 
 ### Example Output
 
-Then, imagine we want to redact all social security numbers, email addresses,
+Then, imagine we want to redact all Social Security Numbers, email addresses,
 and the name "Bruce Wayne" in the original document, producing a redacted PDF
 whose pages look like this:
 
@@ -95,7 +95,7 @@ so this is easy to achieve, like so:
 var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d");
 ```
 
-You could then use this rule to create redactions like so:
+You could then use this rule to create the redactions:
 
 ```csharp
 RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("my-document.docx", new[] { ssnRule });
@@ -142,7 +142,7 @@ var projectXRule = new RegexRedactionMatchRule(@"Project X")
 Each rule you define can have its own `Reason`. All redaction definitions
 created by that rule will use the same reason text. For example, you might use
 different legal codes as the redaction reason for different regular expression
-rules, like so:
+rules:
 
 ```csharp
 var johnDoeRule = new RegexRedactionMatchRule(@"John Doe")
@@ -164,7 +164,7 @@ var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d")
 
 #### Redaction Appearance
 
-In addition to the `Reason`, [RedactionCreationOptions] allows you to set other
+In addition to the `Reason`, the [RedactionCreationOptions] class allows you to set other
 properties, such as `FontColor`, `FillColor`, `BorderColor`, and
 `BorderThickness`. Here is an example:
 

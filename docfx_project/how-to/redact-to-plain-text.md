@@ -20,16 +20,16 @@ plain text is a two-step process:
 
    - An application can _automatically_ create redaction definitions using
      PrizmDoc Server and a set of regular expressions defining the kinds of text
-     in a document which ought to be redacted. The output of this will be a
+     in a document that should be redacted. The output of this will be a
      [markup JSON] file containing all of the automatically-generated redaction
      definitions. This is the approach we will take in the guide below.
 
-2. Second, you use PrizmDoc Server to _apply_ redactions in your markup JSON to
+2. Second, you use PrizmDoc Server to _apply_ the redactions in your markup JSON to
    the document to produce redacted plain text.
 
 This guide explains how to 1) automatically generate a [markup JSON] file with
 redaction definitions for a given document and a set of regular expressions
-defining text patterns in that document which ought to be redacted and 2) burn
+defining text patterns in that document that should be redacted and 2) burn
 the [markup JSON] into the original document, producing a new redacted plain
 text file.
 
@@ -51,7 +51,7 @@ hard-coded string `<Text Redacted>` in the output (note that the visual options
 for redactions, such as the redaction reason, color, and border options, do not
 apply to redacted plain text output).
 
-Imagine we want to redact all social security numbers, email addresses, and the
+Imagine we want to redact all Social Security Numbers, email addresses, and the
 name "Bruce Wayne" in the original document, producing redacted plain text like
 this:
 
@@ -232,7 +232,7 @@ so this is easy to achieve, like so:
 var ssnRule = new RegexRedactionMatchRule(@"\d\d\d-\d\d-\d\d\d\d");
 ```
 
-You could then use this rule to create redactions like so:
+You could then use this rule to create the redactions:
 
 ```csharp
 RemoteWorkFile markupJson = await prizmDocServer.CreateRedactionsAsync("my-document.docx", new[] { ssnRule });
@@ -265,8 +265,7 @@ want to use (typically either `"\n"` or `"\r\n"`):
 RemoteWorkFile result = await prizmDocServer.RedactToPlainTextAsync("original.pdf", markupJson, "\n");
 ```
 
-This will ask PrizmDoc Server to extract plain text from the original document,
-but replacing all redacted areas with `"<Text Redacted>"`.
+This will ask PrizmDoc Server to extract plain text from the original document and replace all redacted areas with `"<Text Redacted>"`.
 
 The returned result is just _metadata_ about the output; the actual redacted
 plain text file has not been downloaded yet. To actually download the redacted

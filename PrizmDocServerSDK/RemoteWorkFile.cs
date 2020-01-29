@@ -89,9 +89,7 @@ namespace Accusoft.PrizmDocServer
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            var other = obj as RemoteWorkFile;
-
-            if (other == null)
+            if (!(obj is RemoteWorkFile other))
             {
                 return false;
             }

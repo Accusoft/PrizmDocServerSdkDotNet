@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0 - 2020-01-29
+
+Version 1.0.0 release. No changes from beta 29.
+
 ## 1.0.0-beta.29 - 2020-01-23
 
 ### Changed

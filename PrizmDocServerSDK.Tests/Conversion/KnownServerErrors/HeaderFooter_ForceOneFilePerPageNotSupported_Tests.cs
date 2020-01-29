@@ -9,7 +9,7 @@ namespace Accusoft.PrizmDocServer.Conversion.KnownServerErrors.Tests
     [TestClass]
     public class HeaderFooter_ForceOneFilePerPageNotSupported_Tests
     {
-        private HeaderFooterOptions exampleHeaderFooterContent = new HeaderFooterOptions
+        private readonly HeaderFooterOptions exampleHeaderFooterContent = new HeaderFooterOptions
         {
             Lines = new List<HeaderFooterLine>
             {

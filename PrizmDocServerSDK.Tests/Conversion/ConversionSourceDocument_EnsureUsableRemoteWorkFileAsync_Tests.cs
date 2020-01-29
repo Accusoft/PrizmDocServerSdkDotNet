@@ -87,9 +87,11 @@ namespace Accusoft.PrizmDocServer.Conversion.Tests
             {
                 await source2.RemoteWorkFile.CopyToAsync(stream);
                 stream.Position = 0;
-                var reader = new StreamReader(stream, Encoding.UTF8);
-                string text = reader.ReadToEnd();
-                Assert.AreEqual("File 2", text);
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    string text = reader.ReadToEnd();
+                    Assert.AreEqual("File 2", text);
+                }
             }
         }
     }

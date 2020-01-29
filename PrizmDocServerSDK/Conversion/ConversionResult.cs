@@ -13,19 +13,9 @@ namespace Accusoft.PrizmDocServer.Conversion
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only used internally.")]
         internal ConversionResult(RemoteWorkFile remoteWorkFile, int pageCount, IEnumerable<ConversionSourceDocument> sources)
         {
-            if (remoteWorkFile == null)
-            {
-                throw new ArgumentNullException("remoteWorkFile");
-            }
-
-            if (sources == null)
-            {
-                throw new ArgumentNullException("sources");
-            }
-
-            this.remoteWorkFile = remoteWorkFile;
+            this.remoteWorkFile = remoteWorkFile ?? throw new ArgumentNullException("remoteWorkFile");
             this.PageCount = pageCount;
-            this.Sources = sources;
+            this.Sources = sources ?? throw new ArgumentNullException("sources");
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only used internally.")]

@@ -16,6 +16,7 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
         private static FluentMockServer mockServer;
 
         [ClassInitialize]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required MSTest Signature")]
         public static void BeforeAll(TestContext context)
         {
             mockServer = FluentMockServer.Start();
@@ -59,12 +60,15 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
                 .WithHeader("Content-Type", "application/json")
                 .WithBody("{\"processId\":\"fake-process-id\",\"expirationDateTime\":\"2020-01-06T16:50:45.637Z\",\"state\":\"dead\",\"percentComplete\":100}"));
 
-            string expectedMessage = @"Unexpected conversion state ""dead"":
-{""processId"":""fake-process-id"",""expirationDateTime"":""2020-01-06T16:50:45.637Z"",""state"":""dead"",""percentComplete"":100}";
+            string[] expectedStringsContainedInErrorMessage = new[]
+            {
+                @"Unexpected conversion state ""dead""",
+                @"{""processId"":""fake-process-id"",""expirationDateTime"":""2020-01-06T16:50:45.637Z"",""state"":""dead"",""percentComplete"":100}",
+            };
 
-            await UtilAssert.ThrowsExceptionWithMessageAsync<RestApiErrorException>(
+            await UtilAssert.ThrowsExceptionWithMessageContainingAsync<RestApiErrorException>(
                 async () => { await prizmDocServer.ConvertAsync("documents/example.pdf", DestinationFileFormat.Pdf); },
-                expectedMessage);
+                expectedStringsContainedInErrorMessage);
         }
     }
 }

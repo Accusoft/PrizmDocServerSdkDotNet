@@ -1,2 +1,4 @@
-# PLACEHOLDER
-TODO: Add .NET projects to the *src* folder and run `docfx` to generate **REAL** *API Documentation*!
+# API Reference
+
+Use the Table of Contents to explore the namespaces and types available in this
+SDK.

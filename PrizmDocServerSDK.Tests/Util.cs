@@ -4,16 +4,16 @@ namespace Accusoft.PrizmDocServer.Tests
 {
     public static class Util
     {
-        private static string baseUrl = System.Environment.GetEnvironmentVariable("BASE_URL");
-        private static string apiKey = System.Environment.GetEnvironmentVariable("API_KEY");
+        private static readonly string BaseUrl = System.Environment.GetEnvironmentVariable("BASE_URL");
+        private static readonly string ApiKey = System.Environment.GetEnvironmentVariable("API_KEY");
 
         static Util()
         {
-            RestClient = new PrizmDocRestClient(baseUrl);
+            RestClient = new PrizmDocRestClient(BaseUrl);
 
-            if (apiKey != null)
+            if (ApiKey != null)
             {
-                RestClient.DefaultRequestHeaders.Add("Acs-Api-Key", apiKey);
+                RestClient.DefaultRequestHeaders.Add("Acs-Api-Key", ApiKey);
             }
         }
 
@@ -21,7 +21,7 @@ namespace Accusoft.PrizmDocServer.Tests
 
         public static PrizmDocServerClient CreatePrizmDocServerClient()
         {
-            return new PrizmDocServerClient(baseUrl, apiKey);
+            return new PrizmDocServerClient(BaseUrl, ApiKey);
         }
     }
 }

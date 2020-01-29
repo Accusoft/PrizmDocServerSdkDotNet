@@ -16,6 +16,7 @@ namespace Accusoft.PrizmDocServer.Conversion.UnknownServerErrors.Tests
         private static FluentMockServer mockServer;
 
         [ClassInitialize]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required MSTest Signature")]
         public static void BeforeAll(TestContext context)
         {
             mockServer = FluentMockServer.Start();

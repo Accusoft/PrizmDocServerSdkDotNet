@@ -5,7 +5,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>Project.ruleset</CodeAnalysisRuleSet>
     <!--
         These settings are important for StyleCop documentation checking to work correctly.
         See https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md

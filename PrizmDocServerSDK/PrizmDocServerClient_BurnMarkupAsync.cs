@@ -91,7 +91,7 @@ namespace Accusoft.PrizmDocServer
             // Start the redaction creation process
             using (HttpResponseMessage response = await affinitySession.PostAsync("/PCCIS/V1/MarkupBurner", new StringContent(json, Encoding.UTF8, "application/json")))
             {
-                await this.ThrowIfPostMarkupBurnersError(sourceDocument, markupJson, response);
+                await this.ThrowIfPostMarkupBurnersError(response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -101,7 +101,7 @@ namespace Accusoft.PrizmDocServer
             // Wait for the process to complete
             using (HttpResponseMessage response = await affinitySession.GetFinalProcessStatusAsync($"/PCCIS/V1/MarkupBurner/{processId}"))
             {
-                await this.ThrowIfGetMarkupBurnersError(sourceDocument, markupJson, response);
+                await this.ThrowIfGetMarkupBurnersError(response);
                 json = await response.Content.ReadAsStringAsync();
             }
 
@@ -140,7 +140,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfPostMarkupBurnersError(RemoteWorkFile sourceDocument, RemoteWorkFile markupJson, HttpResponseMessage response)
+        private async Task ThrowIfPostMarkupBurnersError(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -149,7 +149,7 @@ namespace Accusoft.PrizmDocServer
             }
         }
 
-        private async Task ThrowIfGetMarkupBurnersError(RemoteWorkFile sourceDocument, RemoteWorkFile markupJson, HttpResponseMessage response)
+        private async Task ThrowIfGetMarkupBurnersError(HttpResponseMessage response)
         {
             ErrorData err = await ErrorData.From(response);
 

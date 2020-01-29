@@ -78,12 +78,7 @@ namespace Accusoft.PrizmDocServer.Conversion
         /// <param name="password">Password to open the document. Only required if the document requires a password to open.</param>
         public ConversionSourceDocument(RemoteWorkFile remoteWorkFile, string pages = null, string password = null)
         {
-            if (remoteWorkFile == null)
-            {
-                throw new ArgumentNullException("remoteWorkFile");
-            }
-
-            this.RemoteWorkFile = remoteWorkFile;
+            this.RemoteWorkFile = remoteWorkFile ?? throw new ArgumentNullException("remoteWorkFile");
             this.Pages = pages;
             this.Password = password;
         }

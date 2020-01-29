@@ -2,6 +2,7 @@
 set -e # stop on error
 set +x # do not echo commands
 
-dotnet restore ../PrizmDocServerSDK.sln
+docfx --version
+DOTNET_CLI_TELEMETRY_OPTOUT=1 dotnet restore ../PrizmDocServerSDK.sln
 docfx metadata --warningsAsErrors
 docfx build --warningsAsErrors

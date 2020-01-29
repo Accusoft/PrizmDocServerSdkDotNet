@@ -20,38 +20,50 @@ namespace Accusoft.PrizmDocServer.Exceptions.Tests
         [TestMethod]
         public async Task Extracts_body_when_Content_Type_is_JSON()
         {
-            var response = new HttpResponseMessage((HttpStatusCode)418);
-            response.Content = new StringContent("\"Hello, world!\"", Encoding.UTF8, "application/json");
-            ErrorData err = await ErrorData.From(response);
+            using (var response = new HttpResponseMessage((HttpStatusCode)418)
+            {
+                Content = new StringContent("\"Hello, world!\"", Encoding.UTF8, "application/json"),
+            })
+            {
+                ErrorData err = await ErrorData.From(response);
 
-            Assert.AreEqual(err.StatusCode, (HttpStatusCode)418);
-            Assert.AreEqual(err.RawBody, "\"Hello, world!\"");
+                Assert.AreEqual(err.StatusCode, (HttpStatusCode)418);
+                Assert.AreEqual(err.RawBody, "\"Hello, world!\"");
+            }
         }
 
         [TestMethod]
         public async Task Does_not_extract_body_when_Content_Type_is_not_JSON()
         {
-            var response = new HttpResponseMessage((HttpStatusCode)418);
-            response.Content = new StringContent("Hello, world!", Encoding.UTF8, "text/plain");
-            ErrorData err = await ErrorData.From(response);
+            using (var response = new HttpResponseMessage((HttpStatusCode)418)
+            {
+                Content = new StringContent("Hello, world!", Encoding.UTF8, "text/plain"),
+            })
+            {
+                ErrorData err = await ErrorData.From(response);
 
-            Assert.AreEqual(err.StatusCode, (HttpStatusCode)418);
-            Assert.IsNull(err.RawBody);
+                Assert.AreEqual(err.StatusCode, (HttpStatusCode)418);
+                Assert.IsNull(err.RawBody);
+            }
         }
 
         [TestMethod]
         public async Task Correctly_extracts_error_details_from_JSON()
         {
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.ReasonPhrase = "OK";
-            response.Content = new StringContent(@"{""errorCode"":""CouldNotDoTheThing"",""output"":{""results"":[{""errorCode"":""ReallyBadProblemHappened"",""errorDetails"":{""causedBy"":""really-bad-server"",""misbehaving"":true}}]}}", Encoding.UTF8, "application/json");
-            ErrorData err = await ErrorData.From(response);
+            using (var response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                ReasonPhrase = "OK",
+                Content = new StringContent(@"{""errorCode"":""CouldNotDoTheThing"",""output"":{""results"":[{""errorCode"":""ReallyBadProblemHappened"",""errorDetails"":{""causedBy"":""really-bad-server"",""misbehaving"":true}}]}}", Encoding.UTF8, "application/json"),
+            })
+            {
+                ErrorData err = await ErrorData.From(response);
 
-            Assert.AreEqual("CouldNotDoTheThing", err.ErrorCode);
-            Assert.IsNull(err.RawErrorDetails);
-            Assert.AreEqual(1, err.InnerErrors.Count);
-            Assert.AreEqual("ReallyBadProblemHappened", err.InnerErrors[0].ErrorCode);
-            Assert.AreEqual(JObject.Parse(@"{""causedBy"":""really-bad-server"",""misbehaving"":true}").ToString(), err.InnerErrors[0].RawErrorDetails);
+                Assert.AreEqual("CouldNotDoTheThing", err.ErrorCode);
+                Assert.IsNull(err.RawErrorDetails);
+                Assert.AreEqual(1, err.InnerErrors.Count);
+                Assert.AreEqual("ReallyBadProblemHappened", err.InnerErrors[0].ErrorCode);
+                Assert.AreEqual(JObject.Parse(@"{""causedBy"":""really-bad-server"",""misbehaving"":true}").ToString(), err.InnerErrors[0].RawErrorDetails);
+            }
         }
     }
 }

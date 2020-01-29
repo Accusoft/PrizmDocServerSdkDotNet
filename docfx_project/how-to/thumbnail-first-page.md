@@ -48,7 +48,7 @@ var thumbnailPngs = await prizmDocServer.ConvertAsync(new ConversionSourceDocume
 
 This will start a conversion of the temporary PDF to a PNG which will not be
 larger than the specified `maxWidth` and `maxHeight` and then return when the
-conversion is finished. The [ConvertPagesToPngsAsync] method always returns a
+conversion is finished. When converting to PNG, [ConvertAsync] always returns a
 collection of results, one result for each page that was converted to a PNG. In
 our case, there is just one page.
 

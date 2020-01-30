@@ -85,10 +85,14 @@ ul.breadcrumb {
 
 .navbar-collapse h1 {
   color: white;
-  font-size: 20px;
-  float: left;
-  padding: 14px 14px 0 14px;
+  font-size: 24px;
   font-weight: bold;
+  padding: 14px 14px 0 14px;
+}
+
+.article {
+  margin-top: 160px;
+  margin-bottom: 115px;
 }
 
 @media only screen and (max-width: 768px) {
